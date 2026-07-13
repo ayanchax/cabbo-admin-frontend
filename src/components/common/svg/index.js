@@ -1,0 +1,1 @@
+export { CabboSplashIllustration } from './CabboSplashIllustration';
