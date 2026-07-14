@@ -5,14 +5,30 @@ export const APP = {
 }
 export const LOCAL_STORAGE_KEYS = {
     "token": "atoken",
+    "adminUserId": "aUserId",
+    "adminRole": "aRole",
+    "adminTokenExpiresAt": "aTokenExpiresAt",
 
 }
+export const ADMIN_ROLES = {
+    SUPER_ADMIN: "super_admin",
+    DRIVER_ADMIN: "driver_admin",
+    FINANCE_ADMIN: "fin_admin",
+    CUSTOMER_ADMIN: "cust_admin",
+    REGIONAL_ADMIN: "regional_admin",
+    STATE_ADMIN: "state_admin",
+}
+
+export const V1_ALLOWED_ADMIN_ROLES = [
+    ADMIN_ROLES.SUPER_ADMIN,
+    ADMIN_ROLES.DRIVER_ADMIN,
+]
 export const API_VERSION = import.meta.env.VITE_API_VERSION || "/api/v1";
 
 
 export const ENDPOINTS = {
     AUTH: {
-
+        LOGIN:`${API_VERSION}/admin/auth/login`,
     },
 
     ADMIN: {
@@ -97,6 +113,13 @@ export const REFUND_STATUS = {
 }
 
 export const SERVER_ERROR_CODES = {
+    CREDENTIALS_NOT_PROVIDED: "CREDENTIALS_NOT_PROVIDED",
+    USER_NOT_FOUND: "USER_NOT_FOUND",
+    USER_INACTIVE: "USER_INACTIVE",
+    ALREADY_LOGGED_IN: "ALREADY_LOGGED_IN",
+    USER_PASSWORD_NOT_SET: "USER_PASSWORD_NOT_SET",
+    ROLE_ERROR: "ROLE_ERROR",
+    INCORRECT_PASSWORD: "INCORRECT_PASSWORD",
     ALREADY_BOOKED_ON_THIS_SLOT: "ALREADY_BOOKED_ON_THIS_SLOT",
     INVALID_BOOKING_DATA: "INVALID_BOOKING_DATA",
     TRIP_NOT_FOUND: "TRIP_NOT_FOUND",
