@@ -1,8 +1,8 @@
 import { Eye, EyeOff, LockKeyhole, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isDevMode } from "@/api";
-import { useAuth, useToast } from "@/hooks";
+import { useAuth } from "@/hooks";
 import {
   APP,
   ROUTES,
@@ -12,17 +12,19 @@ import {
 
 const LOGIN_MESSAGES = {
   missingFields: "Enter your username and password.",
+  missingUsername: "Enter username.",
+  missingPassword: "Enter password.",
   invalidCredentials: "The credentials do not match our records.",
   forbidden: "This account does not have access to Cabbo Admin.",
-  inactive: "This account is inactive. Contact a super admin.",
+  inactive: "This account is inactive. Please contact Cabbo administration.",
   alreadyLoggedIn:
     "This account is already signed in on another device. Log out from the active session first.",
   passwordNotSet:
-    "This account does not have a password set yet. Contact a super admin.",
-  roleError: "This account role is not configured correctly.",
+    "This account does not have a password set yet. Please contact Cabbo administration.",
+  roleError: "This account role is not configured correctly. Please contact Cabbo administration.",
   unsupportedRole:
-    "This admin role is not enabled in the V1 operations console.",
-  unavailable: "Cabbo Admin is unavailable right now. Please try again in sometime.",
+    "This admin role is not enabled in the operations console.",
+  unavailable: "Cabbo Admin console is unavailable right now. Please try again in sometime.",
 };
 
 const getLoginErrorMessage = (error) => {
@@ -61,24 +63,62 @@ const getLoginResponse = (response) => response?.data || {};
 function Login() {
   const navigate = useNavigate();
   const { login, setSession } = useAuth();
-  const { showToast } = useToast();
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState({
+    username: false,
+    password: false,
+  });
 
   const isSubmitting = login.isPending;
+  const hasUsernameError = fieldErrors.username;
+  const hasPasswordError = fieldErrors.password;
+  const inputClassName = `h-11 w-full rounded-lg border bg-white px-3 text-sm text-slate-950 outline-none transition ${
+    hasUsernameError
+      ? "border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-100"
+      : "border-slate-300 focus:border-primary focus:ring-2 focus:ring-primary/20"
+  }`;
+  const passwordFieldClassName = `flex h-11 items-center rounded-lg border bg-white transition ${
+    hasPasswordError
+      ? "border-rose-300 focus-within:border-rose-500 focus-within:ring-2 focus-within:ring-rose-100"
+      : "border-slate-300 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20"
+  }`;
+  const clearLoginError = () => {
+    if (error) setError("");
+    if (fieldErrors.username || fieldErrors.password) {
+      setFieldErrors({ username: false, password: false });
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const trimmedUsername = username.trim();
-    if (!trimmedUsername || !password) {
+    if (!trimmedUsername && !password) {
       setError(LOGIN_MESSAGES.missingFields);
+      setFieldErrors({ username: true, password: true });
+      usernameRef.current?.focus();
+      return;
+    }
+    if (!trimmedUsername) {
+      setError(LOGIN_MESSAGES.missingUsername);
+      setFieldErrors({ username: true, password: false });
+      usernameRef.current?.focus();
+      return;
+    }
+    if (!password) {
+      setError(LOGIN_MESSAGES.missingPassword);
+      setFieldErrors({ username: false, password: true });
+      passwordRef.current?.focus();
       return;
     }
 
     setError("");
+    setFieldErrors({ username: false, password: false });
 
     try {
       const response = await login.mutateAsync({
@@ -87,18 +127,17 @@ function Login() {
       });
       const {
         access_token: token,
-        expires_in: expiresIn,
         role,
-        user_id: userId,
       } = getLoginResponse(response);
 
       if (!V1_ALLOWED_ADMIN_ROLES.includes(role)) {
         setError(LOGIN_MESSAGES.unsupportedRole);
-        showToast(LOGIN_MESSAGES.unsupportedRole, "error");
+        setFieldErrors({ username: true, password: true });
+        usernameRef.current?.focus();
         return;
       }
 
-      setSession({ token, role, expiresIn, userId });
+      setSession({ token, role });
       navigate(ROUTES.HOME, { replace: true });
     } catch (error) {
       if (isDevMode) {
@@ -107,7 +146,8 @@ function Login() {
 
       const message = getLoginErrorMessage(error);
       setError(message);
-      showToast(message, "error");
+      setFieldErrors({ username: true, password: true });
+      usernameRef.current?.focus();
     }
   };
 
@@ -176,7 +216,7 @@ function Login() {
                 Sign in to Cabbo Admin
               </h2>
               <p className="mt-2 text-sm leading-6 text-slate-500">
-                Use your internal admin credentials to access console.
+                Use your internal credentials to access console.
               </p>
             </div>
 
@@ -189,15 +229,18 @@ function Login() {
                   Username
                 </label>
                 <input
+                  ref={usernameRef}
                   id="username"
                   type="text"
                   autoComplete="username"
+                  aria-invalid={hasUsernameError}
+                  aria-describedby={error ? "login-error" : undefined}
                   value={username}
                   onChange={(event) => {
                     setUsername(event.target.value);
-                    if (error) setError("");
+                    clearLoginError();
                   }}
-                  className="h-11 w-full rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-950 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className={inputClassName}
                   placeholder="driver_ops"
                   disabled={isSubmitting}
                 />
@@ -210,15 +253,18 @@ function Login() {
                 >
                   Password
                 </label>
-                <div className="flex h-11 items-center rounded-lg border border-slate-300 bg-white transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+                <div className={passwordFieldClassName}>
                   <input
+                    ref={passwordRef}
                     id="password"
                     type={showPassword ? "text" : "password"}
                     autoComplete="current-password"
+                    aria-invalid={hasPasswordError}
+                    aria-describedby={error ? "login-error" : undefined}
                     value={password}
                     onChange={(event) => {
                       setPassword(event.target.value);
-                      if (error) setError("");
+                      clearLoginError();
                     }}
                     className="min-w-0 flex-1 bg-transparent px-3 text-sm text-slate-950 outline-none"
                     placeholder="Enter password"
@@ -242,6 +288,7 @@ function Login() {
 
               {error && (
                 <div
+                  id="login-error"
                   role="alert"
                   className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700"
                 >
@@ -252,7 +299,7 @@ function Login() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex h-11 w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+                className="flex h-11 cursor-pointer  w-full items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-white transition hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isSubmitting ? "Signing in..." : "Sign in"}
               </button>
@@ -261,7 +308,8 @@ function Login() {
             <div className="mt-5 rounded-lg bg-slate-50 px-3 py-2">
               <p className="text-xs leading-5 text-slate-500">
                 Access is limited to authorized Cabbo operations users. Activity
-                may be logged for security and audit review.
+                may be logged for security and audit review. For credential
+                help, please contact Cabbo administration.
               </p>
             </div>
           </div>
