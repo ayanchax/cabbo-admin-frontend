@@ -28,9 +28,7 @@ const useAuth = () => {
     }
     const logout = () => {
         removeItem(LOCAL_STORAGE_KEYS.token);
-        removeItem(LOCAL_STORAGE_KEYS.adminUserId);
         removeItem(LOCAL_STORAGE_KEYS.adminRole);
-        removeItem(LOCAL_STORAGE_KEYS.adminTokenExpiresAt);
     }
 
     return { getToken, setToken, getRole, setRole, setSession, logout, login: loginMutation,};

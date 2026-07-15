@@ -41,10 +41,11 @@ Backend direction:
 - [ ] Add central error handling and friendly failure messages.
 - [x] Add authenticated route guard.
 - [x] Add login UI.
-- [ ] Add logout UI.
+- [x] Add logout UI.
 - [x] Persist admin token/session safely.
-- [ ] Clear admin session on logout or unauthorized API responses.
-- [ ] Add base layout:
+- [x] Clear admin session on logout.
+- [ ] Clear admin session on unauthorized API responses.
+- [x] Add base layout:
   - compact sidebar/top navigation
   - current admin identity
   - logout action
@@ -141,8 +142,8 @@ Backend direction:
 
 ## 8. QA Checklist
 
-- [ ] Admin login works.
-- [ ] Admin logout clears session and route access.
+- [x] Admin login works.
+- [x] Admin logout clears session and route access.
 - [ ] Unauthorized users cannot access protected admin screens.
 - [ ] Trip list filters and pagination work.
 - [ ] Trip detail loads for valid booking IDs.
