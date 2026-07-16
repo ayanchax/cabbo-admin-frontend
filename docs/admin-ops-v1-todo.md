@@ -9,7 +9,7 @@ context needed for customer support.
 ## Focus Rules
 
 - Build operational workflows, not dashboards.
-- Prefer dense, scannable, table-first UI over marketing-style pages.
+- Prefer dense, scannable operations UI over marketing-style pages. Use compact cards where they reduce horizontal scrolling and improve operator scan speed.
 - Every list must be paginated and filterable enough to avoid expensive broad queries.
 - Every mutation must show loading, success, validation-error, and failure states.
 - Do not add pricing/config CRUD, analytics, legal CMS, fleet/package editors, or support-ticketing in V1.
@@ -53,26 +53,40 @@ Backend direction:
 
 ## 2. Trips Operations List
 
-- [ ] Build trips/bookings table as the first screen.
-- [ ] Show essential columns:
+- [x] Build trips/bookings operations cards as the first screen.
+- [x] Show essential card fields:
   - booking ID
   - trip type
   - customer
   - route summary
   - start time
   - operational status
-  - payment status
   - assigned driver/cab state
+  - driver fare and driver-call context
+- [x] Show driver-call context on cards:
+  - passenger and luggage count
+  - local package hours/km
+  - outstation included km and total days
+  - driver allowance per day for outstation
+  - extra km/hour rates where relevant
+  - airport flight/terminal/placard indicators
+  - special-request indicator without exposing the full request text
+- [x] Hide misleading/noisy card fields:
+  - no assignment-needed badge for past/completed/cancelled trips
+  - no synthetic driver state when a trip needs review
+  - no zero-value fare breakdowns
+  - no overage rates when driver fare is zero or trip needs review
+- [x] Sort visible trips by nearest start time.
 - [ ] Add filters:
   - status
   - trip type
   - date range
   - booking ID
   - customer phone/email only if backend safely supports it
-- [ ] Add pagination.
-- [ ] Add loading, empty, error, and retry states.
+- [x] Add pagination.
+- [x] Add loading, empty, error, retry, and forbidden states.
 - [ ] Preserve filters in URL query params where practical.
-- [ ] Open trip detail from each row.
+- [ ] Open trip detail from each card.
 
 ## 3. Trip Detail
 
@@ -111,6 +125,8 @@ Backend direction:
   - `confirmed -> cancelled`
   - `ongoing -> completed`
   - `ongoing -> dispute`
+  - stale/past open trip -> completed
+  - stale/past open trip -> dispute
 - [ ] Require reason/note where backend requires it.
 - [ ] Confirm destructive/sensitive transitions.
 - [ ] Refresh trip detail after success.
@@ -138,6 +154,7 @@ Backend direction:
 - [ ] Avoid storing unnecessary PII in frontend state.
 - [ ] Redact sensitive values in client-side logs.
 - [ ] Handle `401` and `403` distinctly.
+- [x] Show server-enforced `403` forbidden state in trips list.
 - [ ] Verify admin frontend calls only admin/ops backend endpoints.
 
 ## 8. QA Checklist
@@ -145,9 +162,11 @@ Backend direction:
 - [x] Admin login works.
 - [x] Admin logout clears session and route access.
 - [ ] Unauthorized users cannot access protected admin screens.
-- [ ] Trip list filters and pagination work.
+- [ ] Trip list filters work.
+- [x] Trip list pagination works.
 - [ ] Trip detail loads for valid booking IDs.
-- [ ] Missing/forbidden trip states are clear.
+- [x] Trips list forbidden state is clear.
+- [ ] Missing/forbidden trip detail states are clear.
 - [ ] Driver assignment works.
 - [ ] Driver reassignment works.
 - [ ] Operational status updates work for allowed transitions.
@@ -155,7 +174,7 @@ Backend direction:
 - [ ] Payment/refund summaries display accurately.
 - [ ] Special requests/customer notes are visible where expected.
 - [ ] Layout works on laptop and mobile-width emergency usage.
-- [ ] No text overflow in tables, filters, buttons, or modals.
+- [ ] No text overflow in cards, filters, buttons, or modals.
 
 ## Deferred Beyond Admin/Ops V1
 

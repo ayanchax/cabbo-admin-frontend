@@ -8,7 +8,11 @@ import {
   LogOut,
   UserRound,
 } from "lucide-react";
-function DisplayAccount({ placement = "bottom", showLogout = false }) {
+function DisplayAccount({
+  placement = "bottom",
+  showLogout = false,
+  isCollapsed = false,
+}) {
   const navigate = useNavigate();
   const { logout, clearAuthToken } = useAuth();
   const { showToast } = useToast();
@@ -44,6 +48,32 @@ function DisplayAccount({ placement = "bottom", showLogout = false }) {
       </div>
     );
   }
+  if (isCollapsed) {
+    return (
+      <div className="border-t border-white/10 p-3">
+        <div className="flex flex-col items-center gap-2">
+          <div
+            className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10"
+            title={`${adminLabel} - ${adminRole}`}
+          >
+            <UserRound className="h-4 w-4 text-slate-200" />
+          </div>
+          {showLogout && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              aria-label="Logout"
+              title="Logout"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-white/10 text-slate-300 transition hover:bg-white/10 hover:text-white"
+            >
+              <LogOut className="h-4 w-4" />
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="border-t border-white/10 p-3">
       <div className="rounded-lg bg-white/5 p-3">

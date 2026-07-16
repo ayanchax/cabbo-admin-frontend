@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, Search } from "lucide-react";
+import { Menu, Search, ShieldCheck } from "lucide-react";
 import { NavigationItems } from "./NavigationItems";
 import { DisplayAccount } from "./DisplayAccount";
 function AppHeader() {
@@ -18,9 +18,9 @@ function AppHeader() {
         </button>
 
         <div className="hidden min-w-0 items-center gap-2 sm:flex">
-          <span className="h-2 w-2 rounded-full bg-emerald-500" />
+          <ShieldCheck className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold text-slate-800">
-            Live Monitoring
+            Internal Tool
           </span>
         </div>
 

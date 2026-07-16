@@ -34,6 +34,80 @@ The trips list should stay dense and scannable:
 - status and driver assignment state for operational action
 - paginated navigation based on the backend response
 
+The list uses compact cards instead of a horizontally scrolling table. This is
+intentional: the admin needs to scan full booking context while on a driver
+assignment call, and a table becomes cramped once fare, package, airport, and
+assignment signals are all included.
+
+## Card Scope
+
+Each card should answer the driver-call question: can the operator explain this
+trip quickly enough for a driver to accept or reject it?
+
+Show on the card:
+
+- booking ID and customer contact
+- route or pickup
+- trip type and fleet
+- passenger and luggage count
+- roof carrier availability when true
+- start time and occurrence label
+- operational status
+- real assigned driver, when present
+- `Needs driver` only for upcoming assignable trips
+- `Needs review` for past/open trips that need operator attention
+- local package hours/km
+- outstation total days and included km
+- driver fare
+- driver allowance per day for outstation trips
+- non-zero fare breakdown items, sorted highest first
+- extra km/hour rates where they matter for assignment calls
+- airport flight, terminal, and placard indicators when present
+- special-request indicator when present, without showing the full request text
+
+Do not show on the card:
+
+- customer payment collection fields such as advance or balance payment
+- estimated outstation km, because the driver-facing rule is included km plus
+  extra km rate
+- zero-value breakdown items
+- fare breakdown when driver fare is zero
+- overage rates when driver fare is zero
+- overage rates for `Needs review` trips
+- synthetic assignment labels like `Not assigned` when a trip is cancelled or
+  already in review
+- full in-car amenities
+- inclusions and exclusions
+- full refund and cancellation policy
+
+## Open Button Scope
+
+The `Open` action should be used for deeper context and mutations, not for
+basic driver-call facts. The detail/action surface should handle:
+
+- assign driver and reassign driver
+- search/select available drivers from admin driver endpoints
+- status changes:
+  - `confirmed -> ongoing`
+  - `confirmed -> cancelled`
+  - `ongoing -> completed`
+  - `ongoing -> dispute`
+  - stale/past open trip -> completed
+  - stale/past open trip -> dispute
+- cancellation details
+- refund initiation where applicable
+- refund and cancellation policy review when support context requires it
+- dispute details and updates
+- full trip, customer, payment, amenities, inclusions, exclusions, notes, and
+  audit context
+
+## Access States
+
+Admin endpoints are guarded by server-side role checks. If the backend returns
+`403`, the UI should show a clear forbidden state instead of a generic retry
+error. This keeps the frontend aligned with the backend permission model and
+avoids implying that retrying will fix a role restriction.
+
 The list may use the backend pagination metadata:
 
 ```json

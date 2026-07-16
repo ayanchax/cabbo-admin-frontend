@@ -14,7 +14,8 @@ const defaultNavigationItems = [
 function NavigationItems({
   navigationItems = defaultNavigationItems,
   headerNavigation = false,
-  onClickNavItem=()=>{}
+  onClickNavItem = () => {},
+  isCollapsed = false,
 }) {
   if (headerNavigation) {
     return (
@@ -54,15 +55,17 @@ function NavigationItems({
             to={item.to}
             end={item.end}
             className={({ isActive }) =>
-              `flex h-10 items-center gap-3 rounded-lg px-3 text-sm font-medium transition ${
+              `flex h-10 items-center rounded-lg text-sm font-medium transition ${
                 isActive
                   ? "bg-white text-slate-950"
                   : "text-slate-300 hover:bg-white/10 hover:text-white"
-              }`
+              } ${isCollapsed ? "justify-center px-0" : "gap-3 px-3"}`
             }
+            title={isCollapsed ? item.label : undefined}
+            aria-label={isCollapsed ? item.label : undefined}
           >
             <Icon className="h-4 w-4" />
-            {item.label}
+            {!isCollapsed && item.label}
           </NavLink>
         );
       })}
