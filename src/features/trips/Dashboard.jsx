@@ -234,6 +234,42 @@ const getVisibleOverageRates = (trip) => {
   });
 };
 
+const getExtraChargesText = (trip) => {
+  if (Number(trip?.cost_to_driver) === 0) return "";
+
+  const tripType = getTripType(trip);
+
+  if (tripType === TRIP_TYPES.OUTSTATION || tripType === TRIP_TYPES.LOCAL) {
+    return "Toll + parking extra";
+  }
+
+  if (
+    tripType !== TRIP_TYPES.AIRPORT_PICKUP &&
+    tripType !== TRIP_TYPES.AIRPORT_DROPOFF
+  ) {
+    return "";
+  }
+
+  const breakdownKeys = new Set(
+    Object.entries(trip?.price_breakdown || {})
+      .filter(([, value]) => Number(value) > 0)
+      .map(([key]) => normalizeKey(key)),
+  );
+  const extras = [];
+
+  if (!breakdownKeys.has("toll")) {
+    extras.push("Toll");
+  }
+
+  if (!breakdownKeys.has("parking")) {
+    extras.push("parking");
+  }
+
+  if (extras.length === 0) return "";
+
+  return `${extras.join(" + ")} extra`;
+};
+
 const getAttentionChips = (trip) => {
   const chips = [];
 
@@ -463,6 +499,7 @@ function Dashboard() {
                   const operationalStatus = getOperationalStatus(trip);
                   const routeMetaText = getRouteMetaText(trip);
                   const attentionChips = getAttentionChips(trip);
+                  const extraChargesText = getExtraChargesText(trip);
                   const overageRates = operationalStatus.needsReview
                     ? []
                     : getVisibleOverageRates(trip);
@@ -579,6 +616,11 @@ function Dashboard() {
                             <p className="mt-1 text-lg font-semibold text-slate-950">
                               {formatMoney(trip.cost_to_driver, currencyCode)}
                             </p>
+                            {extraChargesText && (
+                              <p className="mt-1 text-xs font-semibold text-emerald-700">
+                                {extraChargesText}
+                              </p>
+                            )}
                             {(breakdown.length > 0 ||
                               overageRates.length > 0) && (
                               <div className="mt-2 flex flex-wrap gap-1">

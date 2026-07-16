@@ -69,6 +69,7 @@ Backend direction:
   - outstation included km and total days
   - driver allowance per day for outstation
   - extra km/hour rates where relevant
+  - toll/parking extra strip for driver-call clarity
   - airport flight/terminal/placard indicators
   - special-request indicator without exposing the full request text
 - [x] Hide misleading/noisy card fields:
@@ -76,6 +77,7 @@ Backend direction:
   - no synthetic driver state when a trip needs review
   - no zero-value fare breakdowns
   - no overage rates when driver fare is zero or trip needs review
+  - no toll/parking extra strip when driver fare is zero
 - [x] Sort visible trips by nearest start time.
 - [ ] Add filters:
   - status
