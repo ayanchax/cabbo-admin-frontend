@@ -4,3 +4,5 @@ export { OverlayContext } from "./OverlayContext";
 export { OverlayProvider } from "./OverlayProvider";
 export { AdminProvider } from "./AdminProvider"
 export { AdminContext } from "./AdminContext"
+export {GeographyProvider} from "./GeographyProvider"
+export {GeographyContext} from "./GeographyContext"

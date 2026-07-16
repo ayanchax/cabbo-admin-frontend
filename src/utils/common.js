@@ -1,4 +1,4 @@
-import { DEFAULT_CURRENCY_SYMBOL } from "@/utils";
+import { DEFAULT_CURRENCY_SYMBOL, DEFAULT_CURRENCY_CODE } from "@/utils";
 export const isPhoneNumberValid = (phone) => {
   // Basic validation: check if it's 10 digits and only contains numbers
   // Phone numbers are generally 10 digits long (without country code) in most countries, including India, plus this is again checked in backend per country rules, so we can show a generic error message for all countries.
@@ -62,6 +62,19 @@ export const utcOffsetStringToMinutes = (offsetStr) => {
 export const formatCurrency = (val, currency_symbol) =>
   `${currency_symbol || DEFAULT_CURRENCY_SYMBOL}${val}`;
 
+
+export const formatMoney = (amount, currencyCode = DEFAULT_CURRENCY_CODE) => {
+  if (amount === null || amount === undefined || Number.isNaN(Number(amount))) {
+    return "--";
+  }
+
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: currencyCode || DEFAULT_CURRENCY_CODE,
+    maximumFractionDigits: 0,
+  }).format(Number(amount));
+};
+
 export function titleCase(value) {
   if (!value) return "";
   return value
@@ -79,4 +92,22 @@ export function getInitials(name = "") {
     .slice(0, 2)
     .map((part) => part.charAt(0).toUpperCase())
     .join("");
+}
+
+
+export const humanReadableDateTime = (datetime, locale = undefined, timezone = undefined) => {
+  if (!datetime) return "";
+  if (!datetime?.isoString) {
+    console.warn("Invalid datetime object passed to humanReadableDateTime:", datetime);
+    datetime = { isoString: datetime }; // Attempt to treat it as a raw ISO string
+  };
+  return new Date(datetime.isoString).toLocaleString(locale, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: timezone,
+  });
 }

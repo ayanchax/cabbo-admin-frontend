@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
-import { ToastProvider } from "@/context";
+import { ToastProvider, GeographyProvider } from "@/context";
 import { ErrorBoundary } from "@/components";
 import { OverlayProvider } from "@/context";
 
@@ -13,11 +13,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <OverlayProvider>
-      <ToastProvider>
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
-      </ToastProvider>
+        <ToastProvider>
+          <GeographyProvider>
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
+          </GeographyProvider>
+        </ToastProvider>
       </OverlayProvider>
     </QueryClientProvider>
   </React.StrictMode>,

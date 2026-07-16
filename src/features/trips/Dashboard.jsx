@@ -6,8 +6,14 @@ import {
   MapPinned,
   RefreshCw,
 } from "lucide-react";
-import { useTripBookings } from "@/hooks";
-import { DEFAULT_CURRENCY_CODE, DEFAULT_USER_LOCALE, TRIP_STATUS } from "@/utils";
+import { useTripBookings, useLocale, useTimezone } from "@/hooks";
+import {
+  DEFAULT_CURRENCY_CODE,
+  DEFAULT_USER_LOCALE,
+  TRIP_STATUS,
+  formatMoney,
+  humanReadableDateTime,
+} from "@/utils";
 
 const quickFilters = ["Today", "Unassigned", "Ongoing", "Disputes"];
 const PAGE_SIZE = 10;
@@ -31,41 +37,20 @@ const formatLabel = (value) => {
 
 const getTripsFromResponse = (response) => {
   if (Array.isArray(response)) return response;
-  return (
-    response?.trips ||
-    response?.bookings ||
-    response?.results ||
-    response?.items ||
-    response?.data ||
-    []
-  );
+  return response?.trips || [];
 };
 
 const getPaginationFromResponse = (response) => {
   if (!response || Array.isArray(response)) return {};
-  return response.pagination || response.meta || response;
+  return response?.pagination || {};
 };
 
-const formatMoney = (amount, currencyCode = DEFAULT_CURRENCY_CODE) => {
-  if (amount === null || amount === undefined || Number.isNaN(Number(amount))) {
-    return "--";
-  }
-
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: currencyCode || DEFAULT_CURRENCY_CODE,
-    maximumFractionDigits: 0,
-  }).format(Number(amount));
-};
-
-const formatTripDate = (date, timezone) => {
+const formatTripDate = (date, locale, timezone) => {
   if (!date) return "Not scheduled";
-
-  return new Intl.DateTimeFormat(DEFAULT_USER_LOCALE, {
-    dateStyle: "medium",
-    timeStyle: "short",
-    timeZone: timezone || undefined,
-  }).format(new Date(date));
+  const normalizedDatetime = date && !/Z$|[+-]\d{2}:\d{2}$/.test(date)
+    ? { ...date, isoString: date + "Z" }
+    : date;
+  return humanReadableDateTime(normalizedDatetime, locale, timezone);
 };
 
 const getRouteText = (trip) => {
@@ -75,13 +60,7 @@ const getRouteText = (trip) => {
 };
 
 const getDriverState = (trip) => {
-  return (
-    trip?.driver?.name ||
-    trip?.assigned_driver?.name ||
-    trip?.driver_name ||
-    trip?.cab?.registration_number ||
-    "Needs driver"
-  );
+  return trip?.driver?.name || "Needs driver";
 };
 
 const isUnassigned = (trip) => getDriverState(trip) === "Needs driver";
@@ -129,7 +108,7 @@ const getPageStats = (trips, pagination) => {
       value: trips.filter(
         (trip) =>
           trip.status === TRIP_STATUS.DISPUTED ||
-          trip.status === TRIP_STATUS.CANCELLED
+          trip.status === TRIP_STATUS.CANCELLED,
       ).length,
     },
   ];
@@ -137,6 +116,9 @@ const getPageStats = (trips, pagination) => {
 
 function Dashboard() {
   const [page, setPage] = useState(1);
+  const { locale } = useLocale();
+  const { timezone:clientTimezone } = useTimezone();
+  
   const { data, isLoading, isError, error, refetch, isFetching } =
     useTripBookings({
       page,
@@ -145,7 +127,10 @@ function Dashboard() {
 
   const trips = useMemo(() => getTripsFromResponse(data), [data]);
   const pagination = useMemo(() => getPaginationFromResponse(data), [data]);
-  const stats = useMemo(() => getPageStats(trips, pagination), [trips, pagination]);
+  const stats = useMemo(
+    () => getPageStats(trips, pagination),
+    [trips, pagination],
+  );
   const currentPage = pagination.page ?? page;
   const totalPages = pagination.total_pages ?? pagination.totalPages ?? 1;
   const hasPrevious = pagination.has_previous ?? currentPage > 1;
@@ -207,7 +192,7 @@ function Dashboard() {
         <div className="p-4">
           <div className="overflow-hidden rounded-lg border border-slate-200">
             <div className="overflow-x-auto">
-              <table className="min-w-[1120px] w-full text-left">
+              <table className="min-w-280 w-full text-left">
                 <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                   <tr>
                     <th className="px-3 py-3">Booking</th>
@@ -282,7 +267,9 @@ function Dashboard() {
                               {trip.customer?.name || "Customer pending"}
                             </p>
                             <p className="mt-0.5 text-xs text-slate-500">
-                              {trip.customer?.phone_number || trip.customer?.email || "--"}
+                              {trip.customer?.phone_number ||
+                                trip.customer?.email ||
+                                "--"}
                             </p>
                           </td>
                           <td className="px-3 py-4 align-top">
@@ -308,7 +295,8 @@ function Dashboard() {
                             <p className="font-medium text-slate-900">
                               {formatTripDate(
                                 trip.start_datetime,
-                                trip.timezone
+                                locale,
+                                clientTimezone?.timezone ?? trip.timezone,
                               )}
                             </p>
                             <p className="mt-1 text-xs text-slate-500">
@@ -351,7 +339,7 @@ function Dashboard() {
                           <td className="px-3 py-4 align-top">
                             <span
                               className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ring-1 ${getStatusClassName(
-                                trip.status
+                                trip.status,
                               )}`}
                             >
                               {formatLabel(trip.status)}
@@ -375,7 +363,9 @@ function Dashboard() {
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-white px-3 py-3">
               <p className="text-sm text-slate-500">
                 Page {currentPage} of {totalPages}
-                {pagination.total !== undefined ? ` | ${pagination.total} trips` : ""}
+                {pagination.total !== undefined
+                  ? ` | ${pagination.total} trips`
+                  : ""}
               </p>
               <div className="flex items-center gap-2">
                 <button

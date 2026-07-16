@@ -8,6 +8,7 @@ export const LOCAL_STORAGE_KEYS = {
     "adminUserId": "aUserId",
     "adminRole": "aRole",
     "adminTokenExpiresAt": "aTokenExpiresAt",
+    "clientGeography": "clientGeography"
 
 }
 export const ADMIN_ROLES = {
@@ -28,7 +29,7 @@ export const API_VERSION = import.meta.env.VITE_API_VERSION || "/api/v1";
 
 export const ENDPOINTS = {
     AUTH: {
-        LOGIN:`${API_VERSION}/admin/auth/login`,
+        LOGIN: `${API_VERSION}/admin/auth/login`,
     },
 
     ADMIN: {
@@ -37,8 +38,12 @@ export const ENDPOINTS = {
         LOGOUT: `${API_VERSION}/admin/profile/logout`
     },
 
-    TRIPS:{
-        ALL:`${API_VERSION}/admin/trips/list/all`,
+    TRIPS: {
+        ALL: `${API_VERSION}/admin/trips/list/all`,
+    },
+
+    GEOGRAPHY: {
+        CLIENT: `${import.meta.env.VITE_CLIENT_GEOLOCATION_API_URL || "https://ipapi.co/json/"}`
     }
 
 
@@ -129,4 +134,18 @@ export const SERVER_ERROR_CODES = {
     TRIP_NOT_FOUND: "TRIP_NOT_FOUND",
     UNKNOWN_ERROR: "UNKNOWN_ERROR",
 }
+
+export const DEFAULT_GEOGRAPHY = {
+        country_name: "India",
+        country_code: "IN",
+        phone_code: "+91",
+        flag: "🇮🇳",
+        currency: DEFAULT_CURRENCY_CODE,
+        currency_symbol: DEFAULT_CURRENCY_SYMBOL,
+        currency_decimal_places: 2,
+        currency_in_words: "Rupees",
+        currency_international_name: "Indian Rupee",
+        timezone: "Asia/Kolkata",
+        utc_offset: "+05:30",
+    };
 
