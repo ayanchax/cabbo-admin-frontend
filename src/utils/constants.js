@@ -37,6 +37,10 @@ export const ENDPOINTS = {
         LOGOUT: `${API_VERSION}/admin/profile/logout`
     },
 
+    TRIPS:{
+        ALL:`${API_VERSION}/admin/trips/list/all`,
+    }
+
 
 
 }
