@@ -2,11 +2,13 @@ import { useLocalStorage } from "./useLocalStorage";
 import { LOCAL_STORAGE_KEYS } from "@/utils";
 import {
     useLoginMutation,
+    useLogoutMutation,
      
-} from "./mutation";
+} from "@/hooks";
 const useAuth = () => {
     const { getItem, setItem, removeItem } = useLocalStorage()
     const loginMutation = useLoginMutation();
+    const logoutMutation = useLogoutMutation()
     const getToken = () => {
         return getItem(LOCAL_STORAGE_KEYS.token);
     };
@@ -26,12 +28,12 @@ const useAuth = () => {
         setToken(token);
         setRole(role);
     }
-    const logout = () => {
+    const clearAuthToken = async () => {
         removeItem(LOCAL_STORAGE_KEYS.token);
         removeItem(LOCAL_STORAGE_KEYS.adminRole);
     }
 
-    return { getToken, setToken, getRole, setRole, setSession, logout, login: loginMutation,};
+    return { getToken, setToken, getRole, setRole, setSession, logout:logoutMutation, login: loginMutation, clearAuthToken};
 }
 
 export { useAuth }

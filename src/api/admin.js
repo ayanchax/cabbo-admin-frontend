@@ -10,3 +10,7 @@ export const getProfile = async () => {
     const { data } = await api.get(ENDPOINTS.ADMIN.PROFILE);
     return data;
 }
+
+export const logout = () => {
+  return api.post(ENDPOINTS.ADMIN.LOGOUT, {});
+};

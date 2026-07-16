@@ -34,7 +34,7 @@ export const ENDPOINTS = {
     ADMIN: {
         IS_LOGGED_IN: `${API_VERSION}/admin/profile/is-logged-in`,
         PROFILE: `${API_VERSION}/admin/profile`,
-
+        LOGOUT: `${API_VERSION}/admin/profile/logout`
     },
 
 
