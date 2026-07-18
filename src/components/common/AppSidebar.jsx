@@ -1,8 +1,8 @@
 import React from "react";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { APP } from "@/utils";
-import { NavigationItems } from "./NavigationItems";
-import { DisplayAccount } from "./DisplayAccount";
+import { NavigationItems } from "../navigation/NavigationItems";
+import { DisplayAccount } from "../DisplayAccount";
 
 function AppSidebar({ isCollapsed = false, onToggleCollapse = () => {} }) {
   const ToggleIcon = isCollapsed ? PanelLeftOpen : PanelLeftClose;

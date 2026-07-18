@@ -149,3 +149,7 @@ export const DEFAULT_GEOGRAPHY = {
         utc_offset: "+05:30",
     };
 
+
+export const FORBIDDEN_STATUS_CODE = 403;
+
+

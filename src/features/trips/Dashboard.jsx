@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import {
-  Activity,
   AlertTriangle,
   ChevronLeft,
   ChevronRight,
@@ -9,22 +8,27 @@ import {
   Plane,
   RefreshCw,
 } from "lucide-react";
-import { Forbidden } from "@/components";
 import { useTripBookings, useLocale, useTimezone } from "@/hooks";
 import {
   DEFAULT_CURRENCY_CODE,
-  DEFAULT_USER_LOCALE,
   TRIP_OCCURENCE_LABELS,
   TRIP_STATUS,
   TRIP_TYPES,
-  formatMoney,
   humanReadableDateTime,
+  FORBIDDEN_STATUS_CODE,
+  normalizeKey,
+  formatSnakeCasedStringAsLabel,
 } from "@/utils";
-import { EmptyState, TripsLoaderSkeleton } from "@/components";
+import { EmptyState, Forbidden } from "@/components";
+import {
+  TripCard,
+  TripsLoaderSkeleton,
+  TripStats,
+  QuickFilters,
+} from "@/features/trips/components";
 
 const quickFilters = ["Today", "Unassigned", "Ongoing", "Disputes"];
 const PAGE_SIZE = 10;
-const FORBIDDEN_STATUS_CODE = 403;
 const HIDDEN_PRICE_KEYS = new Set([
   "platformfee",
   "platform_fee",
@@ -33,15 +37,6 @@ const HIDDEN_PRICE_KEYS = new Set([
   "balancepayment",
   "balance_payment",
 ]);
-
-const normalizeKey = (key) => key.replace(/[^a-zA-Z0-9_]/g, "").toLowerCase();
-
-const formatLabel = (value) => {
-  if (!value) return "Not set";
-  return String(value)
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
-};
 
 const getTripsFromResponse = (response) => {
   if (Array.isArray(response)) return response;
@@ -82,16 +77,6 @@ const sortTripsByNearestStart = (trips) => {
 
     return getTripStartTimestamp(firstTrip) - getTripStartTimestamp(secondTrip);
   });
-};
-
-const getRouteText = (trip) => {
-  if (getTripType(trip) === TRIP_TYPES.LOCAL) {
-    return trip?.origin?.display_name || "Pickup pending";
-  }
-
-  const origin = trip?.origin?.display_name || "Origin pending";
-  const destination = trip?.destination?.display_name || "Destination pending";
-  return `${origin} -> ${destination}`;
 };
 
 const getTripType = (trip) => trip?.trip_type?.trip_type;
@@ -144,19 +129,13 @@ const getDriverState = (trip) => {
   };
 };
 
-const getRouteMetaText = (trip) => {
+const getPackageMetaText = (trip) => {
   const tripType = getTripType(trip);
 
   if (tripType === TRIP_TYPES.OUTSTATION) {
-    const originRegion = trip.origin?.region_code;
-    const destinationRegion = trip.destination?.region_code;
     const includedKm = trip.included_kms;
-    const routeRegions =
-      originRegion || destinationRegion
-        ? `${originRegion || "--"} to ${destinationRegion || "--"}`
-        : "";
     const includedKmText = includedKm ? `${includedKm} km included` : "";
-    return [routeRegions, includedKmText].filter(Boolean).join(" | ");
+    return [includedKmText].filter(Boolean).join(" | ");
   }
 
   if (tripType === TRIP_TYPES.LOCAL) {
@@ -180,6 +159,52 @@ const isExceptionTrip = (trip) => {
     trip.status === TRIP_STATUS.DISPUTED ||
     trip.status === TRIP_STATUS.CANCELLED
   );
+};
+
+const areSameLocation = (firstLocation, secondLocation) => {
+  if (!firstLocation || !secondLocation) return false;
+
+  if (firstLocation.place_id && secondLocation.place_id) {
+    return firstLocation.place_id === secondLocation.place_id;
+  }
+
+  return (
+    firstLocation.lat === secondLocation.lat &&
+    firstLocation.lng === secondLocation.lng
+  );
+};
+
+const getRouteTimelineParams = (trip) => {
+  const tripType = getTripType(trip);
+  const pickupLocation = trip?.origin || null;
+  const dropoffLocation = trip?.destination || null;
+
+  if (tripType === TRIP_TYPES.LOCAL) {
+    const isSameLocation = areSameLocation(pickupLocation, dropoffLocation);
+
+    return {
+      pickupLocation,
+      dropoffLocation: isSameLocation ? null : dropoffLocation,
+      viewAsRouteTimeline: !isSameLocation,
+    };
+  }
+
+  if (
+    tripType === TRIP_TYPES.AIRPORT_PICKUP ||
+    tripType === TRIP_TYPES.AIRPORT_DROPOFF
+  ) {
+    return {
+      pickupLocation,
+      dropoffLocation,
+    };
+  }
+
+  return {
+    pickupLocation,
+    dropoffLocation,
+    hops: trip?.hops || [],
+    showReturn: true,
+  };
 };
 
 const getVisiblePriceBreakdown = (trip) => {
@@ -258,10 +283,12 @@ const getExtraChargesText = (trip) => {
   const extras = [];
 
   if (!breakdownKeys.has("toll")) {
+    // Toll can become payable later even when the booked route avoided it.
     extras.push("Toll");
   }
 
   if (!breakdownKeys.has("parking")) {
+    // Parking may become extra during halts or airport dropoff workflows.
     extras.push("parking");
   }
 
@@ -322,7 +349,7 @@ const getOperationalStatus = (trip) => {
   }
 
   return {
-    label: formatLabel(trip.status),
+    label: formatSnakeCasedStringAsLabel(trip.status),
     className: getStatusClassName(trip.status),
     railClassName:
       trip.status === TRIP_STATUS.ONGOING
@@ -338,6 +365,7 @@ const getOperationalStatus = (trip) => {
 
 const getTripMetaText = (trip) => {
   const meta = [`${trip.num_passengers ?? 0} pax`];
+  const packageMetaText = getPackageMetaText(trip);
 
   if (Number(trip.num_luggages) > 0) {
     meta.push(
@@ -346,11 +374,15 @@ const getTripMetaText = (trip) => {
   }
 
   if (trip.fleet?.roof_carrier) {
-    meta.push("roof carrier");
+    meta.push("Needs roof carrier");
   }
 
   if (getTripType(trip) === TRIP_TYPES.OUTSTATION && trip.total_days) {
     meta.push(`${trip.total_days} ${trip.total_days === 1 ? "day" : "days"}`);
+  }
+
+  if (packageMetaText) {
+    meta.push(packageMetaText);
   }
 
   return meta.join(" | ");
@@ -414,34 +446,10 @@ function Dashboard() {
             Trips Dashboard
           </h1>
         </div>
-        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-          {quickFilters.map((filter) => (
-            <button
-              key={filter}
-              type="button"
-              className="h-9 shrink-0 cursor-pointer rounded-lg border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </div>
 
-      <div className="mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-lg border border-slate-200 bg-white p-3"
-          >
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              {stat.label}
-            </p>
-            <p className="mt-2 text-2xl font-semibold text-slate-950">
-              {isLoading ? "--" : stat.value}
-            </p>
-          </div>
-        ))}
+        <QuickFilters filters={quickFilters} />
       </div>
+      <TripStats stats={stats} isLoading={isLoading} />
 
       <section className="rounded-lg border border-slate-200 bg-white">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 px-4 py-3">
@@ -458,10 +466,7 @@ function Dashboard() {
         <div className="p-3 sm:p-4">
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
             <div className="grid gap-2 p-2 sm:p-3">
-              {isLoading &&
-                
-                <TripsLoaderSkeleton/>
-                }
+              {isLoading && <TripsLoaderSkeleton />}
 
               {isForbidden && !isLoading && (
                 <Forbidden message="You do not have permission to view trips operations." />
@@ -486,8 +491,7 @@ function Dashboard() {
               {!isLoading && !isError && sortedTrips.length === 0 && (
                 <EmptyState
                   message="No trips found."
-                  subTitle="Try another status, date range, or booking search once
-                    filters are enabled."
+                  subTitle="Try another status, date range, or booking search once filters are enabled."
                 />
               )}
 
@@ -497,7 +501,6 @@ function Dashboard() {
                   const breakdown = getVisiblePriceBreakdown(trip);
                   const driverState = getDriverState(trip);
                   const operationalStatus = getOperationalStatus(trip);
-                  const routeMetaText = getRouteMetaText(trip);
                   const attentionChips = getAttentionChips(trip);
                   const extraChargesText = getExtraChargesText(trip);
                   const overageRates = operationalStatus.needsReview
@@ -505,155 +508,30 @@ function Dashboard() {
                     : getVisibleOverageRates(trip);
                   const currencyCode =
                     trip?.currency?.code || DEFAULT_CURRENCY_CODE;
+                  const routeParams = getRouteTimelineParams(trip);
 
                   return (
-                    <article
+                    <TripCard
                       key={trip.id || trip.booking_id}
-                      className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md"
-                    >
-                      <div
-                        className={`absolute inset-y-0 left-0 w-1 ${operationalStatus.railClassName}`}
-                      />
-                      <div className="p-3 pl-4">
-                        <div className="flex flex-wrap items-start justify-between gap-3">
-                          <div className="min-w-0">
-                            <p className="max-w-full truncate font-mono text-xs font-semibold tracking-wide text-slate-500">
-                              {trip.booking_id || trip.id}
-                            </p>
-                            <p className="mt-1 text-xs text-slate-500">
-                              {trip.customer?.name || "Customer pending"} ·{" "}
-                              {trip.customer?.phone_number ||
-                                trip.customer?.email ||
-                                "--"}
-                            </p>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            {driverState &&
-                              (!operationalStatus.needsReview ||
-                                driverState.assigned) && (
-                                <span
-                                  className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${driverState.className}`}
-                                >
-                                  {driverState.label}
-                                </span>
-                              )}
-                            <span
-                              className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${operationalStatus.className}`}
-                            >
-                              {operationalStatus.label}
-                            </span>
-                          </div>
-                        </div>
-
-                        {attentionChips.length > 0 && (
-                          <div className="mt-3 flex flex-wrap gap-1">
-                            {attentionChips.map((chip) => {
-                              const Icon = chip.icon;
-                              return (
-                                <span
-                                  key={chip.label}
-                                  className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600"
-                                >
-                                  <Icon className="h-3.5 w-3.5" />
-                                  {chip.label}
-                                </span>
-                              );
-                            })}
-                          </div>
-                        )}
-
-                        <div className="mt-3 grid gap-3 lg:grid-cols-[minmax(0,1.2fr)_minmax(220px,0.8fr)_minmax(220px,0.8fr)]">
-                          <div className="min-w-0 rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                              Route / Pickup
-                            </p>
-                            <p className="mt-1 line-clamp-2 text-sm font-medium text-slate-950">
-                              {getRouteText(trip)}
-                            </p>
-                            {routeMetaText && (
-                              <p className="mt-1 text-xs text-slate-800">
-                                {routeMetaText}
-                              </p>
-                            )}
-                          </div>
-
-                          <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                              Trip
-                            </p>
-                            <p className="mt-1 text-sm font-semibold text-slate-950">
-                              {trip.trip_type?.display_name ||
-                                formatLabel(trip.trip_type?.trip_type)}
-                            </p>
-                            <p className="mt-1 text-xs text-slate-800">
-                              {trip.fleet?.name || "Fleet pending"} ·{" "}
-                              {getTripMetaText(trip)}
-                            </p>
-                          </div>
-
-                          <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                              Start
-                            </p>
-                            <p className="mt-1 text-sm font-medium text-slate-950">
-                              {formatTripDate(
-                                trip.start_datetime,
-                                locale,
-                                clientTimezone?.timezone ?? trip.timezone,
-                              )}
-                            </p>
-                            <p className="mt-1 text-xs  text-slate-800">
-                              {formatLabel(trip.label)}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3">
-                          <div className="min-w-0">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                              Driver Fare
-                            </p>
-                            <p className="mt-1 text-lg font-semibold text-slate-950">
-                              {formatMoney(trip.cost_to_driver, currencyCode)}
-                            </p>
-                            {extraChargesText && (
-                              <p className="mt-1 text-xs font-semibold text-emerald-700">
-                                {extraChargesText}
-                              </p>
-                            )}
-                            {(breakdown.length > 0 ||
-                              overageRates.length > 0) && (
-                              <div className="mt-2 flex flex-wrap gap-1">
-                                {breakdown.map(([key, value]) => (
-                                  <span
-                                    key={key}
-                                    className="rounded-md border border-slate-200 bg-white px-2 py-1 text-xs font-medium text-slate-600"
-                                  >
-                                    {formatLabel(key)}{" "}
-                                    {formatMoney(value, currencyCode)}
-                                  </span>
-                                ))}
-                                {overageRates.map(([label, value]) => (
-                                  <span
-                                    key={label}
-                                    className="rounded-md border border-blue-200 bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700"
-                                  >
-                                    {label} {formatMoney(value, currencyCode)}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-
-                          <button
-                            type="button"
-                            className="h-9 cursor-pointer rounded-lg bg-slate-950 px-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                          >
-                            Open
-                          </button>
-                        </div>
-                      </div>
-                    </article>
+                      attentionChips={attentionChips}
+                      breakdown={breakdown}
+                      currencyCode={currencyCode}
+                      driverState={driverState}
+                      extraChargesText={extraChargesText}
+                      occurrenceLabel={formatSnakeCasedStringAsLabel(
+                        trip.label,
+                      )}
+                      operationalStatus={operationalStatus}
+                      overageRates={overageRates}
+                      routeParams={routeParams}
+                      startText={formatTripDate(
+                        trip.start_datetime,
+                        locale,
+                        clientTimezone?.timezone ?? trip.timezone,
+                      )}
+                      trip={trip}
+                      tripMetaText={getTripMetaText(trip)}
+                    />
                   );
                 })}
             </div>
@@ -692,5 +570,4 @@ function Dashboard() {
     </>
   );
 }
-
 export { Dashboard };

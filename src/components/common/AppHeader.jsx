@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Search, ShieldCheck } from "lucide-react";
-import { NavigationItems } from "./NavigationItems";
-import { DisplayAccount } from "./DisplayAccount";
+import { NavigationItems } from "../navigation/NavigationItems";
+import { DisplayAccount } from "../DisplayAccount";
 function AppHeader() {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 

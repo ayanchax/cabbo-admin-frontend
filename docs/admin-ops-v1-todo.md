@@ -38,7 +38,7 @@ Backend direction:
   - `VITE_API_BASE_URL`
   - app environment name
 - [x] Add API client with auth header support.
-- [ ] Add central error handling and friendly failure messages.
+- [x] Add central error handling and friendly failure messages.
 - [x] Add authenticated route guard.
 - [x] Add login UI.
 - [x] Add logout UI.
@@ -134,7 +134,18 @@ Backend direction:
 - [ ] Refresh trip detail after success.
 - [ ] Show backend validation errors for invalid transitions.
 
-## 6. Internal Notes And Audit
+## 6. Refund Recovery
+
+- [ ] Show refund recovery action only where a refund is applicable and backend refund initiation is still needed.
+- [ ] Scope refund initiation UI to `super_admin` and `finance_admin` only.
+- [ ] Call `GET /api/v1/admin/trips/refunds/booking/{booking_id}/initiate-refund`.
+- [ ] Explain in UI copy that this initiates/queues refund processing for the backend refund workflow and Razorpay provider attempt.
+- [ ] Use this only as an operational recovery path when the normal cancellation workflow refund initiation failed or did not execute.
+- [ ] Require confirmation before initiating refund recovery.
+- [ ] Show success, backend validation failure, forbidden, and generic failure states.
+- [ ] Refresh refund/cancellation context after successful initiation.
+
+## 7. Internal Notes And Audit
 
 - [ ] Display internal notes if available.
 - [ ] Add note creation only if backend endpoint exists for V1.
@@ -147,19 +158,21 @@ Backend direction:
   - reason/note
 - [ ] Keep audit data read-only in the frontend.
 
-## 7. Access, Security, And Privacy
+## 8. Access, Security, And Privacy
 
 - [ ] Confirm admin auth mechanism with backend.
-- [ ] Confirm role/permission model for V1.
+- [ ] Confirm role/permission model for V1:
+  - trip operations: roles allowed by backend
+  - refund recovery: `super_admin`, `finance_admin`
 - [ ] Ensure customer-safe and internal DTOs stay separate.
 - [ ] Never expose admin tokens or admin-only API behavior through customer frontend code.
-- [ ] Avoid storing unnecessary PII in frontend state.
-- [ ] Redact sensitive values in client-side logs.
-- [ ] Handle `401` and `403` distinctly.
+- [x] Avoid storing unnecessary PII in frontend state.
+- [x] Redact sensitive values in client-side logs.
+- [x] Handle `401` and `403` distinctly.
 - [x] Show server-enforced `403` forbidden state in trips list.
 - [ ] Verify admin frontend calls only admin/ops backend endpoints.
 
-## 8. QA Checklist
+## 9. QA Checklist
 
 - [x] Admin login works.
 - [x] Admin logout clears session and route access.
@@ -174,6 +187,8 @@ Backend direction:
 - [ ] Operational status updates work for allowed transitions.
 - [ ] Invalid transitions show clear backend errors.
 - [ ] Payment/refund summaries display accurately.
+- [ ] Refund recovery action is visible only to `super_admin` and `finance_admin`.
+- [ ] Refund recovery initiation handles success, `400`, `403`, and generic failures.
 - [ ] Special requests/customer notes are visible where expected.
 - [ ] Layout works on laptop and mobile-width emergency usage.
 - [ ] No text overflow in cards, filters, buttons, or modals.

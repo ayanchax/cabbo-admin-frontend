@@ -111,3 +111,12 @@ export const humanReadableDateTime = (datetime, locale = undefined, timezone = u
     timeZone: timezone,
   });
 }
+
+export const normalizeKey = (key) => key.replace(/[^a-zA-Z0-9_]/g, "").toLowerCase();
+
+export const formatSnakeCasedStringAsLabel = (value) => {
+  if (!value) return "Not set";
+  return String(value)
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+};
