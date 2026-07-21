@@ -9,7 +9,7 @@ const DEFAULT_CONFIG = {
 export const useTripBookings = (options = {}) => {
     const config = {
         ...DEFAULT_CONFIG,
-        ...(options.feedConfig || options),
+        ...options,
     };
 
     return useQuery({

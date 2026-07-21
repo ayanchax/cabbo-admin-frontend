@@ -1,1 +1,2 @@
-export {QuickFilters} from "./QuickFilters"
+export { QuickFilters } from "./QuickFilters";
+export { TripFilters } from "./TripFilters";

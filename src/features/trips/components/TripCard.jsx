@@ -23,8 +23,12 @@ function TripCard({
   const shouldShowDriverBadge =
     driverState && (!operationalStatus.needsReview || driverState.assigned);
 
+  const shouldShowExtraChargesText = !operationalStatus.needsReview;
+  const handleOpen=()=>{
+    onOpen(trip?.booking_id)
+  }
   return (
-    <article className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md">
+    <article className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md mb-4">
       <div
         className={`absolute inset-y-0 left-0 w-1 ${operationalStatus.railClassName}`}
       />
@@ -76,21 +80,25 @@ function TripCard({
           </div>
         </div>
 
-        <FareSummary
-          breakdown={breakdown}
-          currencyCode={currencyCode}
-          extraChargesText={extraChargesText}
-          fare={trip.cost_to_driver}
-          onOpen={onOpen}
-          overageRates={overageRates}
-        />
+        <div className="flex items-end gap-3">
+          <FareSummary
+            breakdown={breakdown}
+            currencyCode={currencyCode}
+            extraChargesText={
+              shouldShowExtraChargesText ? extraChargesText : undefined
+            }
+            fare={trip.cost_to_driver}
+            overageRates={overageRates}
+          />
 
-        <button
-          type="button"
-          className="h-9 cursor-pointer rounded-lg bg-slate-950 px-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-        >
-          Open
-        </button>
+          <button
+            type="button"
+            onClick={handleOpen}
+            className="ml-auto h-9 shrink-0 cursor-pointer rounded-lg bg-slate-950 px-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+          >
+            Open
+          </button>
+        </div>
       </div>
     </article>
   );

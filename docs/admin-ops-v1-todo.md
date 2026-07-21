@@ -79,12 +79,12 @@ Backend direction:
   - no overage rates when driver fare is zero or trip needs review
   - no toll/parking extra strip when driver fare is zero
 - [x] Sort visible trips by nearest start time.
-- [ ] Add filters:
-  - status
-  - trip type
-  - date range
-  - booking ID
-  - customer phone/email only if backend safely supports it
+- [x] Add backend-backed filters:
+  - [x] status
+  - [x] trip type
+  - [x] date range
+  - [x] booking ID
+  - [ ] customer phone/email only if backend safely supports it
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
 - [ ] Preserve filters in URL query params where practical.

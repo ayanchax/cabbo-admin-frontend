@@ -1,6 +1,12 @@
-import React from "react";
+function TripStats({
+  className = "mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4",
+  isLoading = false,
+  stats = [],
+}) {
+  if (!stats || stats.length === 0) {
+    return null;
+  }
 
-function TripStats(stats=[], isLoading=false, className="mb-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4") {
   return (
     <div className={className}>
       {stats.map((stat) => (

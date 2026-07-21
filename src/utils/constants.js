@@ -151,5 +151,6 @@ export const DEFAULT_GEOGRAPHY = {
 
 
 export const FORBIDDEN_STATUS_CODE = 403;
+export const NOT_FOUND_STATUS_CODE = 404;
 
 
