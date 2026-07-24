@@ -40,6 +40,7 @@ export const ENDPOINTS = {
 
     TRIPS: {
         ALL: `${API_VERSION}/admin/trips/list/all`,
+        GET_BOOKING_BY_ID:`${API_VERSION}/admin/trips/booking`,
     },
 
     GEOGRAPHY: {
@@ -52,6 +53,7 @@ export const ENDPOINTS = {
 
 export const ROUTES = {
     LOGIN: "/login",
+    BOOKING_DETAIL:"/booking/:id",
     HOME: "/",
 
 

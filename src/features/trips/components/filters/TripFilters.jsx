@@ -16,17 +16,14 @@ const tripTypeOptions = Object.values(TRIP_TYPES);
 
 function TripFilters({ filters, isDirty = false, onApply, onChange, onReset }) {
   const updateFilter = (key, value) => {
-    console.log(value)
-    onChange?.({ ...filters, quick: "", [key]: value });
+    onChange?.({ ...filters, [key]: value });
   };
 
-  const hasFilters = Object.entries(filters).some(([key, value]) => {
-    return key !== "quick" && Boolean(value);
-  });
+  const hasFilters = Object.values(filters).some(Boolean);
 
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-3">
-      <div className="grid gap-3 md:grid-cols-[minmax(130px,0.7fr)_minmax(130px,0.7fr)_repeat(2,minmax(140px,0.7fr))_auto_auto]">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(120px,1fr)_minmax(120px,1fr)_minmax(135px,1fr)_minmax(135px,1fr)_auto]">
         <label className="min-w-0">
           <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">
             Status
@@ -87,24 +84,22 @@ function TripFilters({ filters, isDirty = false, onApply, onChange, onReset }) {
           />
         </label>
 
-        <div className="flex items-end">
+        <div className="flex flex-wrap items-end gap-2 sm:col-span-2 xl:col-span-1 xl:flex-nowrap xl:justify-end">
           <button
             type="button"
             disabled={!isDirty}
             onClick={onApply}
-            className="inline-flex h-10 items-center gap-2 rounded-lg bg-slate-950 px-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex h-10 min-w-24 cursor-pointer items-center justify-center gap-2 rounded-lg bg-slate-950 px-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Check className="h-4 w-4" />
             Apply
           </button>
-        </div>
 
-        <div className="flex items-end">
           <button
             type="button"
-            disabled={!hasFilters && !filters.quick}
+            disabled={!hasFilters}
             onClick={onReset}
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex h-10 min-w-24 cursor-pointer items-center justify-center gap-2 rounded-lg border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <RotateCcw className="h-4 w-4" />
             Reset

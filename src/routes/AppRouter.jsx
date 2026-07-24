@@ -8,6 +8,7 @@ import { AdminLayout } from "@/layouts";
 const LazyLoadedRoutes = {
   Home: lazy(() => import("@/pages/Home")),
   Login: lazy(() => import("@/pages/auth/Login")),
+  BookingDetail: lazy(() => import("@/pages/BookingDetailPage")),
 };
 
 const AppRouter = () => {
@@ -23,6 +24,10 @@ const AppRouter = () => {
             {/* Protected app routes, only accessible if user is logged in */}
             <Route element={<AdminLayout />}>
               <Route path={ROUTES.HOME} element={<LazyLoadedRoutes.Home />} />
+              <Route
+                path={ROUTES.BOOKING_DETAIL}
+                element={<LazyLoadedRoutes.BookingDetail />}
+              />
             </Route>
           </Route>
         </Routes>

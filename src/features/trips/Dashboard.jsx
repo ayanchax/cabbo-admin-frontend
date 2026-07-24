@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { generatePath, useNavigate } from "react-router-dom";
 import { MapPinned, RefreshCw } from "lucide-react";
 import { useTripBookings, useLocale, useTimezone } from "@/hooks";
 import { useTripsDashboardHelper } from "@/features/trips/hooks";
@@ -6,6 +7,7 @@ import {
   DEFAULT_CURRENCY_CODE,
   FORBIDDEN_STATUS_CODE,
   NOT_FOUND_STATUS_CODE,
+  ROUTES,
   formatSnakeCasedStringAsLabel,
 } from "@/utils";
 import { EmptyState, Forbidden, SectionTitle } from "@/components";
@@ -13,23 +15,31 @@ import {
   TripCard,
   TripsLoaderSkeleton,
   TripStats,
-  QuickFilters,
   TripFilters,
   TripsPagination,
   TripsDashboardHeader,
 } from "@/features/trips/components";
 
+const NoTripsSVG = (
+  <svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="96" height="96" rx="24" fill="#F3F4F6"/>
+    <path d="M28 68c0-8 8-12 20-12s20 4 20 12" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round"/>
+    <rect x="36" y="36" width="24" height="16" rx="8" fill="#E5E7EB"/>
+    <circle cx="44" cy="60" r="4" fill="#A3A3A3"/>
+    <circle cx="52" cy="60" r="4" fill="#A3A3A3"/>
+    <path d="M40 44h16" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M48 36v8" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round"/>
+  </svg>
+);
 function Dashboard() {
   const {
     defaultFilters: DEFAULT_FILTERS,
     pageSize: PAGE_SIZE,
-    quickFilters,
     getTripQueryParams,
     getTripsFromResponse,
     sortTripsByNearestStart,
     getPaginationFromResponse,
     getPageStats,
-    getQuickFilterValues,
     getVisiblePriceBreakdown,
     getDriverState,
     getOperationalStatus,
@@ -43,6 +53,7 @@ function Dashboard() {
   const [page, setPage] = useState(1);
   const [draftFilters, setDraftFilters] = useState(DEFAULT_FILTERS);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_FILTERS);
+  const navigate = useNavigate();
   const { locale } = useLocale();
   const { timezone: clientTimezone } = useTimezone();
   const queryParams = getTripQueryParams(appliedFilters);
@@ -66,8 +77,15 @@ function Dashboard() {
   const isNotFound = error?.response?.status === NOT_FOUND_STATUS_CODE;
   const shouldShowEmptyState =
     !isLoading && (isNotFound || (!isError && sortedTrips.length === 0));
+
+  const shouldShowErrorState =
+    isError && !isForbidden && !isLoading && !isNotFound;
   const filtersAreDirty =
     JSON.stringify(draftFilters) !== JSON.stringify(appliedFilters);
+  const errorMessage =
+    typeof error?.message === "string" && error.message
+      ? error.message
+      : "Please try after sometime.";
 
   const applyFilters = () => {
     setAppliedFilters(draftFilters);
@@ -80,27 +98,15 @@ function Dashboard() {
     setPage(1);
   };
 
-  const selectQuickFilter = (quickFilter) => {
-    const nextFilters = getQuickFilterValues(appliedFilters, quickFilter);
-    setDraftFilters(nextFilters);
-    setAppliedFilters(nextFilters);
-    setPage(1);
-  };
-
   const handleOpen = (bookingId) => {
-    console.log(`Open request for ${bookingId}`);
+    if (!bookingId) return;
+    navigate(generatePath(ROUTES.BOOKING_DETAIL, { id: bookingId }));
   };
 
   return (
     <>
       <div className="mb-4 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
         <TripsDashboardHeader />
-
-        <QuickFilters
-          activeFilter={appliedFilters.quick}
-          filters={quickFilters}
-          onSelect={selectQuickFilter}
-        />
       </div>
       <div className="mb-4">
         <TripFilters
@@ -129,26 +135,29 @@ function Dashboard() {
                 <Forbidden message="You do not have permission to view trips operations." />
               )}
 
-              {isError && !isForbidden && !isLoading && !isNotFound && (
+              {shouldShowErrorState && (
                 <EmptyState
-                  message="Could not load trips."
-                  subTitle={error?.message || "Please retry the bookings list."}
-                >
-                  <button
-                    type="button"
-                    onClick={() => refetch()}
-                    className="mt-4 inline-flex h-9 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                  >
-                    <RefreshCw className="h-4 w-4" />
-                    Retry
-                  </button>
-                </EmptyState>
+                  illustration = {NoTripsSVG}
+                  title="Could not load trips."
+                  message={errorMessage}
+                  action={
+                    <button
+                      type="button"
+                      onClick={() => refetch()}
+                      className="mt-4 inline-flex h-9 items-center gap-2 rounded-lg border border-slate-200 px-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      Retry
+                    </button>
+                  }
+                />
               )}
 
               {shouldShowEmptyState && (
                 <EmptyState
-                  message="No trips found."
-                  subTitle="Try another status, trip type, or date range."
+                  illustration = {NoTripsSVG}
+                  title="No trips found."
+                  message="Try another status, trip type, or date range."
                 />
               )}
 
@@ -193,8 +202,8 @@ function Dashboard() {
                   );
                 })}
             </div>
-
-            <TripsPagination
+            
+            {!shouldShowEmptyState && <TripsPagination
               currentPage={currentPage}
               hasNext={hasNext}
               hasPrevious={hasPrevious}
@@ -203,7 +212,8 @@ function Dashboard() {
               onPrevious={() => setPage((current) => Math.max(current - 1, 1))}
               totalItems={pagination.total}
               totalPages={totalPages}
-            />
+            />}
+            
           </div>
         </div>
       </section>

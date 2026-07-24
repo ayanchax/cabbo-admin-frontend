@@ -44,7 +44,6 @@ Backend direction:
 - [x] Add logout UI.
 - [x] Persist admin token/session safely.
 - [x] Clear admin session on logout.
-- [ ] Clear admin session on unauthorized API responses.
 - [x] Add base layout:
   - compact sidebar/top navigation
   - current admin identity
@@ -84,10 +83,10 @@ Backend direction:
   - [x] trip type
   - [x] date range
   - [x] booking ID
-  - [ ] customer phone/email only if backend safely supports it
+ 
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
-- [ ] Preserve filters in URL query params where practical.
+- [x] Preserve filters in URL query params where practical.
 - [ ] Open trip detail from each card.
 
 ## 3. Trip Detail
@@ -177,11 +176,11 @@ Backend direction:
 - [x] Admin login works.
 - [x] Admin logout clears session and route access.
 - [ ] Unauthorized users cannot access protected admin screens.
-- [ ] Trip list filters work.
+- [x] Trip list filters work.
 - [x] Trip list pagination works.
 - [ ] Trip detail loads for valid booking IDs.
 - [x] Trips list forbidden state is clear.
-- [ ] Missing/forbidden trip detail states are clear.
+- [x] Missing/forbidden trip detail states are clear.
 - [ ] Driver assignment works.
 - [ ] Driver reassignment works.
 - [ ] Operational status updates work for allowed transitions.
@@ -205,7 +204,7 @@ Backend direction:
 - Driver onboarding/verification management.
 - Finance reconciliation tooling.
 > We will do the deferred items after V1 
-> only if we get funded.
+> only if we get funded or need arises due to higher customer traction across regions and states.
 
 ## Done Means
 

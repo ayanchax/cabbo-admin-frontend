@@ -20,7 +20,6 @@ export const useTripsDashboardHelper = () => {
     ];
     const PAGE_SIZE = 10;
     const DEFAULT_FILTERS = {
-        quick: "",
         status: "",
         tripType: "",
         startDate: "",

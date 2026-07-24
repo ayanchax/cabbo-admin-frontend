@@ -8,3 +8,4 @@ export { TripsLoaderSkeleton } from "./TripsLoaderSkeleton";
 export { TripsPagination } from "./TripsPagination";
 export {TripStats} from "./TripStats"
 export {TripsDashboardHeader} from "./DashboardHeader"
+export {InCarAmenities} from "./InCarAmenities"

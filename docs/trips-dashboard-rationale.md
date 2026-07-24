@@ -2,30 +2,31 @@
 
 ## Filter Model
 
-The trips dashboard separates filters into two groups:
+The v1 trips dashboard uses one explicit filter group:
 
-- Quick filters: high-frequency operational views.
 - Trip filters: explicit list constraints chosen by the user.
 
-This keeps the dashboard useful for daily operations without turning the top bar into a full duplicate of the filter form.
+This keeps the dashboard clear for internal operators and avoids a second control surface that duplicates the same query fields.
 
 ## Quick Filters
 
-Current quick filters:
+Quick filters are intentionally not rendered in v1.
+
+The deferred quick filters were:
 
 - Today
 - Ongoing
 - Disputes
 
-These are kept because they represent common operational modes:
+They map directly to existing trip filters:
 
-- Today focuses the dashboard on trips scheduled for the current day.
-- Ongoing focuses the dashboard on trips currently in progress.
-- Disputes focuses the dashboard on exception handling.
+- Today sets the date range to the current day.
+- Ongoing sets status to ongoing.
+- Disputes sets status to dispute.
 
-Quick filters should stay limited to broad workflows that users are likely to check repeatedly. They should not become a shortcut for every possible status.
+For v1, these shortcuts add convenience but not unique capability. Since the dashboard is used by trained employees, the explicit Trip Filters are enough until real operational usage shows that repeated shortcuts are worth the extra UI.
 
-When a quick filter is selected, it layers onto the currently applied trip filters. Unrelated filters, such as trip type, are preserved. When a quick filter is switched or deselected, only the fields controlled by the previous quick filter are cleared.
+The quick filter component and helper logic may remain available in code as dormant scaffolding. If quick filters return later, they should stay limited to broad workflows that users check repeatedly and should not become a shortcut for every possible status.
 
 ## Trip Filters
 
@@ -46,7 +47,7 @@ The status filter intentionally includes only:
 
 These are the statuses that make sense as explicit list-level filters for admin review. Internal or less useful states such as created and closed are still handled in dashboard logic, but are not exposed in the status dropdown.
 
-Trip type and date range are kept because they support natural list filtering and can combine cleanly with quick filters.
+Trip type and date range are kept because they support natural list filtering.
 
 ## Excluded Filters
 

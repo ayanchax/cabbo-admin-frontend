@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOCAL_STORAGE_KEYS } from "@/utils";
+import { LOCAL_STORAGE_KEYS, NOT_FOUND_STATUS_CODE } from "@/utils";
 
 const isDevMode = import.meta.env.VITE_DEV_MODE === "true";
 const api = axios.create({
@@ -36,7 +36,12 @@ api.interceptors.response.use(
     }
     // API error (response received with error status code)
     if (error.response) {
-      console.error("API Error.", `Status: ${error.response.status} - ${error.response.statusText}.`, "Error details:", {
+      const logApiError =
+        error.response.status === NOT_FOUND_STATUS_CODE
+          ? console.info
+          : console.error;
+
+      logApiError("API Error.", `Status: ${error.response.status} - ${error.response.statusText}.`, "Error details:", {
         data: error.response.data,
         headers: error.response.headers,
         config: error.config,

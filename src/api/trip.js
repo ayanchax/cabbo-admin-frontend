@@ -9,3 +9,12 @@ export const getAllTrips = async (
     const { data } = await api.get(ENDPOINTS.TRIPS.ALL, { params: config });
     return data;
 }
+
+export const getBookingDetail = async (
+    bookingId
+) => {
+    const { data } = await api.get(`${ENDPOINTS.TRIPS.GET_BOOKING_BY_ID}/${bookingId}`);
+    return data;
+}
+
+
