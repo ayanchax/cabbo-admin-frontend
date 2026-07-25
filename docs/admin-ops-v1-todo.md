@@ -87,25 +87,19 @@ Backend direction:
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
 - [x] Preserve filters in URL query params where practical.
-- [ ] Open trip detail from each card.
+- [x] Open trip detail from each card.
 
 ## 3. Trip Detail
 
-- [ ] Show internal booking/trip summary.
-- [ ] Show customer context needed for operations.
-- [ ] Show route, pickup/drop, stops, dates, package, cab type, and passenger/luggage preferences.
-- [ ] Show payment summary:
-  - booking amount
-  - amount paid
-  - amount due to driver
-  - payment status
-  - Razorpay/reference IDs only if backend exposes safe internal fields
+- [x] Show internal booking/trip summary.
+- [x] Show customer context needed for operations.
+- [x] Show route, pickup/drop, stops, dates, package, cab type, and passenger/luggage preferences.
 - [ ] Show refund/cancellation summary for cancelled trips.
-- [ ] Show assigned driver and cab details.
-- [ ] Show special requests/customer notes.
-- [ ] Show support context with booking ID prominently visible.
+- [x] Show assigned driver and cab details.
+- [x] Show special requests/customer notes.
+- [x] Show support context with booking ID prominently visible.
 - [ ] Show audit history/internal notes if backend supports them.
-- [ ] Add loading, missing-trip, forbidden, and generic-error states.
+- [x] Add loading, missing-trip, forbidden, and generic-error states.
 
 ## 4. Driver Assignment
 
@@ -178,7 +172,7 @@ Backend direction:
 - [ ] Unauthorized users cannot access protected admin screens.
 - [x] Trip list filters work.
 - [x] Trip list pagination works.
-- [ ] Trip detail loads for valid booking IDs.
+- [x] Trip detail loads for valid booking IDs.
 - [x] Trips list forbidden state is clear.
 - [x] Missing/forbidden trip detail states are clear.
 - [ ] Driver assignment works.
@@ -188,7 +182,7 @@ Backend direction:
 - [ ] Payment/refund summaries display accurately.
 - [ ] Refund recovery action is visible only to `super_admin` and `finance_admin`.
 - [ ] Refund recovery initiation handles success, `400`, `403`, and generic failures.
-- [ ] Special requests/customer notes are visible where expected.
+- [x] Special requests/customer notes are visible where expected.
 - [ ] Layout works on laptop and mobile-width emergency usage.
 - [ ] No text overflow in cards, filters, buttons, or modals.
 
