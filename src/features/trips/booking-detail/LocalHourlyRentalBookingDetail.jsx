@@ -2,15 +2,18 @@ import {
   BookingDetailFrame,
   DetailField,
   DetailGrid,
-  DetailList,
   DetailSection,
 } from "./BookingDetailShared";
-import { formatDateTime, } from "./bookingDetailFormatters";
+import { formatDateTime } from "./bookingDetailFormatters";
+import { useTimezone, useLocale } from "@/hooks";
+import { PackageCheck } from "lucide-react";
 
 function LocalHourlyRentalBookingDetail({ bookingDetail }) {
+  const { timezone: clientTimezone } = useTimezone();
+  const { locale } = useLocale();
   return (
     <BookingDetailFrame bookingDetail={bookingDetail}>
-      <DetailSection title="Local Rental Package">
+      <DetailSection title="Local Rental Package" icon={PackageCheck}>
         <DetailGrid>
           <DetailField
             label="Included Hours"
@@ -24,35 +27,17 @@ function LocalHourlyRentalBookingDetail({ bookingDetail }) {
             label="Expected End"
             value={formatDateTime(
               bookingDetail?.expected_end_datetime,
-              bookingDetail?.timezone,
+              locale,
+              clientTimezone?.timezone ??bookingDetail?.timezone,
             )}
           />
+
+          
           <DetailField label="Rate Per Minute" value={bookingDetail?.rate_per_min} />
            
         </DetailGrid>
       </DetailSection>
 
-      <DetailSection title="Overage Rules">
-        <DetailGrid>
-          <DetailField
-            label="Extra Hour"
-            value={
-              bookingDetail?.overages?.overage_amount_per_hour
-                ? `${bookingDetail.overages.overage_amount_per_hour} per hour`
-                : null
-            }
-          />
-          <DetailField
-            label="Extra Km"
-            value={
-              bookingDetail?.overages?.overage_amount_per_km
-                ? `${bookingDetail.overages.overage_amount_per_km} per km`
-                : null
-            }
-          />
-        </DetailGrid>
-          
-      </DetailSection>
     </BookingDetailFrame>
   );
 }

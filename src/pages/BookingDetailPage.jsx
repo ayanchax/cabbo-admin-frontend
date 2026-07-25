@@ -1,4 +1,5 @@
 import { RefreshCw } from "lucide-react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { EmptyState, Forbidden, Loader, PageHeader } from "@/components";
 import { useTripBookingDetail } from "@/hooks";
@@ -10,6 +11,10 @@ function BookingDetailPage() {
   const navigate = useNavigate();
   const { data, isLoading, isError, error, refetch } =
     useTripBookingDetail(bookingId);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [bookingId]);
 
   const statusCode = error?.response?.status;
   const isForbidden = statusCode === FORBIDDEN_STATUS_CODE;

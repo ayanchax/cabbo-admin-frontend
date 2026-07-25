@@ -10,6 +10,7 @@ import {
     AlertTriangle,
     FileText,
     Plane,
+    Route,
 
 } from "lucide-react";
 export const useTripsDashboardHelper = () => {
@@ -376,6 +377,10 @@ export const useTripsDashboardHelper = () => {
         if (trip.special_needs_requests) {
             chips.push({ label: "Special request", icon: AlertTriangle });
         }
+        if(trip?.toll_road_preferred){
+            chips.push({ label: "Toll road preference", icon: Route });
+
+        }
 
         return chips;
     };
@@ -470,6 +475,13 @@ export const useTripsDashboardHelper = () => {
         ];
     };
 
+    const canShowActualEndDateTime=(trip)=>{
+      if(trip?.status === TRIP_STATUS.COMPLETED && trip?.end_datetime){
+        return true
+      }
+      return false
+    }
+
     return {
         quickFilters,
         pageSize: PAGE_SIZE,
@@ -482,7 +494,8 @@ export const useTripsDashboardHelper = () => {
         getAttentionChips,
         getOperationalStatus,
         getTripMetaText,
-        getPageStats
+        getPageStats,
+        canShowActualEndDateTime
     }
 
 }

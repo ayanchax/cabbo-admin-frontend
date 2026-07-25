@@ -2,18 +2,17 @@ import { formatMoney, formatSnakeCasedStringAsLabel } from "@/utils";
 
 function FareSummary({
   breakdown = [],
+  className = "mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3",
   currencyCode,
   extraChargesText = "",
   fare,
   overageRates = [],
 }) {
   return (
-    <div className="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-3">
+    <div className={className}>
       <div className="min-w-0">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-          Driver Fare
-        </p>
-        <p className="mt-1 text-lg font-semibold text-slate-950">
+        
+        <p className="mt-0 text-lg font-semibold text-slate-950">
           {formatMoney(fare, currencyCode)}
         </p>
         {extraChargesText && (

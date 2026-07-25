@@ -23,7 +23,7 @@ function TripFilters({ filters, isDirty = false, onApply, onChange, onReset }) {
 
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-3">
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(120px,1fr)_minmax(120px,1fr)_minmax(135px,1fr)_minmax(135px,1fr)_auto]">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(120px,1fr)_minmax(120px,1fr)_minmax(135px,1fr)_minmax(135px,1fr)_auto]">
         <label className="min-w-0">
           <span className="mb-1 block text-xs font-semibold uppercase tracking-wide text-slate-500">
             Status
@@ -84,7 +84,7 @@ function TripFilters({ filters, isDirty = false, onApply, onChange, onReset }) {
           />
         </label>
 
-        <div className="flex flex-wrap items-end gap-2 sm:col-span-2 xl:col-span-1 xl:flex-nowrap xl:justify-end">
+        <div className="flex flex-wrap items-end gap-2 sm:col-span-2 lg:col-span-1 lg:flex-nowrap lg:justify-end">
           <button
             type="button"
             disabled={!isDirty}

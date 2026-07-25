@@ -120,3 +120,8 @@ export const formatSnakeCasedStringAsLabel = (value) => {
     .replace(/_/g, " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 };
+
+export const pluralize = (count, singular, plural = `${singular}s`) => {
+  if (!Number(count)) return null;
+  return `${count} ${Number(count) === 1 ? singular : plural}`;
+};
