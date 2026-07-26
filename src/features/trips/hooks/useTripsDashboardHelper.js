@@ -168,7 +168,7 @@ export const useTripsDashboardHelper = () => {
     const getDriverState = (trip) => {
         if (trip?.driver?.name) {
             return {
-                label: trip.driver.name,
+                label: `Driver: ${trip.driver.name}`,
                 className: "bg-emerald-50 text-emerald-700",
                 assigned: true,
             };
@@ -525,6 +525,16 @@ export const useTripsDashboardHelper = () => {
         return value;
     };
 
+    const getDriverCabText = (driver) => {
+        return [
+            driver?.cab_model_and_make,
+            driver?.cab_type,
+            driver?.fuel_type ? `(${driver.fuel_type})` : null,
+        ]
+            .filter(Boolean)
+            .join(" ");
+    };
+
 
     return {
         quickFilters,
@@ -545,7 +555,8 @@ export const useTripsDashboardHelper = () => {
         canShowFareDetails,
         getPassengerText,
         getLuggageText,
-        formatValue
+        formatValue,
+        getDriverCabText
     }
 
 }

@@ -1,6 +1,6 @@
 import { CornerDownRight, MapPin } from "lucide-react";
 import { TRIP_STATUS, TRIP_TYPES, formatSnakeCasedStringAsLabel } from "@/utils";
-import { AttentionChips, FareSummary, TripBadge } from "@/features/trips/components";
+import { AttentionChips, DriverCell, FareSummary, TripBadge } from "@/features/trips/components";
 import { useTripsDashboardHelper } from "@/features/trips/hooks";
 
 
@@ -88,7 +88,7 @@ function StartCell({ occurrenceLabel, startText }) {
 
 function StatusBadges({ driverState, operationalStatus }) {
   const shouldShowDriverBadge =
-    driverState && (!operationalStatus.needsReview || driverState.assigned);
+    driverState && !driverState.assigned && !operationalStatus.needsReview;
 
   return (
     <div className="flex flex-wrap items-center gap-2 sm:justify-end">
@@ -135,6 +135,24 @@ function DriverFare({
         shouldShowFareDetails && shouldShowOverageRates ? overageRates : []
       }
     />
+  );
+}
+
+function DriverAndFareCell({ driver, fareProps }) {
+  return (
+    <div className="grid min-w-0 gap-2">
+      {driver?.name && (
+        <Field label="Driver">
+        <div className="rounded-md bg-slate-50 px-2.5 py-2">
+          <DriverCell driver={driver} inlinePhone showRegistrationBadge/>
+        </div>
+        </Field>
+      )}
+      <Field label="Driver Fare">
+        <DriverFare {...fareProps} />
+      </Field>
+      
+    </div>
   );
 }
 
@@ -191,9 +209,8 @@ function TripCard({
           <Field label="Route">
             <RouteText trip={trip} />
           </Field>
-          <Field label="Driver Fare">
-            <DriverFare {...fareProps} />
-          </Field>
+            <DriverAndFareCell driver={trip?.driver} fareProps={fareProps} />
+           
         </div>
         <div className="flex flex-col gap-3 border-t border-slate-100 pt-3 md:flex-row md:items-start md:justify-between">
           <AttentionChips

@@ -127,7 +127,7 @@ function BookingDetailFrame({ bookingDetail, children }) {
   const operationalStatus = getOperationalStatus(bookingDetail);
   const routeParams = getRouteTimelineParams(bookingDetail);
   const shouldShowDriverBadge =
-    driverState && (!operationalStatus.needsReview || driverState.assigned);
+    driverState && !driverState.assigned && !operationalStatus.needsReview;
   const currencyCode = bookingDetail?.currency?.code || DEFAULT_CURRENCY_CODE;
   const attentionChips = getAttentionChips(bookingDetail);
 

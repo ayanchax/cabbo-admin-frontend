@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   CarFront,
   CheckCircle2,
@@ -7,29 +8,51 @@ import {
   Search,
   UserRound,
 } from "lucide-react";
-import { useSearchDriverQuery } from "@/hooks";
+import { isDevMode } from "@/api";
+import { DriverCell } from "@/features/trips/components";
+import {
+  useSearchDriverQuery,
+  useAssignDriverMutation,
+  useToast,
+} from "@/hooks";
 import { useDebounce } from "@/hooks/useDebounce";
 
 const MIN_DRIVER_SEARCH_LENGTH = 2;
 
 function getDriverRows(response) {
-  if (Array.isArray(response)) return response;
   if (Array.isArray(response?.drivers)) return response.drivers;
-  if (Array.isArray(response?.data)) return response.data;
   return [];
 }
 
 function DriverAssignmentPanel({ bookingDetail, driverState }) {
+  const { showToast } = useToast();
+  const queryClient = useQueryClient();
+
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [selectedDriverId, setSelectedDriverId] = useState("");
+  const [selectedDriver, setSelectedDriver] = useState(null);
   const panelContentRef = useRef(null);
   const searchInputRef = useRef(null);
   const trimmedSearchText = searchText.trim();
   const debouncedSearchText = useDebounce(trimmedSearchText, 350);
   const assignedDriver = bookingDetail?.driver || null;
-  const showPanel = driverState?.label === "Needs driver" || driverState?.assigned;
-  const actionLabel = driverState?.assigned ? "Reassign driver" : "Assign driver";
+  const showPanel =
+    driverState?.label === "Needs driver" || driverState?.assigned;
+  const actionLabel = driverState?.assigned
+    ? "Reassign driver"
+    : "Assign driver";
+  const assignedDriverText = [
+    assignedDriver?.name || "Assigned driver",
+    assignedDriver?.phone ? `(${assignedDriver.phone})` : null,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const headerSubtitle =
+    driverState?.assigned && isOpen
+      ? "Viewing current driver details."
+      : driverState?.assigned
+        ? `${assignedDriverText} · Click to view or reassign`
+        : "Search by driver name and choose a suitable cab.";
 
   const queryOptions = useMemo(
     () => ({
@@ -42,12 +65,20 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
 
   const shouldSearch =
     isOpen && debouncedSearchText.length >= MIN_DRIVER_SEARCH_LENGTH;
-  const {
-    data,
-    isFetching,
-    isError,
-  } = useSearchDriverQuery(queryOptions, shouldSearch);
+  const { data, isFetching, isError } = useSearchDriverQuery(
+    queryOptions,
+    shouldSearch,
+  );
   const drivers = getDriverRows(data);
+
+  const assignDriverMutation = useAssignDriverMutation();
+  const selectedDriverId = selectedDriver?.id || null;
+  const showNoDriversMessage =
+    shouldSearch && !isFetching && !isError && drivers.length === 0;
+  const canAssign =
+    Boolean(bookingDetail?.booking_id) &&
+    Boolean(selectedDriverId) &&
+    !assignDriverMutation.isPending;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -64,6 +95,46 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
   if (!showPanel) {
     return null;
   }
+
+  const handleAssign = async () => {
+    if (!canAssign) {
+      return;
+    }
+    try {
+      const response = await assignDriverMutation.mutateAsync({
+        bookingId: bookingDetail?.booking_id,
+        driverId: selectedDriverId,
+      });
+
+      showToast(
+        response?.data?.message || "Driver assigned successfully.",
+        "success",
+      );
+      queryClient.setQueryData(
+        ["tripBookingDetail", bookingDetail?.booking_id],
+        (currentBookingDetail) =>
+          currentBookingDetail
+            ? {
+                ...currentBookingDetail,
+                driver: selectedDriver,
+              }
+            : currentBookingDetail,
+      );
+      setIsOpen(false);
+      setSearchText("");
+      setSelectedDriver(null);
+      queryClient.invalidateQueries({ queryKey: ["tripBookings"] });
+    } catch (error) {
+      if (isDevMode) {
+        console.error("Error assigning driver:", error);
+      }
+      showToast(
+        error?.response?.data?.detail ||
+          "Error assigning driver at this moment",
+        "error",
+      );
+    }
+  };
 
   return (
     <section
@@ -91,9 +162,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
               {actionLabel}
             </span>
             <span className="mt-1 block text-xs leading-5 text-slate-500">
-              {driverState?.assigned
-                ? `Current driver: ${assignedDriver?.name || "Assigned"}`
-                : "Search by driver name and choose a suitable cab."}
+              {headerSubtitle}
             </span>
           </span>
         </span>
@@ -110,6 +179,20 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
           ref={panelContentRef}
           className="mt-3 border-t border-slate-100 pt-3"
         >
+          {driverState?.assigned && (
+            <div className="mb-3 rounded-lg border border-slate-100 bg-slate-50/70 px-3 py-2">
+              <DriverCell
+                driver={assignedDriver}
+                label="Assigned driver"
+                showRegistrationBadge
+              />
+            </div>
+          )}
+          {driverState?.assigned && (
+            <p className="mb-3 text-xs leading-5 text-slate-500">
+              You can search and select another driver to reassign this trip.
+            </p>
+          )}
           <label
             htmlFor="driver-search"
             className="text-xs font-semibold uppercase tracking-wide text-slate-500"
@@ -117,15 +200,19 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
             Driver name
           </label>
           <div className="mt-2 flex min-h-10 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 transition focus-within:border-primary/40 focus-within:bg-white focus-within:ring-2 focus-within:ring-primary/10">
-            <Search className="h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
+            <Search
+              className="h-4 w-4 shrink-0 text-slate-400"
+              aria-hidden="true"
+            />
             <input
               ref={searchInputRef}
               id="driver-search"
+              disabled={assignDriverMutation.isPending}
               type="search"
               value={searchText}
               onChange={(event) => {
                 setSearchText(event.target.value);
-                setSelectedDriverId("");
+                setSelectedDriver(null);
               }}
               placeholder="Search driver by name"
               className="min-w-0 flex-1 bg-transparent py-2 text-sm text-slate-900 outline-none placeholder:text-slate-400"
@@ -138,20 +225,13 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
             )}
           </div>
 
-          {trimmedSearchText.length > 0 &&
-            trimmedSearchText.length < MIN_DRIVER_SEARCH_LENGTH && (
-              <p className="mt-2 text-xs text-slate-500">
-                Type at least {MIN_DRIVER_SEARCH_LENGTH} characters to search.
-              </p>
-            )}
-
           {isError && (
             <p className="mt-2 rounded-md bg-rose-50 px-3 py-2 text-xs text-rose-700">
               Driver search is unavailable right now. Please try again.
             </p>
           )}
 
-          {shouldSearch && !isFetching && !isError && drivers.length === 0 && (
+          {showNoDriversMessage && (
             <p className="mt-2 rounded-md bg-slate-50 px-3 py-2 text-xs text-slate-500">
               No drivers found for this name.
             </p>
@@ -160,21 +240,14 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
           {drivers.length > 0 && (
             <div className="mt-3 grid gap-2">
               {drivers.map((driver) => {
-                const driverId = driver?.id || driver?.driver_id || driver?.phone;
+                const driverId = driver?.id;
                 const isSelected = selectedDriverId === driverId;
-                const cabText = [
-                  driver?.cab_type,
-                  driver?.fuel_type ? `(${driver.fuel_type})` : null,
-                  driver?.cab_registration_number,
-                ]
-                  .filter(Boolean)
-                  .join(" ");
 
                 return (
                   <button
                     key={driverId}
                     type="button"
-                    onClick={() => setSelectedDriverId(driverId)}
+                    onClick={() => setSelectedDriver(driver)}
                     className={`flex min-w-0 cursor-pointer items-start justify-between gap-3 rounded-lg border px-3 py-2 text-left transition ${
                       isSelected
                         ? "border-primary/30 bg-primary/5 ring-2 ring-primary/10"
@@ -185,19 +258,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
                       <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400 ring-1 ring-slate-100">
                         <CarFront className="h-4 w-4" aria-hidden="true" />
                       </span>
-                      <span className="min-w-0">
-                        <span className="block truncate text-sm font-semibold text-slate-950">
-                          {driver?.name || "Unnamed driver"}
-                        </span>
-                        <span className="mt-0.5 block truncate text-xs text-slate-500">
-                          {driver?.phone || driver?.email || "Contact unavailable"}
-                        </span>
-                        {cabText && (
-                          <span className="mt-0.5 block truncate text-xs text-slate-500">
-                            {cabText}
-                          </span>
-                        )}
-                      </span>
+                      <DriverCell driver={driver} inlinePhone />
                     </span>
                     {isSelected && (
                       <CheckCircle2
@@ -212,16 +273,18 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
           )}
 
           <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs leading-5 text-slate-500">
-              Assignment submit will be enabled after the driver assignment API
-              is wired.
-            </p>
+            <span />
             <button
+              onClick={handleAssign}
               type="button"
-              disabled
-              className="inline-flex h-9 cursor-not-allowed items-center justify-center rounded-md bg-slate-200 px-3 text-xs font-semibold text-slate-500"
+              disabled={!canAssign}
+              className={`inline-flex h-9 items-center justify-center rounded-md px-3 text-xs font-semibold transition ${
+                canAssign
+                  ? "cursor-pointer bg-primary text-white shadow-sm hover:bg-primary/90"
+                  : "cursor-not-allowed bg-slate-200 text-slate-500"
+              }`}
             >
-              {actionLabel}
+              {assignDriverMutation.isPending ? "Assigning..." : actionLabel}
             </button>
           </div>
         </div>

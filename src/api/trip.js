@@ -17,4 +17,8 @@ export const getBookingDetail = async (
     return data;
 }
 
+export const assignDriverToTrip = ({bookingId, driverId}) => {
+  return api.post(`${ENDPOINTS.TRIPS.ASSIGN_DRIVER}/${bookingId}/assign-driver/${driverId}`, {});
+};
+
 

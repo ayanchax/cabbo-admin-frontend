@@ -41,6 +41,7 @@ export const ENDPOINTS = {
     TRIPS: {
         ALL: `${API_VERSION}/admin/trips/list/all`,
         GET_BOOKING_BY_ID:`${API_VERSION}/admin/trips/booking`,
+        ASSIGN_DRIVER:`${API_VERSION}/admin/trips`, // Append bookingId/assign-driver/driverId
     },
 
     DRIVERS:{
