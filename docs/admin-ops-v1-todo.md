@@ -86,7 +86,7 @@ Backend direction:
  
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
-- [x] Preserve filters in URL query params where practical.
+- [ ] Preserve filters in URL query params where practical.
 - [x] Open trip detail from each card.
 
 ## 3. Trip Detail

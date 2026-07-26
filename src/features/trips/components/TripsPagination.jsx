@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, LoaderCircle } from "lucide-react";
 
 function TripsPagination({
   currentPage,
@@ -12,9 +12,17 @@ function TripsPagination({
 }) {
   return (
     <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-200 bg-white px-3 py-3">
-      <p className="text-sm text-slate-500">
-        Page {currentPage} of {totalPages}
-        {totalItems !== undefined ? ` | ${totalItems} trips` : ""}
+      <p className="inline-flex items-center gap-1.5 text-sm text-slate-500">
+        <span>Page {currentPage} of</span>
+        {isFetching && (
+          <LoaderCircle className="h-3.5 w-3.5 animate-spin text-slate-400" />
+        )}
+        {!isFetching && (
+          <span>
+            {totalPages}
+            {totalItems !== undefined ? ` | ${totalItems} trips` : ""}
+          </span>
+        )}
       </p>
       <div className="flex items-center gap-2">
         <button
