@@ -9,6 +9,7 @@ import { useTripsDashboardHelper } from "@/features/trips/hooks";
 import { EMPTY_VALUE, formatCurrency } from "@/features/trips/booking-detail";
 import { InCarAmenities, FareSummary , TripBadge, AttentionChips} from "@/features/trips/components";
 import { useTimezone, useLocale } from "@/hooks";
+import { DriverAssignmentPanel } from "./DriverAssignmentPanel";
 
 function DetailSection({ icon: Icon, title, children }) {
   return (
@@ -182,6 +183,11 @@ function BookingDetailFrame({ bookingDetail, children }) {
         </div>
         <AttentionChips chips={attentionChips} />
       </section>
+
+      <DriverAssignmentPanel
+        bookingDetail={bookingDetail}
+        driverState={driverState}
+      />
 
       <DetailSection title="Route" icon={MapPinned}>
         <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">

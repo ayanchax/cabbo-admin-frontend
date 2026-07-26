@@ -43,6 +43,10 @@ export const ENDPOINTS = {
         GET_BOOKING_BY_ID:`${API_VERSION}/admin/trips/booking`,
     },
 
+    DRIVERS:{
+        SEARCH:`${API_VERSION}/admin/drivers/search/driver`,
+    },
+
     GEOGRAPHY: {
         CLIENT: `${import.meta.env.VITE_CLIENT_GEOLOCATION_API_URL || "https://ipapi.co/json/"}`
     }
