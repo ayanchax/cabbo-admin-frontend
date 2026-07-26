@@ -4,6 +4,7 @@ import {
     TRIP_TYPES,
     humanReadableDateTime,
     normalizeKey,
+    pluralize,
     formatSnakeCasedStringAsLabel,
 } from "@/utils";
 import {
@@ -13,6 +14,7 @@ import {
     Route,
 
 } from "lucide-react";
+import { EMPTY_VALUE } from "../booking-detail/bookingDetailFormatters";
 export const useTripsDashboardHelper = () => {
     const quickFilters = [
         { label: "Today", value: "today" },
@@ -377,7 +379,7 @@ export const useTripsDashboardHelper = () => {
         if (trip.special_needs_requests) {
             chips.push({ label: "Special request", icon: AlertTriangle });
         }
-        if(trip?.toll_road_preferred){
+        if (trip?.toll_road_preferred) {
             chips.push({ label: "Toll road preference", icon: Route });
 
         }
@@ -475,12 +477,54 @@ export const useTripsDashboardHelper = () => {
         ];
     };
 
-    const canShowActualEndDateTime=(trip)=>{
-      if(trip?.status === TRIP_STATUS.COMPLETED && trip?.end_datetime){
-        return true
-      }
-      return false
+    const canShowActualEndDateTime = (trip) => {
+        if (trip?.status === TRIP_STATUS.COMPLETED && trip?.end_datetime) {
+            return true
+        }
+        return false
     }
+
+    const canShowOverageRates = (tripType) => {
+        return tripType !== TRIP_TYPES.AIRPORT_PICKUP &&
+            tripType !== TRIP_TYPES.AIRPORT_DROPOFF;
+    }
+
+    const canShowFareDetails = (needsReview = false, status) => {
+        return !needsReview && status !== TRIP_STATUS.CANCELLED;
+
+    }
+
+    const getPassengerText = (bookingDetail) => {
+        const passengerParts = [
+            pluralize(bookingDetail?.num_adults, "adult"),
+            pluralize(bookingDetail?.num_children, "child", "children"),
+        ].filter(Boolean);
+
+        return passengerParts.length > 0
+            ? passengerParts.join(" + ")
+            : pluralize(bookingDetail?.num_passengers ?? 0, "pax", "pax") || "0 pax";
+    };
+
+    const getLuggageText = (bookingDetail) => {
+        const luggageParts = [
+            pluralize(bookingDetail?.num_large_suitcases, "large suitcase"),
+            pluralize(bookingDetail?.num_carryons, "carry-on"),
+            pluralize(bookingDetail?.num_backpacks, "backpack"),
+            pluralize(bookingDetail?.num_other_bags, "other bag"),
+        ].filter(Boolean);
+
+        return luggageParts.length > 0
+            ? luggageParts.join(", ")
+            : pluralize(bookingDetail?.num_luggages ?? 0, "luggage", "luggage") ||
+            "0 luggage";
+    };
+
+    const formatValue = (value) => {
+        if (value === null || value === undefined || value === "") return EMPTY_VALUE;
+        if (typeof value === "boolean") return value ? "Yes" : "No";
+        return value;
+    };
+
 
     return {
         quickFilters,
@@ -495,7 +539,13 @@ export const useTripsDashboardHelper = () => {
         getOperationalStatus,
         getTripMetaText,
         getPageStats,
-        canShowActualEndDateTime
+        canShowActualEndDateTime,
+        areSameLocation,
+        canShowOverageRates,
+        canShowFareDetails,
+        getPassengerText,
+        getLuggageText,
+        formatValue
     }
 
 }

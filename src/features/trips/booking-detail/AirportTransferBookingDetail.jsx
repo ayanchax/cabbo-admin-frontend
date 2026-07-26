@@ -3,7 +3,7 @@ import {
   DetailField,
   DetailGrid,
   DetailSection,
-} from "./BookingDetailShared";
+} from "@/features/trips/booking-detail";
 
 function AirportTransferBookingDetail({ bookingDetail }) {
   return (

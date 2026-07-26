@@ -46,7 +46,6 @@ function Dashboard() {
     getAttentionChips,
     getExtraChargesText,
     getVisibleOverageRates,
-    getRouteTimelineParams,
     formatTripDate,
     getTripMetaText,
   } = useTripsDashboardHelper();
@@ -128,7 +127,7 @@ function Dashboard() {
 
         <div className="p-3 sm:p-4">
           <div className="overflow-hidden rounded-lg border border-slate-200 bg-slate-50">
-            <div className="grid gap-2 p-2  sm:p-3">
+            <div className="grid gap-2 p-2 sm:p-3">
               {isLoading && <TripsLoaderSkeleton />}
 
               {isForbidden && !isLoading && (
@@ -161,46 +160,46 @@ function Dashboard() {
                 />
               )}
 
-              {!isLoading &&
-                !isError &&
-                sortedTrips.map((trip) => {
-                  const breakdown = getVisiblePriceBreakdown(trip);
-                  const driverState = getDriverState(trip);
-                  const operationalStatus = getOperationalStatus(trip);
-                  const attentionChips = getAttentionChips(trip);
-                  const extraChargesText = getExtraChargesText(trip);
-                  const overageRates = operationalStatus.needsReview
-                    ? []
-                    : getVisibleOverageRates(trip);
-                  const currencyCode =
-                    trip?.currency?.code || DEFAULT_CURRENCY_CODE;
-                  const routeParams = getRouteTimelineParams(trip);
+              {!isLoading && !isError && sortedTrips.length > 0 && (
+                <>
+                  {sortedTrips.map((trip) => {
+                    const breakdown = getVisiblePriceBreakdown(trip);
+                    const driverState = getDriverState(trip);
+                    const operationalStatus = getOperationalStatus(trip);
+                    const attentionChips = getAttentionChips(trip);
+                    const extraChargesText = getExtraChargesText(trip);
+                    const overageRates = operationalStatus.needsReview
+                      ? []
+                      : getVisibleOverageRates(trip);
+                    const currencyCode =
+                      trip?.currency?.code || DEFAULT_CURRENCY_CODE;
 
-                  return (
-                    <TripCard
-                      key={trip.id || trip.booking_id}
-                      attentionChips={attentionChips}
-                      breakdown={breakdown}
-                      currencyCode={currencyCode}
-                      driverState={driverState}
-                      extraChargesText={extraChargesText}
-                      occurrenceLabel={formatSnakeCasedStringAsLabel(
-                        trip.label,
-                      )}
-                      operationalStatus={operationalStatus}
-                      overageRates={overageRates}
-                      routeParams={routeParams}
-                      startText={formatTripDate(
-                        trip.start_datetime,
-                        locale,
-                        clientTimezone?.timezone ?? trip.timezone,
-                      )}
-                      trip={trip}
-                      tripMetaText={getTripMetaText(trip)}
-                      onOpen={handleOpen}
-                    />
-                  );
-                })}
+                    return (
+                      <TripCard
+                        key={trip.id || trip.booking_id}
+                        attentionChips={attentionChips}
+                        breakdown={breakdown}
+                        currencyCode={currencyCode}
+                        driverState={driverState}
+                        extraChargesText={extraChargesText}
+                        occurrenceLabel={formatSnakeCasedStringAsLabel(
+                          trip.label,
+                        )}
+                        operationalStatus={operationalStatus}
+                        overageRates={overageRates}
+                        startText={formatTripDate(
+                          trip.start_datetime,
+                          locale,
+                          clientTimezone?.timezone ?? trip.timezone,
+                        )}
+                        trip={trip}
+                        tripMetaText={getTripMetaText(trip)}
+                        onOpen={handleOpen}
+                      />
+                    );
+                  })}
+                </>
+              )}
             </div>
             
             {!shouldShowEmptyState && <TripsPagination

@@ -4,8 +4,8 @@ import {
   DetailField,
   DetailGrid,
   DetailSection,
-} from "./BookingDetailShared";
-import { formatDateTime } from "./bookingDetailFormatters";
+  formatDateTime
+} from "@/features/trips/booking-detail";
 import { useTimezone, useLocale } from "@/hooks";
 import { AlertTriangle, Milestone } from "lucide-react";
 function OutstationBookingDetail({ bookingDetail }) {

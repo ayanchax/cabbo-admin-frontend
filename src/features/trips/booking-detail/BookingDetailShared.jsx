@@ -4,46 +4,11 @@ import {
   DEFAULT_CURRENCY_CODE,
   TRIP_STATUS,
   formatSnakeCasedStringAsLabel,
-  pluralize,
 } from "@/utils";
 import { useTripsDashboardHelper } from "@/features/trips/hooks";
-import { EMPTY_VALUE, formatCurrency } from "./bookingDetailFormatters";
-import { InCarAmenities } from "../components/InCarAmenities";
-import { FareSummary } from "../components/FareSummary";
+import { EMPTY_VALUE, formatCurrency } from "@/features/trips/booking-detail";
+import { InCarAmenities, FareSummary , TripBadge, AttentionChips} from "@/features/trips/components";
 import { useTimezone, useLocale } from "@/hooks";
-import { TripBadge } from "../components/TripBadge";
-import { AttentionChips } from "../components/AttentionChips";
-
-const formatValue = (value) => {
-  if (value === null || value === undefined || value === "") return EMPTY_VALUE;
-  if (typeof value === "boolean") return value ? "Yes" : "No";
-  return value;
-};
-
-const getPassengerText = (bookingDetail) => {
-  const passengerParts = [
-    pluralize(bookingDetail?.num_adults, "adult"),
-    pluralize(bookingDetail?.num_children, "child", "children"),
-  ].filter(Boolean);
-
-  return passengerParts.length > 0
-    ? passengerParts.join(" + ")
-    : pluralize(bookingDetail?.num_passengers ?? 0, "pax", "pax") || "0 pax";
-};
-
-const getLuggageText = (bookingDetail) => {
-  const luggageParts = [
-    pluralize(bookingDetail?.num_large_suitcases, "large suitcase"),
-    pluralize(bookingDetail?.num_carryons, "carry-on"),
-    pluralize(bookingDetail?.num_backpacks, "backpack"),
-    pluralize(bookingDetail?.num_other_bags, "other bag"),
-  ].filter(Boolean);
-
-  return luggageParts.length > 0
-    ? luggageParts.join(", ")
-    : pluralize(bookingDetail?.num_luggages ?? 0, "luggage", "luggage") ||
-        "0 luggage";
-};
 
 function DetailSection({ icon: Icon, title, children }) {
   return (
@@ -63,6 +28,8 @@ function DetailSection({ icon: Icon, title, children }) {
 }
 
 function DetailField({ className = "", label, value }) {
+  const {formatValue} = useTripsDashboardHelper()
+  
   if (value === null || value === undefined || value === "") {
     return null;
   }
@@ -108,31 +75,33 @@ function FareSection({ bookingDetail }) {
     getOperationalStatus,
     getVisibleOverageRates,
     getVisiblePriceBreakdown,
+    canShowOverageRates,
+    canShowFareDetails
+    
   } = useTripsDashboardHelper();
   const currencyCode = bookingDetail?.currency?.code || DEFAULT_CURRENCY_CODE;
   const operationalStatus = getOperationalStatus(bookingDetail);
-  const shouldSuppressFareDetail =
-    operationalStatus.needsReview ||
-    bookingDetail?.status === TRIP_STATUS.CANCELLED;
-  const overageRates = shouldSuppressFareDetail
-    ? []
-    : getVisibleOverageRates(bookingDetail);
+  const shouldShowFareDetail =canShowFareDetails(operationalStatus.needsReview,bookingDetail?.status)
+  
+  const tripType = bookingDetail?.trip_type?.trip_type
+  const shouldShowOverageRates = canShowOverageRates(tripType)
+  const overageRates = shouldShowFareDetail && shouldShowOverageRates
+    ? getVisibleOverageRates(bookingDetail)
+    : [];
+  
+  const extraCharges = shouldShowFareDetail?getExtraChargesText(bookingDetail): undefined
 
   return (
     <DetailSection title="Driver Fare" icon={IndianRupee}>
       <FareSummary
         breakdown={
-          shouldSuppressFareDetail
-            ? []
-            : getVisiblePriceBreakdown(bookingDetail)
+          shouldShowFareDetail
+            ? getVisiblePriceBreakdown(bookingDetail)
+            : []
         }
         className="flex flex-wrap items-center justify-between gap-3"
         currencyCode={currencyCode}
-        extraChargesText={
-          shouldSuppressFareDetail
-            ? undefined
-            : getExtraChargesText(bookingDetail)
-        }
+        extraChargesText={extraCharges}
         fare={bookingDetail?.cost_to_driver}
         overageRates={overageRates}
       />
@@ -150,6 +119,8 @@ function BookingDetailFrame({ bookingDetail, children }) {
     getOperationalStatus,
     getRouteTimelineParams,
     getAttentionChips,
+    getPassengerText,
+    getLuggageText
   } = useTripsDashboardHelper();
   const driverState = getDriverState(bookingDetail);
   const operationalStatus = getOperationalStatus(bookingDetail);

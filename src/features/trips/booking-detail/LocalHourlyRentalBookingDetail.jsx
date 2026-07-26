@@ -3,8 +3,8 @@ import {
   DetailField,
   DetailGrid,
   DetailSection,
-} from "./BookingDetailShared";
-import { formatDateTime } from "./bookingDetailFormatters";
+  formatDateTime
+} from "@/features/trips/booking-detail";
 import { useTimezone, useLocale } from "@/hooks";
 import { PackageCheck } from "lucide-react";
 

@@ -1,8 +1,8 @@
-function AttentionChips({ chips = [] }) {
+function AttentionChips({ chips = [], className = "mt-3" }) {
   if (chips.length === 0) return null;
 
   return (
-    <div className="mt-3 flex flex-wrap gap-1">
+    <div className={`${className} flex flex-wrap gap-1`}>
       {chips.map((chip) => {
         const Icon = chip.icon;
         return (

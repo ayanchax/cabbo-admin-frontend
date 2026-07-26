@@ -29,15 +29,22 @@ driver, and what operational components explain that fare?
 The trips list should stay dense and scannable:
 
 - booking ID and customer contact for support lookup
-- trip type, fleet, passengers, and route for matching supply
+- trip type, fleet, passenger/package summary, and route for matching supply
 - start time and occurrence label for scheduling
 - status and driver assignment state for operational action
+- driver fare and driver-facing extras for assignment calls
+- compact attention chips for airport, toll-road, placard, and special-request
+  signals
 - paginated navigation based on the backend response
 
 The list uses compact cards instead of a horizontally scrolling table. This is
 intentional: the admin needs to scan full booking context while on a driver
 assignment call, and a table becomes cramped once fare, package, airport, and
 assignment signals are all included.
+
+The card should not render a full route timeline in the list. The route is shown
+as compact origin/destination text, with stops summarized when present. Full
+route context belongs in the booking detail page.
 
 ## Card Scope
 
@@ -47,10 +54,11 @@ trip quickly enough for a driver to accept or reject it?
 Show on the card:
 
 - booking ID and customer contact
-- route or pickup
+- compact route, with origin and destination
+- route stops summarized as `Via ...` when present
 - trip type and fleet
-- passenger and luggage count
-- roof carrier availability when true
+- passenger count and package summary where relevant
+- round-trip indicator in the trip summary
 - start time and occurrence label
 - operational status
 - real assigned driver, when present
@@ -63,20 +71,27 @@ Show on the card:
 - non-zero fare breakdown items, sorted highest first
 - extra km/hour rates where they matter for assignment calls
 - airport flight, terminal, and placard indicators when present
+- toll-road preference when present
 - special-request indicator when present, without showing the full request text
+- `Open` action, right-aligned on wider screens and full-width on mobile/tablet
+  layouts
 
 Do not show on the card:
 
 - customer payment collection fields such as advance or balance payment
+- detailed route timeline
 - estimated outstation km, because the driver-facing rule is included km plus
   extra km rate
 - zero-value breakdown items
 - fare breakdown when driver fare is zero
 - overage rates when driver fare is zero
 - overage rates for `Needs review` trips
+- extra km rates for airport trips
 - synthetic assignment labels like `Not assigned` when a trip is cancelled or
   already in review
 - full in-car amenities
+- luggage and roof-carrier details unless they are needed for a specific
+  assignment decision
 - inclusions and exclusions
 - full refund and cancellation policy
 

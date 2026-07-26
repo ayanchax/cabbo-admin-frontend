@@ -46,7 +46,7 @@ function BookingDetailPage() {
       {isLoading && (
         <Loader
           message="Loading booking..."
-          className="min-h-[360px] rounded-lg border border-slate-200 bg-white"
+          className="min-h-90 rounded-lg border border-slate-200 bg-white"
         />
       )}
 
