@@ -10,6 +10,7 @@ import { useTripsHelper } from "@/features/trips/hooks";
 import { InCarAmenities, FareSummary , TripBadge, AttentionChips} from "@/features/trips/components";
 import { useTimezone, useLocale } from "@/hooks";
 import { DriverAssignmentPanel } from "./DriverAssignmentPanel";
+import { CopyDriverTripDetailsAction } from "./CopyDriverTripDetailsAction";
 
 function DetailSection({ icon: Icon, title, children }) {
   return (
@@ -240,6 +241,8 @@ function BookingDetailFrame({ bookingDetail, children }) {
         bookingDetail={bookingDetail}
         driverState={driverState}
       />
+
+      <CopyDriverTripDetailsAction bookingDetail={bookingDetail} />
 
       {children}
 

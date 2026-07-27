@@ -48,6 +48,10 @@ export const ENDPOINTS = {
         SEARCH:`${API_VERSION}/admin/drivers/search/driver`,
     },
 
+    LOCATIONS: {
+        MAP_URL: `${API_VERSION}/locations/mapurl`,
+    },
+
     GEOGRAPHY: {
         CLIENT: `${import.meta.env.VITE_CLIENT_GEOLOCATION_API_URL || "https://ipapi.co/json/"}`
     }

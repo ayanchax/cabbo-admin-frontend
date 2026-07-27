@@ -123,3 +123,20 @@ export const pluralize = (count, singular, plural = `${singular}s`) => {
   if (!Number(count)) return null;
   return `${count} ${Number(count) === 1 ? singular : plural}`;
 };
+
+export async function copyTextToClipboard(text) {
+  if (navigator?.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.setAttribute("readonly", "");
+  textArea.style.position = "fixed";
+  textArea.style.left = "-9999px";
+  document.body.appendChild(textArea);
+  textArea.select();
+  document.execCommand("copy");
+  document.body.removeChild(textArea);
+}

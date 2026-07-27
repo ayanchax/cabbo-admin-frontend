@@ -83,7 +83,12 @@ Backend direction:
   - [x] trip type
   - [x] date range
   - [x] booking ID
- 
+- [ ] Add super-admin-only `Today's bookings` filter/view:
+  - filter by booking/order creation date instead of trip start date
+  - keep existing status/trip-type filters compatible where practical
+  - use existing trip stats/cards so this does not become a separate dashboard
+  - backend must enforce elevated access even if frontend hides the control
+
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
 
@@ -100,7 +105,17 @@ Backend direction:
 - [x] Show special requests/customer notes.
 - [x] Show support context with booking ID prominently visible.
 - [x] Add booking-detail refresh action.
-- [ ] Show audit history/internal notes if backend supports them.
+- [x] Add copy-to-driver trip details action:
+  - customer name and phone number
+  - pickup location with Google Maps link
+  - drop location with Google Maps link when applicable
+  - hop names when applicable, without generating multiple hop links
+  - offered driver fare and relevant extra km/hour rates
+  - toll, parking, state permit, and included-charge context where applicable
+  - fare breakdown such as base fare and driver allowance where applicable
+  - professional driver instruction to call the customer at least 15 minutes before arrival and avoid direct fare bargaining with the customer
+  - lazy map-link lookup through the location map hook
+  - WhatsApp-friendly copy with scannable formatting and prefilled WhatsApp handoff
 - [x] Add loading, missing-trip, forbidden, and generic-error states.
 
 ## 4. Driver Assignment
@@ -153,6 +168,7 @@ Backend direction:
 - [x] Confirm role/permission model for V1:
   - trip operations: roles allowed by backend
   - refund recovery: `super_admin`, `finance_admin`
+  - today's bookings/founder view: `super_admin`
 - [x] Ensure customer-safe and internal DTOs stay separate.
 - [x] Never expose admin tokens or admin-only API behavior through customer frontend code.
 - [x] Avoid storing unnecessary PII in frontend state.
@@ -165,7 +181,7 @@ Backend direction:
 
 - [x] Admin login works.
 - [x] Admin logout clears session and route access.
-- [ ] Unauthorized users cannot access protected admin screens.
+- [x] Unauthorized users cannot access protected admin screens.
 - [x] Trip list filters work.
 - [x] Trip list pagination works.
 - [x] Trip detail loads for valid booking IDs.
@@ -184,17 +200,7 @@ Backend direction:
 
 ## Deferred Beyond Admin/Ops V1
 
-- Pricing/config CRUD.
-- Region/state/package/fleet/category editors.
-- Legal/support content CMS.
-- Dashboards and analytics.
-- Full support-ticketing or inbox workflow.
-- Advanced notification workflows.
-- Bulk exports.
-- Driver onboarding/verification management.
-- Finance reconciliation tooling.
-> We will do the deferred items after V1 
-> only if we get funded or need arises due to higher customer traction across regions and states.
+Deferred items are tracked in `post-v1-backlogs.md`.
 
 ## Done Means
 
