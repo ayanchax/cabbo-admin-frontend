@@ -1,12 +1,12 @@
 import { RouteTimeline } from "@/components";
-import { Armchair, IndianRupee, MapPinned } from "lucide-react";
+import { Armchair, IndianRupee, ListChecks, MapPinned } from "lucide-react";
 import {
   DEFAULT_CURRENCY_CODE,
   TRIP_STATUS,
   formatSnakeCasedStringAsLabel,
+  EMPTY_VALUE
 } from "@/utils";
-import { useTripsDashboardHelper } from "@/features/trips/hooks";
-import { EMPTY_VALUE, formatCurrency } from "@/features/trips/booking-detail";
+import { useTripsHelper } from "@/features/trips/hooks";
 import { InCarAmenities, FareSummary , TripBadge, AttentionChips} from "@/features/trips/components";
 import { useTimezone, useLocale } from "@/hooks";
 import { DriverAssignmentPanel } from "./DriverAssignmentPanel";
@@ -29,7 +29,7 @@ function DetailSection({ icon: Icon, title, children }) {
 }
 
 function DetailField({ className = "", label, value }) {
-  const {formatValue} = useTripsDashboardHelper()
+  const {formatValue} = useTripsHelper()
   
   if (value === null || value === undefined || value === "") {
     return null;
@@ -79,7 +79,7 @@ function FareSection({ bookingDetail }) {
     canShowOverageRates,
     canShowFareDetails
     
-  } = useTripsDashboardHelper();
+  } = useTripsHelper();
   const currencyCode = bookingDetail?.currency?.code || DEFAULT_CURRENCY_CODE;
   const operationalStatus = getOperationalStatus(bookingDetail);
   const shouldShowFareDetail =canShowFareDetails(operationalStatus.needsReview,bookingDetail?.status)
@@ -121,8 +121,9 @@ function BookingDetailFrame({ bookingDetail, children }) {
     getRouteTimelineParams,
     getAttentionChips,
     getPassengerText,
-    getLuggageText
-  } = useTripsDashboardHelper();
+    getLuggageText,
+    formatCurrency
+  } = useTripsHelper();
   const driverState = getDriverState(bookingDetail);
   const operationalStatus = getOperationalStatus(bookingDetail);
   const routeParams = getRouteTimelineParams(bookingDetail);
@@ -130,6 +131,9 @@ function BookingDetailFrame({ bookingDetail, children }) {
     driverState && !driverState.assigned && !operationalStatus.needsReview;
   const currencyCode = bookingDetail?.currency?.code || DEFAULT_CURRENCY_CODE;
   const attentionChips = getAttentionChips(bookingDetail);
+  const hasInCarAmenities =
+    bookingDetail?.in_car_amenities &&
+    Object.values(bookingDetail.in_car_amenities).some(Boolean);
 
   return (
     <div className="space-y-4">
@@ -184,11 +188,6 @@ function BookingDetailFrame({ bookingDetail, children }) {
         <AttentionChips chips={attentionChips} />
       </section>
 
-      <DriverAssignmentPanel
-        bookingDetail={bookingDetail}
-        driverState={driverState}
-      />
-
       <DetailSection title="Route" icon={MapPinned}>
         <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
           <RouteTimeline {...routeParams} />
@@ -199,14 +198,10 @@ function BookingDetailFrame({ bookingDetail, children }) {
         <DetailGrid>
           <DetailField
             className="w-28 sm:w-32"
-            label="Cab Type"
-            value={bookingDetail?.fleet?.car_type}
+            label="Cab"
+            value={`${bookingDetail?.fleet?.car_type} (${bookingDetail?.fleet?.fuel_type})`}
           />
-          <DetailField
-            className="w-28 sm:w-32"
-            label="Fuel"
-            value={bookingDetail?.fleet?.fuel_type}
-          />
+
           <DetailField
             className="w-28 sm:w-32"
             label="Capacity"
@@ -226,18 +221,25 @@ function BookingDetailFrame({ bookingDetail, children }) {
               value={bookingDetail?.fleet?.roof_carrier}
             />
           )}
-        </DetailGrid>
 
-        <DetailGrid>
-          <div className="mt-5 max-w-3xl">
-            <InCarAmenities
-              {...bookingDetail?.in_car_amenities}
-              className=""
-              header="Amenities"
-            />
-          </div>
         </DetailGrid>
       </DetailSection>
+
+      {hasInCarAmenities && (
+        <DetailSection title="Cab Readiness Checklist" icon={ListChecks}>
+          <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
+            <p className="mb-3 text-xs font-medium leading-5 text-slate-500">
+              Amenities promised for this booking
+            </p>
+            <InCarAmenities {...bookingDetail?.in_car_amenities} />
+          </div>
+        </DetailSection>
+      )}
+
+      <DriverAssignmentPanel
+        bookingDetail={bookingDetail}
+        driverState={driverState}
+      />
 
       {children}
 

@@ -1,4 +1,4 @@
-import { useTripsDashboardHelper } from "@/features/trips/hooks";
+import { useTripsHelper } from "@/features/trips/hooks";
 
 function DriverCell({
   driver,
@@ -7,7 +7,7 @@ function DriverCell({
   inlinePhone = false,
   className = "",
 }) {
-  const { getDriverCabText } = useTripsDashboardHelper();
+  const { getDriverCabText } = useTripsHelper();
 
   if (!driver?.name) {
     return null;
@@ -40,14 +40,14 @@ function DriverCell({
           )}
           {cabText && (
             <p className="mt-0.5 truncate text-xs font-medium text-slate-500">
-              {cabText}
               {showRegistrationBadge &&
                 driver.cab_registration_number &&
                 inlinePhone && (
-                  <span className="inline-flex w-fit shrink-0 rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
+                  <span className="inline-flex w-fit shrink-0 rounded-full bg-white mr-2 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
                     {driver.cab_registration_number}
                   </span>
                 )}
+              {cabText}
             </p>
           )}
         </div>

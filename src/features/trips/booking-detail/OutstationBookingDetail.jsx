@@ -1,17 +1,16 @@
-import { useTripsDashboardHelper } from "../hooks/useTripsDashboardHelper";
+import { useTripsHelper } from "@/features/trips/hooks";
 import {
   BookingDetailFrame,
   DetailField,
   DetailGrid,
   DetailSection,
-  formatDateTime
 } from "@/features/trips/booking-detail";
 import { useTimezone, useLocale } from "@/hooks";
 import { AlertTriangle, Milestone } from "lucide-react";
 function OutstationBookingDetail({ bookingDetail }) {
   const { timezone: clientTimezone } = useTimezone();
     const { locale } = useLocale();
-    const {canShowActualEndDateTime} = useTripsDashboardHelper()
+    const {canShowActualEndDateTime,formatDateTime} = useTripsHelper()
     const showActualEndDateTime = canShowActualEndDateTime(bookingDetail)
     return (
     <BookingDetailFrame bookingDetail={bookingDetail}>

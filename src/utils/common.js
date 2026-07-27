@@ -59,9 +59,7 @@ export const utcOffsetStringToMinutes = (offsetStr) => {
   return sign * (hours * 60 + minutes);
 }
 
-export const formatCurrency = (val, currency_symbol) =>
-  `${currency_symbol || DEFAULT_CURRENCY_SYMBOL}${val}`;
-
+ 
 
 export const formatMoney = (amount, currencyCode = DEFAULT_CURRENCY_CODE) => {
   if (amount === null || amount === undefined || Number.isNaN(Number(amount))) {

@@ -9,7 +9,7 @@ import { BookingDetail } from "@/features/trips";
 function BookingDetailPage() {
   const { id: bookingId } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading, isError, error, refetch } =
+  const { data, isLoading, isFetching, isError, error, refetch } =
     useTripBookingDetail(bookingId);
 
   useEffect(() => {
@@ -37,11 +37,22 @@ function BookingDetailPage() {
 
   return (
     <div className="space-y-4">
-      <PageHeader
-        title="Booking Detail"
-        subtitle={bookingId || "Missing booking ID"}
-        onBack={() => navigate(-1)}
-      />
+      <div className="flex items-center justify-between gap-3">
+        <PageHeader title="Booking Detail" onBack={() => navigate(-1)} />
+        <button
+          type="button"
+          onClick={() => refetch()}
+          disabled={isFetching}
+          className="inline-flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-60"
+          aria-label="Refresh booking detail"
+          title="Refresh booking detail"
+        >
+          <RefreshCw
+            className={`h-4 w-4 ${isFetching ? "animate-spin" : ""}`}
+            aria-hidden="true"
+          />
+        </button>
+      </div>
 
       {isLoading && (
         <Loader

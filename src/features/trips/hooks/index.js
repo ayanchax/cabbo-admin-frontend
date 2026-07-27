@@ -1,1 +1,1 @@
-export {useTripsDashboardHelper} from "./useTripsDashboardHelper"
+export {useTripsHelper} from "./useTripsHelper"

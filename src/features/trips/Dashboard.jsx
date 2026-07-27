@@ -2,7 +2,7 @@ import { useState } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { MapPinned, RefreshCw } from "lucide-react";
 import { useTripBookings, useLocale, useTimezone } from "@/hooks";
-import { useTripsDashboardHelper } from "@/features/trips/hooks";
+import { useTripsHelper } from "@/features/trips/hooks";
 import {
   DEFAULT_CURRENCY_CODE,
   FORBIDDEN_STATUS_CODE,
@@ -48,7 +48,7 @@ function Dashboard() {
     getVisibleOverageRates,
     formatTripDate,
     getTripMetaText,
-  } = useTripsDashboardHelper();
+  } = useTripsHelper();
   const [page, setPage] = useState(1);
   const [draftFilters, setDraftFilters] = useState(DEFAULT_FILTERS);
   const [appliedFilters, setAppliedFilters] = useState(DEFAULT_FILTERS);

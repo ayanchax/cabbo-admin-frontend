@@ -6,6 +6,9 @@ import {
     normalizeKey,
     pluralize,
     formatSnakeCasedStringAsLabel,
+    DEFAULT_CURRENCY_CODE,
+    formatMoney,
+    EMPTY_VALUE
 } from "@/utils";
 import {
     AlertTriangle,
@@ -14,8 +17,7 @@ import {
     Route,
 
 } from "lucide-react";
-import { EMPTY_VALUE } from "../booking-detail/bookingDetailFormatters";
-export const useTripsDashboardHelper = () => {
+export const useTripsHelper = () => {
     const quickFilters = [
         { label: "Today", value: "today" },
         { label: "Ongoing", value: "ongoing" },
@@ -119,6 +121,14 @@ export const useTripsDashboardHelper = () => {
                 ? { ...date, isoString: date + "Z" }
                 : date;
         return humanReadableDateTime(normalizedDatetime, locale, timezone);
+    };
+
+    const formatDateTime = (value, locale, timezone) => {
+      if (!value) return EMPTY_VALUE;
+      const normalizedDatetime = !/Z$|[+-]\d{2}:\d{2}$/.test(value)
+        ? `${value}Z`
+        : value;
+      return humanReadableDateTime(normalizedDatetime, locale, timezone);
     };
 
     const getTripStartTimestamp = (trip) => {
@@ -526,14 +536,21 @@ export const useTripsDashboardHelper = () => {
     };
 
     const getDriverCabText = (driver) => {
-        return [
-            driver?.cab_model_and_make,
+        const cabTypeText = [
             driver?.cab_type,
             driver?.fuel_type ? `(${driver.fuel_type})` : null,
         ]
             .filter(Boolean)
             .join(" ");
+
+        return [driver?.cab_model_and_make, cabTypeText]
+            .filter(Boolean)
+            .join(" | ");
     };
+
+    const formatCurrency = (value, currencyCode = DEFAULT_CURRENCY_CODE) => {
+  return formatMoney(value, currencyCode)
+};
 
 
     return {
@@ -556,7 +573,9 @@ export const useTripsDashboardHelper = () => {
         getPassengerText,
         getLuggageText,
         formatValue,
-        getDriverCabText
+        getDriverCabText,
+        formatDateTime,
+        formatCurrency
     }
 
 }

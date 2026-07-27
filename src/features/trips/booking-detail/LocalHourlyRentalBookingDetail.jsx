@@ -3,14 +3,16 @@ import {
   DetailField,
   DetailGrid,
   DetailSection,
-  formatDateTime
 } from "@/features/trips/booking-detail";
 import { useTimezone, useLocale } from "@/hooks";
 import { PackageCheck } from "lucide-react";
+import {useTripsHelper} from "@/features/trips/hooks"
 
 function LocalHourlyRentalBookingDetail({ bookingDetail }) {
   const { timezone: clientTimezone } = useTimezone();
   const { locale } = useLocale();
+  const {formatDateTime} = useTripsHelper()
+  
   return (
     <BookingDetailFrame bookingDetail={bookingDetail}>
       <DetailSection title="Local Rental Package" icon={PackageCheck}>

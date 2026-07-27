@@ -1,19 +1,25 @@
-import { CornerDownRight, MapPin } from "lucide-react";
-import { TRIP_STATUS, TRIP_TYPES, formatSnakeCasedStringAsLabel } from "@/utils";
-import { AttentionChips, DriverCell, FareSummary, TripBadge } from "@/features/trips/components";
-import { useTripsDashboardHelper } from "@/features/trips/hooks";
-
+import { CarFront, CornerDownRight, MapPin, UserRound } from "lucide-react";
+import {
+  TRIP_STATUS,
+  TRIP_TYPES,
+  formatSnakeCasedStringAsLabel,
+} from "@/utils";
+import {
+  AttentionChips,
+  DriverCell,
+  FareSummary,
+  TripBadge,
+} from "@/features/trips/components";
+import { useTripsHelper } from "@/features/trips/hooks";
 
 const getLocationLabel = (location) =>
   location?.display_name || location?.address || "--";
 
 const getHopLocation = (hop) => hop?.location || hop;
 
-
-
 //Private Composition Helpers for TripCard.jsx
 function RouteText({ trip }) {
-  const {areSameLocation} = useTripsDashboardHelper()
+  const { areSameLocation } = useTripsHelper();
   const origin = getLocationLabel(trip?.origin);
   const destination = getLocationLabel(trip?.destination);
   const isLocalLoop = areSameLocation(trip?.origin, trip?.destination);
@@ -43,17 +49,39 @@ function RouteText({ trip }) {
   );
 }
 
-function BookingCell({ trip }) {
+function BookingCell({ trip, driverState }) {
+  const shouldShowDriverDetail = driverState && driverState.assigned;
+  const customerContact =
+    trip.customer?.phone_number || trip.customer?.email || null;
+  const driverPhone = trip.driver?.phone || null;
+  const customerText = customerContact
+    ? `${trip.customer?.name || "Customer pending"} (${customerContact})`
+    : trip.customer?.name || "Customer pending";
+  const driverText = driverPhone
+    ? `${trip.driver?.name || "Driver pending"} (${driverPhone})`
+    : trip.driver?.name || "Driver pending";
+
   return (
     <div className="min-w-0">
       <p className="truncate font-mono text-xs font-semibold tracking-wide text-slate-500">
         {trip.booking_id || trip.id}
       </p>
-      <p className="mt-1 truncate text-xs text-slate-500">
-        {trip.customer?.name || "Customer pending"} -{" "}
-        {trip.customer?.phone_number || trip.customer?.email || "--"}
-      </p>
-      
+      <div className="mt-1 flex min-w-0 items-center gap-2 overflow-hidden text-xs text-slate-500">
+        <span className="flex min-w-0 items-center gap-1.5">
+          <UserRound className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+          <span className="truncate">{customerText}</span>
+        </span>
+
+        {shouldShowDriverDetail && (
+          <>
+            <span className="h-1 w-1 shrink-0 rounded-full bg-slate-300" />
+            <span className="flex min-w-0 items-center gap-1.5">
+              <CarFront className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+              <span className="truncate">{driverText}</span>
+            </span>
+          </>
+        )}
+      </div>
     </div>
   );
 }
@@ -66,9 +94,14 @@ function TripCell({ trip, tripMetaText }) {
           formatSnakeCasedStringAsLabel(trip.trip_type?.trip_type)}
       </p>
       <p className="mt-1 line-clamp-2 text-xs text-slate-600">
-        {[trip.fleet?.name, tripMetaText, trip?.is_round_trip?'Round trip' :''].filter(Boolean).join(" - ")}
+        {[
+          trip.fleet?.name,
+          tripMetaText,
+          trip?.is_round_trip ? "Round trip" : "",
+        ]
+          .filter(Boolean)
+          .join(" | ")}
       </p>
-       
     </div>
   );
 }
@@ -138,24 +171,6 @@ function DriverFare({
   );
 }
 
-function DriverAndFareCell({ driver, fareProps }) {
-  return (
-    <div className="grid min-w-0 gap-2">
-      {driver?.name && (
-        <Field label="Driver">
-        <div className="rounded-md bg-slate-50 px-2.5 py-2">
-          <DriverCell driver={driver} inlinePhone showRegistrationBadge/>
-        </div>
-        </Field>
-      )}
-      <Field label="Driver Fare">
-        <DriverFare {...fareProps} />
-      </Field>
-      
-    </div>
-  );
-}
-
 //Private Composition Helpers for TripCard.jsx - END
 
 function TripCard({
@@ -172,9 +187,14 @@ function TripCard({
   trip,
   tripMetaText,
 }) {
-  const {canShowFareDetails, canShowOverageRates} = useTripsDashboardHelper()
-  const shouldShowFareDetails = canShowFareDetails(operationalStatus.needsReview,trip?.status)
-  const shouldShowOverageRates = canShowOverageRates(trip?.trip_type?.trip_type)
+  const { canShowFareDetails, canShowOverageRates } = useTripsHelper();
+  const shouldShowFareDetails = canShowFareDetails(
+    operationalStatus.needsReview,
+    trip?.status,
+  );
+  const shouldShowOverageRates = canShowOverageRates(
+    trip?.trip_type?.trip_type,
+  );
   const handleOpen = () => onOpen(trip?.booking_id);
   const fareProps = {
     breakdown,
@@ -183,7 +203,7 @@ function TripCard({
     fare: trip.cost_to_driver,
     overageRates,
     shouldShowFareDetails,
-    shouldShowOverageRates
+    shouldShowOverageRates,
   };
 
   return (
@@ -193,7 +213,7 @@ function TripCard({
       />
       <div className="grid gap-3 p-3 pl-4 sm:p-4 sm:pl-5">
         <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-3">
-          <BookingCell trip={trip} />
+          <BookingCell trip={trip} driverState={driverState} />
           <StatusBadges
             driverState={driverState}
             operationalStatus={operationalStatus}
@@ -204,13 +224,17 @@ function TripCard({
             <TripCell trip={trip} tripMetaText={tripMetaText} />
           </Field>
           <Field label="Start">
-            <StartCell occurrenceLabel={occurrenceLabel} startText={startText} />
+            <StartCell
+              occurrenceLabel={occurrenceLabel}
+              startText={startText}
+            />
           </Field>
           <Field label="Route">
             <RouteText trip={trip} />
           </Field>
-            <DriverAndFareCell driver={trip?.driver} fareProps={fareProps} />
-           
+          <Field label="Driver Fare">
+            <DriverFare {...fareProps} />
+          </Field>
         </div>
         <div className="flex flex-col gap-3 border-t border-slate-100 pt-3 md:flex-row md:items-start md:justify-between">
           <AttentionChips

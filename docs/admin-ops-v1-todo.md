@@ -86,7 +86,7 @@ Backend direction:
  
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
-- [ ] Preserve filters in URL query params where practical.
+
 - [x] Open trip detail from each card.
 
 ## 3. Trip Detail
@@ -94,23 +94,31 @@ Backend direction:
 - [x] Show internal booking/trip summary.
 - [x] Show customer context needed for operations.
 - [x] Show route, pickup/drop, stops, dates, package, cab type, and passenger/luggage preferences.
+- [x] Show cab readiness checklist for promised amenities before driver assignment.
 - [ ] Show refund/cancellation summary for cancelled trips.
 - [x] Show assigned driver and cab details.
 - [x] Show special requests/customer notes.
 - [x] Show support context with booking ID prominently visible.
+- [x] Add booking-detail refresh action.
 - [ ] Show audit history/internal notes if backend supports them.
 - [x] Add loading, missing-trip, forbidden, and generic-error states.
 
 ## 4. Driver Assignment
 
-- [ ] Show unassigned state for eligible bookings.
-- [ ] Add driver assignment action.
-- [ ] Add driver reassignment action.
-- [ ] Search/select driver from backend-provided options.
-- [ ] Show selected driver/cab preview before submit.
-- [ ] Require confirmation for reassignment.
-- [ ] Refresh trip detail after successful assignment.
-- [ ] Handle backend validation errors clearly.
+- [x] Show unassigned state for eligible upcoming bookings.
+- [x] Add driver assignment action.
+- [x] Add driver reassignment action.
+- [x] Keep assigned driver details always visible.
+- [x] Restrict assignment/reassignment to upcoming `created` or `confirmed` trips.
+- [x] Search/select driver from backend-provided options.
+- [x] Debounce driver search and show minimum-character helper.
+- [x] Show selected driver/cab preview before submit.
+- [x] Show assignment guidance to review cab, luggage, and promised amenities before selecting a driver.
+- [x] Disable input, cancel/toggle actions, driver choices, and submit while assignment is pending.
+- [x] Patch booking detail and trips list cache after successful assignment/reassignment.
+- [x] Show a brief recent-change highlight after successful assignment/reassignment.
+- [x] Handle backend validation errors clearly.
+- [x] Document driver assignment rules in `driver-assignment-panel-rationale.md`.
 
 ## 5. Operational Status Updates
 
@@ -138,32 +146,20 @@ Backend direction:
 - [ ] Show success, backend validation failure, forbidden, and generic failure states.
 - [ ] Refresh refund/cancellation context after successful initiation.
 
-## 7. Internal Notes And Audit
-
-- [ ] Display internal notes if available.
-- [ ] Add note creation only if backend endpoint exists for V1.
-- [ ] Display audit entries if available:
-  - actor
-  - action
-  - old value
-  - new value
-  - timestamp
-  - reason/note
-- [ ] Keep audit data read-only in the frontend.
 
 ## 8. Access, Security, And Privacy
 
 - [ ] Confirm admin auth mechanism with backend.
-- [ ] Confirm role/permission model for V1:
+- [x] Confirm role/permission model for V1:
   - trip operations: roles allowed by backend
   - refund recovery: `super_admin`, `finance_admin`
-- [ ] Ensure customer-safe and internal DTOs stay separate.
-- [ ] Never expose admin tokens or admin-only API behavior through customer frontend code.
+- [x] Ensure customer-safe and internal DTOs stay separate.
+- [x] Never expose admin tokens or admin-only API behavior through customer frontend code.
 - [x] Avoid storing unnecessary PII in frontend state.
 - [x] Redact sensitive values in client-side logs.
 - [x] Handle `401` and `403` distinctly.
 - [x] Show server-enforced `403` forbidden state in trips list.
-- [ ] Verify admin frontend calls only admin/ops backend endpoints.
+- [x] Verify admin frontend calls only admin/ops backend endpoints.
 
 ## 9. QA Checklist
 
@@ -175,8 +171,8 @@ Backend direction:
 - [x] Trip detail loads for valid booking IDs.
 - [x] Trips list forbidden state is clear.
 - [x] Missing/forbidden trip detail states are clear.
-- [ ] Driver assignment works.
-- [ ] Driver reassignment works.
+- [x] Driver assignment works.
+- [x] Driver reassignment works.
 - [ ] Operational status updates work for allowed transitions.
 - [ ] Invalid transitions show clear backend errors.
 - [ ] Payment/refund summaries display accurately.
