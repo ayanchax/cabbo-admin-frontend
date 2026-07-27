@@ -6,7 +6,6 @@ import {
 } from "@/utils";
 import {
   AttentionChips,
-  DriverCell,
   FareSummary,
   TripBadge,
 } from "@/features/trips/components";

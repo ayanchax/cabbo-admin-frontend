@@ -1,6 +1,6 @@
 import { useTripsHelper } from "@/features/trips/hooks";
 
-function DriverCell({
+function CabDriverInfo({
   driver,
   label = null,
   showRegistrationBadge = false,
@@ -63,4 +63,4 @@ function DriverCell({
   );
 }
 
-export { DriverCell };
+export {  CabDriverInfo };

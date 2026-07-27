@@ -11,7 +11,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { isDevMode } from "@/api";
-import { DriverCell } from "@/features/trips/components";
+import { CabDriverInfo } from "@/features/trips/components";
 import {
   useSearchDriverQuery,
   useAssignDriverMutation,
@@ -278,7 +278,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
                   <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400 ring-1 ring-slate-100">
                     <CarFront className="h-4 w-4" aria-hidden="true" />
                   </span>
-                  <DriverCell driver={driver} inlinePhone showRegistrationBadge />
+                  <CabDriverInfo driver={driver} inlinePhone showRegistrationBadge />
                 </span>
                 {isSelected && (
                   <CheckCircle2
@@ -341,7 +341,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
             <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-500 ring-1 ring-slate-100">
               <UserRound className="h-4 w-4" aria-hidden="true" />
             </span>
-            <DriverCell
+            <CabDriverInfo
               driver={assignedDriver}
               label="Assigned driver"
               showRegistrationBadge
