@@ -137,18 +137,18 @@ Backend direction:
 
 ## 5. Operational Status Updates
 
-- [ ] Show allowed next actions based on backend-provided status.
-- [ ] Support V1 transitions:
+- [x] Show allowed next actions based on backend-provided status.
+- [x] Support V1 transitions:
   - `confirmed -> ongoing`
   - `confirmed -> cancelled`
   - `ongoing -> completed`
   - `ongoing -> dispute`
   - stale/past open trip -> completed
   - stale/past open trip -> dispute
-- [ ] Require reason/note where backend requires it.
-- [ ] Confirm destructive/sensitive transitions.
-- [ ] Refresh trip detail after success.
-- [ ] Show backend validation errors for invalid transitions.
+- [x] Require reason/note where backend requires it.
+- [x] Confirm destructive/sensitive transitions.
+- [x] Refresh trip detail after success.
+- [x] Show backend validation errors for invalid transitions.
 
 ## 6. Refund Recovery
 
@@ -189,8 +189,8 @@ Backend direction:
 - [x] Missing/forbidden trip detail states are clear.
 - [x] Driver assignment works.
 - [x] Driver reassignment works.
-- [ ] Operational status updates work for allowed transitions.
-- [ ] Invalid transitions show clear backend errors.
+- [x] Operational status updates work for allowed transitions.
+- [x] Invalid transitions show clear backend errors.
 - [ ] Payment/refund summaries display accurately.
 - [ ] Refund recovery action is visible only to `super_admin` and `finance_admin`.
 - [ ] Refund recovery initiation handles success, `400`, `403`, and generic failures.

@@ -17,8 +17,11 @@ export const getBookingDetail = async (
     return data;
 }
 
-export const assignDriverToTrip = ({bookingId, driverId}) => {
-  return api.post(`${ENDPOINTS.TRIPS.ASSIGN_DRIVER}/${bookingId}/assign-driver/${driverId}`, {});
+export const assignDriverToTrip = ({ bookingId, driverId }) => {
+    return api.post(`${ENDPOINTS.TRIPS.ASSIGN_DRIVER}/${bookingId}/assign-driver/${driverId}`, {});
 };
 
+export const updateTripStatus = ({ bookingId, status, payload = {} }) => {
+    return api.patch(`${ENDPOINTS.TRIPS.UPDATE_STATUS}/${bookingId}/status/${status}`, payload);
+}
 

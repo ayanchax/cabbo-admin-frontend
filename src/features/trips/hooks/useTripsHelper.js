@@ -481,9 +481,19 @@ export const useTripsHelper = () => {
                 value: trips.filter((trip) => trip.status === TRIP_STATUS.ONGOING).length,
             },
             {
+                label: "Completed",
+                value: trips.filter((trip) => trip.status === TRIP_STATUS.COMPLETED).length,
+            },
+            {
+                label: "Upcoming",
+                value: trips.filter((trip) => trip.status === TRIP_STATUS.CONFIRMED && !isPastOpenTrip(trip) && isUpcomingAssignableTrip(trip)).length,
+            },
+
+            {
                 label: "Exceptions",
                 value: trips.filter(isExceptionTrip).length,
             },
+             
         ];
     };
 
@@ -503,6 +513,15 @@ export const useTripsHelper = () => {
         return !needsReview && status !== TRIP_STATUS.CANCELLED;
 
     }
+
+    const canShowDriverTripDetailsAction = (trip) => {
+        return (
+            [TRIP_STATUS.CONFIRMED, TRIP_STATUS.ONGOING].includes(trip?.status) &&
+            [TRIP_OCCURENCE_LABELS.UPCOMING, TRIP_OCCURENCE_LABELS.ONGOING].includes(
+                trip?.label,
+            )
+        );
+    };
 
     const getPassengerText = (bookingDetail) => {
         const passengerParts = [
@@ -575,7 +594,8 @@ export const useTripsHelper = () => {
         formatValue,
         getDriverCabText,
         formatDateTime,
-        formatCurrency
+        formatCurrency,
+        canShowDriverTripDetailsAction
     }
 
 }

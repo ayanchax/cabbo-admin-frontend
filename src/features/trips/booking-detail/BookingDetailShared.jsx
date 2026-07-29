@@ -2,7 +2,6 @@ import { RouteTimeline } from "@/components";
 import { Armchair, IndianRupee, ListChecks, MapPinned } from "lucide-react";
 import {
   DEFAULT_CURRENCY_CODE,
-  TRIP_STATUS,
   formatSnakeCasedStringAsLabel,
   EMPTY_VALUE
 } from "@/utils";
@@ -11,6 +10,7 @@ import { InCarAmenities, FareSummary , TripBadge, AttentionChips} from "@/featur
 import { useTimezone, useLocale } from "@/hooks";
 import { DriverAssignmentPanel } from "./DriverAssignmentPanel";
 import { CopyDriverTripDetailsAction } from "./CopyDriverTripDetailsAction";
+import { StatusChangePanel } from "./StatusChangePanel";
 
 function DetailSection({ icon: Icon, title, children }) {
   return (
@@ -123,7 +123,8 @@ function BookingDetailFrame({ bookingDetail, children }) {
     getAttentionChips,
     getPassengerText,
     getLuggageText,
-    formatCurrency
+    formatCurrency,
+    canShowDriverTripDetailsAction,
   } = useTripsHelper();
   const driverState = getDriverState(bookingDetail);
   const operationalStatus = getOperationalStatus(bookingDetail);
@@ -135,6 +136,8 @@ function BookingDetailFrame({ bookingDetail, children }) {
   const hasInCarAmenities =
     bookingDetail?.in_car_amenities &&
     Object.values(bookingDetail.in_car_amenities).some(Boolean);
+  const shouldShowDriverTripDetailsAction =
+    canShowDriverTripDetailsAction(bookingDetail);
 
   return (
     <div className="space-y-4">
@@ -242,7 +245,11 @@ function BookingDetailFrame({ bookingDetail, children }) {
         driverState={driverState}
       />
 
-      <CopyDriverTripDetailsAction bookingDetail={bookingDetail} />
+      <StatusChangePanel bookingDetail={bookingDetail} />
+
+      {shouldShowDriverTripDetailsAction && (
+        <CopyDriverTripDetailsAction bookingDetail={bookingDetail} />
+      )}
 
       {children}
 

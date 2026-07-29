@@ -42,6 +42,7 @@ export const ENDPOINTS = {
         ALL: `${API_VERSION}/admin/trips/list/all`,
         GET_BOOKING_BY_ID:`${API_VERSION}/admin/trips/booking`,
         ASSIGN_DRIVER:`${API_VERSION}/admin/trips`, // Append bookingId/assign-driver/driverId
+        UPDATE_STATUS :`${API_VERSION}/admin/trips` // Append {bookingId}/status/{status}
     },
 
     DRIVERS:{
@@ -164,5 +165,6 @@ export const DEFAULT_GEOGRAPHY = {
 export const FORBIDDEN_STATUS_CODE = 403;
 export const NOT_FOUND_STATUS_CODE = 404;
 export const EMPTY_VALUE = "--"
+export const EMPTY_ACTIONS=[]
 
 

@@ -1,7 +1,7 @@
 export {api, isDevMode} from "./client";
 export {isLoggedIn, getProfile, logout } from "./admin";
 export {login} from "./auth"
-export {getAllTrips, getBookingDetail, assignDriverToTrip} from "./trip"
+export {getAllTrips, getBookingDetail, assignDriverToTrip, updateTripStatus} from "./trip"
 export {fetchClientGeography} from "./geography"
 export {searchDrivers} from "./driver"
 export {getLocationMapUrl} from "./location"
