@@ -1,6 +1,6 @@
 export {useIsLoggedInQuery} from "./useIsLoggedIn";
 export {useAdminProfileQuery} from "./useAdminProfile"
-export {useTripBookings} from "./useTripBookings"
+export {useTripBookingsDashboard} from "./useTripBookingsDashboard"
 export {useGeographyQuery} from "./useGeographyQuery"
 export {useTripBookingDetail} from "./useTripBookingDetail"
 export {useSearchDriverQuery} from "./useSearchDriver"

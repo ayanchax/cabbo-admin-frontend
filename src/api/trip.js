@@ -1,12 +1,12 @@
 import { api } from "@/api";
 import { ENDPOINTS } from "@/utils";
-export const getAllTrips = async (
+export const getTripsDashboard = async (
     { config = {
         page: 1,
         limit: 10,
     } } = {}
 ) => {
-    const { data } = await api.get(ENDPOINTS.TRIPS.ALL, { params: config });
+    const { data } = await api.get(ENDPOINTS.TRIPS.DASHBOARD, { params: config });
     return data;
 }
 

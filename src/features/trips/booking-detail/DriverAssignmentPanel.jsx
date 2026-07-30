@@ -158,7 +158,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
             : currentBookingDetail,
       );
       queryClient.setQueriesData(
-        { queryKey: ["tripBookings"] },
+        { queryKey: ["tripBookingsDashboard"] },
         (currentTripsResponse) =>
           updateTripDriverInCache(
             currentTripsResponse,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { generatePath, useNavigate } from "react-router-dom";
 import { MapPinned, RefreshCw } from "lucide-react";
-import { useTripBookings, useLocale, useTimezone } from "@/hooks";
+import { useTripBookingsDashboard, useLocale, useTimezone } from "@/hooks";
 import { useTripsHelper } from "@/features/trips/hooks";
 import {
   DEFAULT_CURRENCY_CODE,
@@ -39,6 +39,7 @@ function Dashboard() {
     getTripsFromResponse,
     sortTripsByNearestStart,
     getPaginationFromResponse,
+    getStatsFromResponse,
     getPageStats,
     getVisiblePriceBreakdown,
     getDriverState,
@@ -58,7 +59,7 @@ function Dashboard() {
   const queryParams = getTripQueryParams(appliedFilters);
 
   const { data, isLoading, isError, error, refetch, isFetching } =
-    useTripBookings({
+    useTripBookingsDashboard({
       page,
       limit: PAGE_SIZE,
       ...queryParams,
@@ -67,7 +68,7 @@ function Dashboard() {
   const trips = getTripsFromResponse(data);
   const sortedTrips = sortTripsByNearestStart(trips);
   const pagination = getPaginationFromResponse(data);
-  const stats = getPageStats(trips, pagination);
+  const stats = getPageStats(trips, pagination, getStatsFromResponse(data));
   const currentPage = pagination.page ?? page;
   const totalPages = pagination.total_pages ?? pagination.totalPages ?? 1;
   const hasPrevious = pagination.has_previous ?? currentPage > 1;

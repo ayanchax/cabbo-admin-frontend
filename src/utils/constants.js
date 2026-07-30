@@ -39,7 +39,7 @@ export const ENDPOINTS = {
     },
 
     TRIPS: {
-        ALL: `${API_VERSION}/admin/trips/list/all`,
+        DASHBOARD: `${API_VERSION}/admin/trips/dashboard`,
         GET_BOOKING_BY_ID:`${API_VERSION}/admin/trips/booking`,
         ASSIGN_DRIVER:`${API_VERSION}/admin/trips`, // Append bookingId/assign-driver/driverId
         UPDATE_STATUS :`${API_VERSION}/admin/trips` // Append {bookingId}/status/{status}
@@ -119,6 +119,7 @@ export const TRIP_OCCURENCE_LABELS = {
     CANCELLED: "cancelled",
     COMPLETED: "completed",
     PAST: "past",
+    UNKNOWN:"unknown"
 }
 
 export const REFUND_STATUS = {

@@ -302,7 +302,7 @@ function StatusChangePanel({ bookingDetail }) {
         queryKey: ["tripBookingDetail", bookingDetail?.booking_id],
       });
       queryClient.setQueriesData(
-        { queryKey: ["tripBookings"] },
+        { queryKey: ["tripBookingsDashboard"] },
         (currentTripsResponse) =>
           updateTripStatusInCache(
             currentTripsResponse,
@@ -310,7 +310,7 @@ function StatusChangePanel({ bookingDetail }) {
             targetStatus,
           ),
       );
-      queryClient.invalidateQueries({ queryKey: ["tripBookings"] });
+      queryClient.invalidateQueries({ queryKey: ["tripBookingsDashboard"] });
       setActiveStatus(null);
       setConfirmationByStatus({});
     } catch (error) {

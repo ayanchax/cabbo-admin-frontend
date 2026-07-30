@@ -12,7 +12,14 @@ import {
 } from "@/utils";
 import {
     AlertTriangle,
+    CalendarClock,
+    CarFront,
+    CheckCircle2,
+    CircleX,
+    ClipboardList,
+    Clock3,
     FileText,
+    MessageSquareWarning,
     Plane,
     Route,
 
@@ -114,6 +121,11 @@ export const useTripsHelper = () => {
         return response?.pagination || {};
     };
 
+    const getStatsFromResponse = (response) => {
+        if (!response || Array.isArray(response)) return {};
+        return response?.stats || {};
+    };
+
     const formatTripDate = (date, locale, timezone) => {
         if (!date) return "Not scheduled";
         const normalizedDatetime =
@@ -168,6 +180,12 @@ export const useTripsHelper = () => {
             [TRIP_STATUS.CONFIRMED, TRIP_STATUS.CREATED, TRIP_STATUS.ONGOING].includes(
                 trip?.status,
             )
+        );
+    };
+
+    const isUnknownTrip = (trip) => {
+        return (
+            trip?.label === TRIP_OCCURENCE_LABELS.UNKNOWN
         );
     };
 
@@ -410,18 +428,18 @@ export const useTripsHelper = () => {
             case TRIP_STATUS.CANCELLED:
                 return "bg-rose-50 text-rose-700 ring-rose-100";
             case TRIP_STATUS.DISPUTED:
-                return "bg-amber-50 text-amber-700 ring-amber-100";
+                return "bg-violet-50 text-violet-700 ring-violet-100";
             default:
                 return "bg-slate-50 text-slate-600 ring-slate-200";
         }
     };
 
     const getOperationalStatus = (trip) => {
-        if (isPastOpenTrip(trip)) {
+        if (isPastOpenTrip(trip) || isUnknownTrip(trip)) {
             return {
                 label: "Needs review",
-                className: "bg-rose-50 text-rose-700 ring-rose-100",
-                railClassName: "bg-rose-500",
+                className: "bg-amber-50 text-amber-700 ring-amber-100",
+                railClassName: "bg-amber-500",
                 needsReview: true,
             };
         }
@@ -435,7 +453,7 @@ export const useTripsHelper = () => {
                     : trip.status === TRIP_STATUS.CANCELLED
                         ? "bg-rose-500"
                         : trip.status === TRIP_STATUS.DISPUTED
-                            ? "bg-amber-500"
+                            ? "bg-violet-500"
                             : "bg-primary",
             needsReview: false,
         };
@@ -466,35 +484,100 @@ export const useTripsHelper = () => {
         return meta.join(" | ");
     };
 
-    const getPageStats = (trips, pagination) => {
-        return [
+    const getPageStats = (trips, pagination, serverStats = {}) => {
+        const getServerStat = (key, fallbackValue) => {
+            const value = serverStats?.[key];
+            return value ?? fallbackValue;
+        };
+
+        const stats =  [
             {
+                icon: ClipboardList,
+                iconClassName: "bg-slate-50 text-slate-600 ring-slate-100",
                 label: "Total Trips",
-                value: pagination?.total ?? trips.length ?? 0,
+                value: getServerStat(
+                    "total_trips",
+                    pagination?.total ?? trips.length ?? 0,
+                ),
             },
             {
+                icon: CarFront,
+                iconClassName: "bg-orange-50 text-orange-700 ring-orange-100",
                 label: "Needs Driver",
-                value: trips.filter(needsDriverAssignment).length,
+                value: getServerStat(
+                    "needs_driver",
+                    trips.filter(needsDriverAssignment).length,
+                ),
             },
             {
-                label: "In Progress",
-                value: trips.filter((trip) => trip.status === TRIP_STATUS.ONGOING).length,
-            },
-            {
-                label: "Completed",
-                value: trips.filter((trip) => trip.status === TRIP_STATUS.COMPLETED).length,
-            },
-            {
+                icon: CalendarClock,
+                iconClassName: "bg-sky-50 text-sky-700 ring-sky-100",
                 label: "Upcoming",
-                value: trips.filter((trip) => trip.status === TRIP_STATUS.CONFIRMED && !isPastOpenTrip(trip) && isUpcomingAssignableTrip(trip)).length,
+                value: getServerStat(
+                    "upcoming",
+                    trips.filter((trip) => trip.status === TRIP_STATUS.CONFIRMED && !isPastOpenTrip(trip) && isUpcomingAssignableTrip(trip)).length,
+                ),
+            },
+            {
+                icon: Clock3,
+                iconClassName: "bg-blue-50 text-blue-700 ring-blue-100",
+                label: "In Progress",
+                value: getServerStat(
+                    "in_progress",
+                    trips.filter((trip) => trip.status === TRIP_STATUS.ONGOING).length,
+                ),
+            },
+            {
+                icon: AlertTriangle,
+                iconClassName: "bg-amber-50 text-amber-700 ring-amber-100",
+                label: "Needs attention",
+                value: getServerStat(
+                    "needs_review",
+                    trips.filter((trip) => isPastOpenTrip(trip) || isUnknownTrip(trip)).length,
+                ),
+            },
+            
+            {
+                icon: CheckCircle2,
+                iconClassName: "bg-emerald-50 text-emerald-700 ring-emerald-100",
+                label: "Completed",
+                value: getServerStat(
+                    "completed",
+                    trips.filter((trip) => trip.status === TRIP_STATUS.COMPLETED).length,
+                ),
+            },
+            {   
+                // not showing exceptions because we have needs attention now.
+                label: "Exceptions",
+                value: getServerStat(
+                    "exceptions",
+                    trips.filter(isExceptionTrip).length,
+                ),
+                disabled:true
             },
 
             {
-                label: "Exceptions",
-                value: trips.filter(isExceptionTrip).length,
+                icon: CircleX,
+                iconClassName: "bg-rose-50 text-rose-700 ring-rose-100",
+                label: "Cancelled",
+                value: getServerStat(
+                    "cancelled",
+                    trips.filter((trip) => trip.status === TRIP_STATUS.CANCELLED).length,
+                ),
             },
+            {
+                icon: MessageSquareWarning,
+                iconClassName: "bg-violet-50 text-violet-700 ring-violet-100",
+                label: "Disputes",
+                value: getServerStat(
+                    "dispute",
+                    trips.filter((trip) => trip.status === TRIP_STATUS.DISPUTED).length,
+                ),
+            },
+            
              
         ];
+        return stats.filter((stat)=>!stat?.disabled)
     };
 
     const canShowActualEndDateTime = (trip) => {
@@ -577,7 +660,7 @@ export const useTripsHelper = () => {
         pageSize: PAGE_SIZE,
         defaultFilters: DEFAULT_FILTERS,
         hiddenPriceKeys: HIDDEN_PRICE_KEYS,
-        getQuickFilterValues, getTripQueryParams, getTripsFromResponse, getPaginationFromResponse,
+        getQuickFilterValues, getTripQueryParams, getTripsFromResponse, getPaginationFromResponse,getStatsFromResponse,
         formatTripDate, sortTripsByNearestStart,
         getDriverState, getRouteTimelineParams, getVisibleOverageRates,
         getVisiblePriceBreakdown, getExtraChargesText,
