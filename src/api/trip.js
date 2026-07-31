@@ -25,3 +25,10 @@ export const updateTripStatus = ({ bookingId, status, payload = {} }) => {
     return api.patch(`${ENDPOINTS.TRIPS.UPDATE_STATUS}/${bookingId}/status/${status}`, payload);
 }
 
+export const placeRefundIssuanceRequest = async (
+    bookingId
+) => {
+    const { data } = await api.get(`${ENDPOINTS.TRIPS.ISSUE_REFUND}/${bookingId}/issue-refund`);
+    return data;
+}
+

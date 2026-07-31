@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { generatePath, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { generatePath, useNavigate, useSearchParams } from "react-router-dom";
 import { MapPinned, RefreshCw } from "lucide-react";
 import { useTripBookingsDashboard, useLocale, useTimezone } from "@/hooks";
 import { useTripsHelper } from "@/features/trips/hooks";
@@ -31,6 +31,42 @@ const NoTripsSVG = (
     <path d="M48 36v8" stroke="#A3A3A3" strokeWidth="2" strokeLinecap="round"/>
   </svg>
 );
+
+const getPageFromSearchParams = (searchParams) => {
+  const pageParam = Number(searchParams.get("page"));
+  return Number.isInteger(pageParam) && pageParam > 0 ? pageParam : 1;
+};
+
+const getFiltersFromSearchParams = (searchParams, defaultFilters) => ({
+  ...defaultFilters,
+  status: searchParams.get("status") || "",
+  tripType: searchParams.get("trip_type") || "",
+  startDate: searchParams.get("start_date") || "",
+  endDate: searchParams.get("end_date") || "",
+});
+
+const getDashboardSearchParams = (filters, page) => {
+  const nextSearchParams = new URLSearchParams();
+
+  if (page > 1) {
+    nextSearchParams.set("page", String(page));
+  }
+  if (filters.status) {
+    nextSearchParams.set("status", filters.status);
+  }
+  if (filters.tripType) {
+    nextSearchParams.set("trip_type", filters.tripType);
+  }
+  if (filters.startDate) {
+    nextSearchParams.set("start_date", filters.startDate);
+  }
+  if (filters.endDate) {
+    nextSearchParams.set("end_date", filters.endDate);
+  }
+
+  return nextSearchParams;
+};
+
 function Dashboard() {
   const {
     defaultFilters: DEFAULT_FILTERS,
@@ -50,12 +86,18 @@ function Dashboard() {
     formatTripDate,
     getTripMetaText,
   } = useTripsHelper();
-  const [page, setPage] = useState(1);
-  const [draftFilters, setDraftFilters] = useState(DEFAULT_FILTERS);
-  const [appliedFilters, setAppliedFilters] = useState(DEFAULT_FILTERS);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { locale } = useLocale();
   const { timezone: clientTimezone } = useTimezone();
+
+  const [page, setPage] = useState(() => getPageFromSearchParams(searchParams));
+  const [draftFilters, setDraftFilters] = useState(() =>
+    getFiltersFromSearchParams(searchParams, DEFAULT_FILTERS),
+  );
+  const [appliedFilters, setAppliedFilters] = useState(() =>
+    getFiltersFromSearchParams(searchParams, DEFAULT_FILTERS),
+  );
   const queryParams = getTripQueryParams(appliedFilters);
 
   const { data, isLoading, isError, error, refetch, isFetching } =
@@ -87,15 +129,46 @@ function Dashboard() {
       ? error.message
       : "Please try after sometime.";
 
+  const syncUrlState = (filters, nextPage) => {
+    setSearchParams(getDashboardSearchParams(filters, nextPage));
+  };
+
+  useEffect(() => {
+    const syncFromBrowserHistory = () => {
+      const currentSearchParams = new URLSearchParams(window.location.search);
+      const nextPage = getPageFromSearchParams(currentSearchParams);
+      const nextFilters = getFiltersFromSearchParams(
+        currentSearchParams,
+        DEFAULT_FILTERS,
+      );
+
+      setPage(nextPage);
+      setDraftFilters(nextFilters);
+      setAppliedFilters(nextFilters);
+    };
+
+    window.addEventListener("popstate", syncFromBrowserHistory);
+    return () => {
+      window.removeEventListener("popstate", syncFromBrowserHistory);
+    };
+  }, [DEFAULT_FILTERS]);
+
   const applyFilters = () => {
     setAppliedFilters(draftFilters);
     setPage(1);
+    syncUrlState(draftFilters, 1);
   };
 
   const resetFilters = () => {
     setDraftFilters(DEFAULT_FILTERS);
     setAppliedFilters(DEFAULT_FILTERS);
     setPage(1);
+    syncUrlState(DEFAULT_FILTERS, 1);
+  };
+
+  const goToPage = (nextPage) => {
+    setPage(nextPage);
+    syncUrlState(appliedFilters, nextPage);
   };
 
   const handleOpen = (bookingId) => {
@@ -208,8 +281,8 @@ function Dashboard() {
               hasNext={hasNext}
               hasPrevious={hasPrevious}
               isFetching={isFetching}
-              onNext={() => setPage((current) => current + 1)}
-              onPrevious={() => setPage((current) => Math.max(current - 1, 1))}
+              onNext={() => goToPage(currentPage + 1)}
+              onPrevious={() => goToPage(Math.max(currentPage - 1, 1))}
               totalItems={pagination.total}
               totalPages={totalPages}
             />}

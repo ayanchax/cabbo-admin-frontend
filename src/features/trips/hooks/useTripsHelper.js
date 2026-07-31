@@ -629,6 +629,17 @@ export const useTripsHelper = () => {
         );
     };
 
+    const canShowCabReadinessChecklist = (trip) => {
+        if (trip?.label === TRIP_OCCURENCE_LABELS.UPCOMING) {
+            return [TRIP_STATUS.CREATED, TRIP_STATUS.CONFIRMED].includes(trip?.status);
+        }
+
+        return (
+            trip?.label === TRIP_OCCURENCE_LABELS.ONGOING &&
+            trip?.status === TRIP_STATUS.ONGOING
+        );
+    };
+
     const getPassengerText = (bookingDetail) => {
         const passengerParts = [
             pluralize(bookingDetail?.num_adults, "adult"),
@@ -701,7 +712,8 @@ export const useTripsHelper = () => {
         getDriverCabText,
         formatDateTime,
         formatCurrency,
-        canShowDriverTripDetailsAction
+        canShowDriverTripDetailsAction,
+        canShowCabReadinessChecklist
     }
 
 }

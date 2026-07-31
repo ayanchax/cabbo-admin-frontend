@@ -11,6 +11,7 @@ import { useTimezone, useLocale } from "@/hooks";
 import { DriverAssignmentPanel } from "./DriverAssignmentPanel";
 import { CopyDriverTripDetailsAction } from "./CopyDriverTripDetailsAction";
 import { StatusChangePanel } from "./StatusChangePanel";
+import { CancellationRefundPanel } from "./CancellationRefundPanel";
 
 function DetailSection({ icon: Icon, title, children }) {
   return (
@@ -125,6 +126,7 @@ function BookingDetailFrame({ bookingDetail, children }) {
     getLuggageText,
     formatCurrency,
     canShowDriverTripDetailsAction,
+    canShowCabReadinessChecklist,
   } = useTripsHelper();
   const driverState = getDriverState(bookingDetail);
   const operationalStatus = getOperationalStatus(bookingDetail);
@@ -136,6 +138,8 @@ function BookingDetailFrame({ bookingDetail, children }) {
   const hasInCarAmenities =
     bookingDetail?.in_car_amenities &&
     Object.values(bookingDetail.in_car_amenities).some(Boolean);
+  const shouldShowCabReadinessChecklist =
+    hasInCarAmenities && canShowCabReadinessChecklist(bookingDetail);
   const shouldShowDriverTripDetailsAction =
     canShowDriverTripDetailsAction(bookingDetail);
 
@@ -231,7 +235,7 @@ function BookingDetailFrame({ bookingDetail, children }) {
         </DetailGrid>
       </DetailSection>
 
-      {hasInCarAmenities && (
+      {shouldShowCabReadinessChecklist && (
         <DetailSection title="Cab Readiness Checklist" icon={ListChecks}>
           <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
             <p className="mb-3 text-xs font-medium leading-5 text-slate-500">
@@ -251,6 +255,8 @@ function BookingDetailFrame({ bookingDetail, children }) {
       )}
 
       <StatusChangePanel bookingDetail={bookingDetail} />
+
+      <CancellationRefundPanel bookingDetail={bookingDetail} />
 
       
 

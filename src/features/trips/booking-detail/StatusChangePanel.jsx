@@ -456,8 +456,8 @@ function StatusChangePanel({ bookingDetail }) {
                 className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 text-primary focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-60"
               />
               <span>
-                I have reviewed this booking and want to change the trip status
-                to {activeStatus}
+                I have reviewed this booking, understand this change cannot be
+                undone, and want to change the trip status to {activeStatus}.
               </span>
             </label>
           )}

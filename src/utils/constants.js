@@ -42,7 +42,8 @@ export const ENDPOINTS = {
         DASHBOARD: `${API_VERSION}/admin/trips/dashboard`,
         GET_BOOKING_BY_ID:`${API_VERSION}/admin/trips/booking`,
         ASSIGN_DRIVER:`${API_VERSION}/admin/trips`, // Append bookingId/assign-driver/driverId
-        UPDATE_STATUS :`${API_VERSION}/admin/trips` // Append {bookingId}/status/{status}
+        UPDATE_STATUS :`${API_VERSION}/admin/trips`, // Append {bookingId}/status/{status}
+        ISSUE_REFUND:`${API_VERSION}/admin/trips/refunds/booking`// Append {bookingId}/issue-refund
     },
 
     DRIVERS:{

@@ -2,6 +2,9 @@
 
 Execution checklist for the deliberately boring Admin/Ops MVP.
 
+Status: V1 feature scope is locked. No more feature additions before launch;
+only bug fixes, copy polish, and release-critical fixes should be taken in.
+
 This project exists to support launch operations. Keep the scope narrow: run
 daily trips safely, assign drivers, update operational status, and inspect the
 context needed for customer support.
@@ -92,6 +95,7 @@ Backend direction:
 - [x] Add compact stat-card icons and subtle status-colored accents.
 
 - [x] Add pagination.
+- [x] Preserve trip filters and pagination page in the URL for back/forward navigation.
 - [x] Add loading, empty, error, retry, and forbidden states.
 
 - [x] Open trip detail from each card.
@@ -102,8 +106,8 @@ Backend direction:
 - [x] Show customer context needed for operations.
 - [x] Show route, pickup/drop, stops, dates, package, cab type, and passenger/luggage preferences.
 - [x] Show actual end time only for completed trips.
-- [x] Show cab readiness checklist for promised amenities before driver assignment.
-- [ ] Show refund/cancellation summary for cancelled trips.
+- [x] Show cab readiness checklist for promised amenities only on active/upcoming operational trips.
+- [x] Show refund/cancellation summary for cancelled trips.
 - [x] Show assigned driver and cab details.
 - [x] Show special requests/customer notes.
 - [x] Show support context with booking ID prominently visible.
@@ -157,14 +161,14 @@ Backend direction:
 
 ## 6. Refund Recovery
 
-- [ ] Show refund recovery action only where a refund is applicable and backend refund initiation is still needed.
-- [ ] Scope refund initiation UI to `super_admin` and `finance_admin` only.
-- [ ] Call `GET /api/v1/admin/trips/refunds/booking/{booking_id}/initiate-refund`.
-- [ ] Explain in UI copy that this initiates/queues refund processing for the backend refund workflow and Razorpay provider attempt.
-- [ ] Use this only as an attempt to operational recovery path when the normal cancellation workflow refund initiation failed or did not execute.
-- [ ] Require confirmation before initiating refund recovery.
-- [ ] Show success, backend validation failure, forbidden, and generic failure states.
-- [ ] Refresh refund/cancellation context after successful initiation.
+- [x] Show refund recovery action only where a refund is applicable and backend refund initiation is still needed.
+- [x] Scope refund initiation UI to `super_admin` and `finance_admin` only.
+- [x] Call `GET /api/v1/admin/trips/refunds/booking/{booking_id}/issue-refund`.
+- [x] Explain in simple UI copy that this sends a refund issuance request and Cabbo will keep checking again later if it does not go through yet.
+- [x] Use this only as an on-demand refund issuance request for operational recovery.
+- [x] Require confirmation before initiating refund recovery.
+- [x] Show success, backend validation failure, forbidden, and generic failure states.
+- [x] Do not refetch immediately after a successful request; show a local success note and let later visits reflect backend refund status.
 
 
 ## 8. Access, Security, And Privacy
@@ -196,9 +200,9 @@ Backend direction:
 - [x] Driver reassignment works.
 - [x] Operational status updates work for allowed transitions.
 - [x] Invalid transitions show clear backend errors.
-- [ ] Payment/refund summaries display accurately.
-- [ ] Refund recovery action is visible only to `super_admin` and `finance_admin`.
-- [ ] Refund recovery initiation handles success, `400`, `403`, and generic failures.
+- [x] Payment/refund summaries display accurately.
+- [x] Refund recovery action is visible only to `super_admin` and `finance_admin`.
+- [x] Refund recovery initiation handles success, `400`, `403`, and generic failures.
 - [x] Special requests/customer notes are visible where expected.
 - [x] Layout works on laptop and mobile-width emergency usage.
 - [x] No text overflow in cards, filters, buttons, or modals.
@@ -217,3 +221,4 @@ Deferred items are tracked in `post-v1-backlogs.md`.
 - Admin can see payment/refund context needed for support.
 - All mutation flows have confirmation, loading, success, and error states.
 - Admin/Ops frontend never calls customer-facing endpoints directly.
+- Admin/Ops V1 scope is locked for launch.

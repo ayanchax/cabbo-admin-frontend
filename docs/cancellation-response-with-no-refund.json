@@ -1,0 +1,122 @@
+{
+    "booking_id": "RENTAL-4HHLLHLP6FSWPQSC",
+    "customer": {
+        "name": "Anuradha",
+        "email": "anuradhac1950@gmail.com",
+        "phone_number": "+91 9051512293",
+        "opt_in_updates": false
+    },
+    "origin": {
+        "display_name": "Kempegowda International Airport Bengaluru",
+        "lat": 13.198909,
+        "lng": 77.7068926,
+        "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+        "address": "Karnataka 560300, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "BLR",
+        "mobility_hub": "airport"
+    },
+    "destination": {
+        "display_name": "Kempegowda International Airport Bengaluru",
+        "lat": 13.198909,
+        "lng": 77.7068926,
+        "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+        "address": "Karnataka 560300, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "BLR",
+        "mobility_hub": "airport"
+    },
+    "package": {
+        "included_hours": 6,
+        "included_km": 60,
+        "driver_allowance": 0,
+        "best_intended_for": "Great for half-day outings or city sightseeing."
+    },
+    "start_datetime": "2026-07-18T18:45:00",
+    "expected_end_datetime": "2026-07-19T00:45:00",
+    "included_kms": 60,
+    "cancellation": {
+        "id": "3d8bad39-b0c2-4356-95a8-59544ebaaed8",
+        "entity_id": "a680da7e-a300-42d3-a119-65f2b1ae4149",
+        "canceled_by": "b8b048b5-ba33-41a7-9346-4cf8a2235bcb",
+        "cancellation_sub_status": "customer_no_show",
+        "reason": "No reason provided",
+        "created_at": "2026-07-29T21:40:32",
+        "updated_at": "2026-07-29T21:40:32"
+    },
+    "num_adults": 1,
+    "num_children": 0,
+    "num_passengers": 1,
+    "in_car_amenities": {
+        "ac": true,
+        "music_system": true,
+        "water_bottle": true,
+        "tissues": true,
+        "candies": false,
+        "snacks": false,
+        "phone_charger": true,
+        "aux_cable": true,
+        "bluetooth": false,
+        "wifi": false
+    },
+    "status": "cancelled",
+    "price_breakdown": {
+        "base_fare": 1680,
+        "driver_allowance": 0
+    },
+    "overages": {
+        "disclaimer": [
+            "If you exceed the included hours and/or kilometres in your selected package (6Hours / 60KM), an additional charge of ₹5 per minute and/or ₹15 per km will apply.",
+            "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+            "Extra charges apply for tolls, paid parking, and extra hours, and extra mileage, if applicable - pay the driver directly."
+        ],
+        "overage_amount_per_km": 15,
+        "overage_amount_per_hour": 280,
+        "indicative_overage_warning": false
+    },
+    "can_issue_refund": false,
+    "rate_per_min": 5,
+    "timezone": "Asia/Kolkata",
+    "trip_type": {
+        "trip_type": "local",
+        "display_name": "Local City Ride",
+        "description": "Hourly rental for city travel. Flexible for errands, meetings, and sightseeing within city limits."
+    },
+    "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "lowest_unit_name": "Paise",
+        "lowest_unit_conversion_factor": 100
+    },
+    "fleet": {
+        "car_type": "Sedan",
+        "fuel_type": "diesel",
+        "name": "Sedan",
+        "description": "Comfortable sedans, suitable for city and outstation travel.",
+        "cab_names": [
+            "Dzire",
+            "Amaze",
+            "Indigo"
+        ],
+        "inventory_cab_names": [
+            "Dzire"
+        ],
+        "capacity": "4+1",
+        "passenger_capacity": 4,
+        "luggage_capacity": {
+            "num_large_suitcases": 1,
+            "num_carryons": 1,
+            "num_backpacks": 1,
+            "num_other_bags": 0
+        },
+        "roof_carrier": false,
+        "total_luggages": 3
+    },
+    "label": "cancelled",
+    "needs_review": false,
+    "needs_driver": false,
+    "cost_to_driver": 1680,
+    "allowed_status_transitions": []
+}
