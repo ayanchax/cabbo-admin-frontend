@@ -1,4 +1,4 @@
-import { RouteTimeline } from "@/components";
+import { CopyText, RouteTimeline } from "@/components";
 import { Armchair, IndianRupee, ListChecks, MapPinned } from "lucide-react";
 import {
   DEFAULT_CURRENCY_CODE,
@@ -147,9 +147,11 @@ function BookingDetailFrame({ bookingDetail, children }) {
         />
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
-            <p className="break-all font-mono text-xs font-semibold tracking-wide text-slate-500">
-              {bookingDetail?.booking_id}
-            </p>
+            <CopyText
+              className="max-w-full border-slate-100 bg-slate-50/70 font-mono text-xs font-semibold tracking-wide text-slate-500"
+              label="Copy booking ID"
+              text={bookingDetail?.booking_id}
+            />
             <h2 className="mt-1 text-xl font-semibold text-slate-950">
               {tripType?.display_name ||
                 formatSnakeCasedStringAsLabel(tripType?.trip_type)}
@@ -244,12 +246,13 @@ function BookingDetailFrame({ bookingDetail, children }) {
         bookingDetail={bookingDetail}
         driverState={driverState}
       />
-
-      <StatusChangePanel bookingDetail={bookingDetail} />
-
       {shouldShowDriverTripDetailsAction && (
         <CopyDriverTripDetailsAction bookingDetail={bookingDetail} />
       )}
+
+      <StatusChangePanel bookingDetail={bookingDetail} />
+
+      
 
       {children}
 

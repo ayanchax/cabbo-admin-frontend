@@ -10,6 +10,7 @@ import {
   TripBadge,
 } from "@/features/trips/components";
 import { useTripsHelper } from "@/features/trips/hooks";
+import { CopyText } from "@/components";
 
 const getLocationLabel = (location) =>
   location?.display_name || location?.address || "--";
@@ -62,9 +63,11 @@ function BookingCell({ trip, driverState }) {
 
   return (
     <div className="min-w-0">
-      <p className="truncate font-mono text-xs font-semibold tracking-wide text-slate-500">
-        {trip.booking_id || trip.id}
-      </p>
+      <CopyText
+        className="max-w-full border-slate-100 bg-slate-50/70 font-mono text-xs font-semibold tracking-wide text-slate-500"
+        label="Copy booking ID"
+        text={trip.booking_id || trip.id}
+      />
       <div className="mt-1 flex min-w-0 items-center gap-2 overflow-hidden text-xs text-slate-500">
         <span className="flex min-w-0 items-center gap-1.5">
           <UserRound className="h-3.5 w-3.5 shrink-0 text-slate-400" />

@@ -13,6 +13,7 @@ import {
 import {
     AlertTriangle,
     CalendarClock,
+    CalendarDays,
     CarFront,
     CheckCircle2,
     CircleX,
@@ -174,6 +175,10 @@ export const useTripsHelper = () => {
         );
     };
 
+    const needsReview=(trip)=>{
+     return trip?.needs_review || undefined
+    }
+
     const isPastOpenTrip = (trip) => {
         return (
             trip?.label === TRIP_OCCURENCE_LABELS.PAST &&
@@ -190,7 +195,7 @@ export const useTripsHelper = () => {
     };
 
     const needsDriverAssignment = (trip) => {
-        return !trip?.driver?.name && isUpcomingAssignableTrip(trip);
+        return trip?.needs_driver || ( !trip?.driver?.name && isUpcomingAssignableTrip(trip));
     };
 
     const getDriverState = (trip) => {
@@ -205,7 +210,7 @@ export const useTripsHelper = () => {
         if (needsDriverAssignment(trip)) {
             return {
                 label: "Needs driver",
-                className: "bg-amber-50 text-amber-700",
+                className: "bg-orange-50 text-orange-700",
                 assigned: false,
             };
         }
@@ -435,7 +440,7 @@ export const useTripsHelper = () => {
     };
 
     const getOperationalStatus = (trip) => {
-        if (isPastOpenTrip(trip) || isUnknownTrip(trip)) {
+        if (needsReview(trip) || isPastOpenTrip(trip) || isUnknownTrip(trip)) {
             return {
                 label: "Needs review",
                 className: "bg-amber-50 text-amber-700 ring-amber-100",
@@ -485,6 +490,7 @@ export const useTripsHelper = () => {
     };
 
     const getPageStats = (trips, pagination, serverStats = {}) => {
+        const hasServerStat = (key) => serverStats?.[key] !== undefined && serverStats?.[key] !== null;
         const getServerStat = (key, fallbackValue) => {
             const value = serverStats?.[key];
             return value ?? fallbackValue;
@@ -492,6 +498,16 @@ export const useTripsHelper = () => {
 
         const stats =  [
             {
+                accentClassName: "from-primary/40 via-primary/15 to-transparent",
+                disabled: !hasServerStat("todays_trips"),
+                featured: true,
+                icon: CalendarDays,
+                iconClassName: "bg-primary/10 text-primary ring-primary/20",
+                label: "Today's Bookings",
+                value: serverStats?.todays_trips,
+            },
+            {
+                accentClassName: "from-slate-300 via-slate-100 to-transparent",
                 icon: ClipboardList,
                 iconClassName: "bg-slate-50 text-slate-600 ring-slate-100",
                 label: "Total Trips",
@@ -501,6 +517,7 @@ export const useTripsHelper = () => {
                 ),
             },
             {
+                accentClassName: "from-orange-300 via-orange-100 to-transparent",
                 icon: CarFront,
                 iconClassName: "bg-orange-50 text-orange-700 ring-orange-100",
                 label: "Needs Driver",
@@ -510,6 +527,7 @@ export const useTripsHelper = () => {
                 ),
             },
             {
+                accentClassName: "from-sky-300 via-sky-100 to-transparent",
                 icon: CalendarClock,
                 iconClassName: "bg-sky-50 text-sky-700 ring-sky-100",
                 label: "Upcoming",
@@ -519,6 +537,7 @@ export const useTripsHelper = () => {
                 ),
             },
             {
+                accentClassName: "from-blue-300 via-blue-100 to-transparent",
                 icon: Clock3,
                 iconClassName: "bg-blue-50 text-blue-700 ring-blue-100",
                 label: "In Progress",
@@ -528,6 +547,7 @@ export const useTripsHelper = () => {
                 ),
             },
             {
+                accentClassName: "from-amber-300 via-amber-100 to-transparent",
                 icon: AlertTriangle,
                 iconClassName: "bg-amber-50 text-amber-700 ring-amber-100",
                 label: "Needs attention",
@@ -538,6 +558,7 @@ export const useTripsHelper = () => {
             },
             
             {
+                accentClassName: "from-emerald-300 via-emerald-100 to-transparent",
                 icon: CheckCircle2,
                 iconClassName: "bg-emerald-50 text-emerald-700 ring-emerald-100",
                 label: "Completed",
@@ -557,6 +578,7 @@ export const useTripsHelper = () => {
             },
 
             {
+                accentClassName: "from-rose-300 via-rose-100 to-transparent",
                 icon: CircleX,
                 iconClassName: "bg-rose-50 text-rose-700 ring-rose-100",
                 label: "Cancelled",
@@ -566,6 +588,7 @@ export const useTripsHelper = () => {
                 ),
             },
             {
+                accentClassName: "from-violet-300 via-violet-100 to-transparent",
                 icon: MessageSquareWarning,
                 iconClassName: "bg-violet-50 text-violet-700 ring-violet-100",
                 label: "Disputes",

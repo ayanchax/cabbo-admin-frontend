@@ -17,8 +17,19 @@ function TripStats({
         return (
           <div
             key={stat.label}
-            className="rounded-lg border border-slate-200 bg-white p-3"
+            className={`relative overflow-hidden rounded-lg border bg-white p-3 ${
+              stat.featured
+                ? "border-primary/20 shadow-[0_0_0_3px_rgba(37,99,235,0.06)]"
+                : "border-slate-200"
+            }`}
           >
+            <div
+              className={`absolute inset-x-0 top-0 h-0.5 bg-linear-to-r ${
+                stat.accentClassName ||
+                "from-slate-300 via-slate-100 to-transparent"
+              }`}
+              aria-hidden="true"
+            />
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">

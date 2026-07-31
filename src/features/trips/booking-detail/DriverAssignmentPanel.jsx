@@ -64,10 +64,11 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
   const debouncedSearchText = useDebounce(trimmedSearchText, 350);
   const assignedDriver = bookingDetail?.driver || null;
   const canManageDriverAssignment =
-    bookingDetail?.label === TRIP_OCCURENCE_LABELS.UPCOMING &&
-    [TRIP_STATUS.CREATED, TRIP_STATUS.CONFIRMED].includes(
-      bookingDetail?.status,
-    );
+    (bookingDetail?.needs_driver && bookingDetail?.needs_review) ||
+    (bookingDetail?.label === TRIP_OCCURENCE_LABELS.UPCOMING &&
+      [TRIP_STATUS.CREATED, TRIP_STATUS.CONFIRMED].includes(
+        bookingDetail?.status,
+      ));
   const showPanel =
     driverState?.assigned ||
     (driverState?.label === "Needs driver" && canManageDriverAssignment);

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, Search, ShieldCheck } from "lucide-react";
+import { Menu, ShieldCheck } from "lucide-react";
 import { NavigationItems } from "../navigation/NavigationItems";
 import { DisplayAccount } from "../DisplayAccount";
 function AppHeader() {
@@ -24,12 +24,19 @@ function AppHeader() {
           </span>
         </div>
 
-        <div className="ml-auto hidden h-10 min-w-64 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-500 md:flex">
+        {/*
+          Global search is parked for V1 until backend search and result pages
+          exist for bookings, drivers, and customers.
+
+          <div className="ml-auto hidden h-10 min-w-64 items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-500 md:flex">
           <Search className="h-4 w-4" />
           <span>Search bookings, drivers, customers</span>
+          </div>
+        */}
+        <div className="ml-auto">
+          <DisplayAccount placement="top" showLogout />
         </div>
-
-        <DisplayAccount placement="top" showLogout />
+        
       </div>
 
       {isMobileNavOpen && (

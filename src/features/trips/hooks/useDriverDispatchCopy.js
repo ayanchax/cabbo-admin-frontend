@@ -2,12 +2,11 @@ import { useState } from "react";
 import { isDevMode } from "@/api";
 import {
   APP,
-  copyTextToClipboard,
   EMPTY_VALUE,
   formatMoney,
   formatSnakeCasedStringAsLabel,
 } from "@/utils";
-import { useLocale, useLocationMap, useTimezone, useToast } from "@/hooks";
+import { useLocale, useClipboard, useLocationMap, useTimezone, useToast } from "@/hooks";
 import { useTripsHelper } from "./useTripsHelper";
 
 function getLocationName(location) {
@@ -185,7 +184,7 @@ function useDriverDispatchCopy(bookingDetail) {
   } = useTripsHelper();
 
   const hasAssignedDriver = getDriverState(bookingDetail)?.assigned || false;
-
+  const {copy} = useClipboard()
   const copyDriverDispatchDetails = async () => {
     if (isCopying) return;
 
@@ -230,7 +229,7 @@ function useDriverDispatchCopy(bookingDetail) {
           : [],
       });
 
-      await copyTextToClipboard(message);
+      await copy(message);
       showToast("Driver trip details copied.", "success");
       window.open(
         getWhatsAppUrl(bookingDetail?.driver?.phone, message),

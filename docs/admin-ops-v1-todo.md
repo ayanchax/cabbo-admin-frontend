@@ -83,11 +83,13 @@ Backend direction:
   - [x] trip type
   - [x] date range
   - [x] booking ID
-- [ ] Add super-admin-only `Today's bookings` filter/view:
+- [x] Add super-admin-only `Today's bookings` filter/view:
   - filter by booking/order creation date instead of trip start date
   - keep existing status/trip-type filters compatible where practical
   - use existing trip stats/cards so this does not become a separate dashboard
   - backend must enforce elevated access even if frontend hides the control
+- [x] Prefer server-provided trip stats and use derived counts only as fallback.
+- [x] Add compact stat-card icons and subtle status-colored accents.
 
 - [x] Add pagination.
 - [x] Add loading, empty, error, retry, and forbidden states.
@@ -99,11 +101,13 @@ Backend direction:
 - [x] Show internal booking/trip summary.
 - [x] Show customer context needed for operations.
 - [x] Show route, pickup/drop, stops, dates, package, cab type, and passenger/luggage preferences.
+- [x] Show actual end time only for completed trips.
 - [x] Show cab readiness checklist for promised amenities before driver assignment.
 - [ ] Show refund/cancellation summary for cancelled trips.
 - [x] Show assigned driver and cab details.
 - [x] Show special requests/customer notes.
 - [x] Show support context with booking ID prominently visible.
+- [x] Add copyable booking ID wherever booking ID is displayed.
 - [x] Add booking-detail refresh action.
 - [x] Add copy-to-driver trip details action:
   - customer name and phone number
@@ -137,6 +141,7 @@ Backend direction:
 
 ## 5. Operational Status Updates
 
+- [x] Treat server-derived status values and allowed transitions as the source of truth; frontend only displays them and submits selected actions.
 - [x] Show allowed next actions based on backend-provided status.
 - [x] Support V1 transitions:
   - `confirmed -> ongoing`
@@ -156,7 +161,7 @@ Backend direction:
 - [ ] Scope refund initiation UI to `super_admin` and `finance_admin` only.
 - [ ] Call `GET /api/v1/admin/trips/refunds/booking/{booking_id}/initiate-refund`.
 - [ ] Explain in UI copy that this initiates/queues refund processing for the backend refund workflow and Razorpay provider attempt.
-- [ ] Use this only as an operational recovery path when the normal cancellation workflow refund initiation failed or did not execute.
+- [ ] Use this only as an attempt to operational recovery path when the normal cancellation workflow refund initiation failed or did not execute.
 - [ ] Require confirmation before initiating refund recovery.
 - [ ] Show success, backend validation failure, forbidden, and generic failure states.
 - [ ] Refresh refund/cancellation context after successful initiation.
@@ -164,7 +169,7 @@ Backend direction:
 
 ## 8. Access, Security, And Privacy
 
-- [ ] Confirm admin auth mechanism with backend.
+- [x] Confirm admin auth mechanism with backend.
 - [x] Confirm role/permission model for V1:
   - trip operations: roles allowed by backend
   - refund recovery: `super_admin`, `finance_admin`
@@ -195,8 +200,8 @@ Backend direction:
 - [ ] Refund recovery action is visible only to `super_admin` and `finance_admin`.
 - [ ] Refund recovery initiation handles success, `400`, `403`, and generic failures.
 - [x] Special requests/customer notes are visible where expected.
-- [ ] Layout works on laptop and mobile-width emergency usage.
-- [ ] No text overflow in cards, filters, buttons, or modals.
+- [x] Layout works on laptop and mobile-width emergency usage.
+- [x] No text overflow in cards, filters, buttons, or modals.
 
 ## Deferred Beyond Admin/Ops V1
 
