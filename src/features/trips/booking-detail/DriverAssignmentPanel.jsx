@@ -16,8 +16,9 @@ import {
   useSearchDriverQuery,
   useAssignDriverMutation,
   useToast,
+  useDebounce,
 } from "@/hooks";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useTripsHelper } from "@/features/trips/hooks";
 import { TRIP_OCCURENCE_LABELS, TRIP_STATUS } from "@/utils";
 
 const MIN_DRIVER_SEARCH_LENGTH = 2;
@@ -53,6 +54,8 @@ function updateTripDriverInCache(response, bookingId, driver) {
 function DriverAssignmentPanel({ bookingDetail, driverState }) {
   const { showToast } = useToast();
   const queryClient = useQueryClient();
+  const {isStaleTrip} = useTripsHelper();
+  const showFitBadge = !isStaleTrip(bookingDetail);
 
   const [isOpen, setIsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -81,14 +84,18 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
     ? "Reassign driver"
     : "Assign driver";
   const headerSubtitle = "Search by driver name and choose a suitable cab.";
-
+  const {fleet} = bookingDetail || {};
   const queryOptions = useMemo(
     () => ({
       page: 1,
       limit: 5,
       name: debouncedSearchText,
+      // Customer preferences to match driver with cab during search.
+      cab_type: fleet?.car_type || null,
+      fuel_type: fleet?.fuel_type || null,
+      capacity: fleet?.capacity || null,
     }),
-    [debouncedSearchText],
+    [debouncedSearchText, fleet],
   );
 
   const shouldSearch =
@@ -312,7 +319,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
                   <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400 ring-1 ring-slate-100">
                     <CarFront className="h-4 w-4" aria-hidden="true" />
                   </span>
-                  <CabDriverInfo driver={driver} inlinePhone showRegistrationBadge />
+                  <CabDriverInfo driver={driver} showFitBadge={showFitBadge} showRegistrationBadge />
                 </span>
                 {isSelected && (
                   <CheckCircle2

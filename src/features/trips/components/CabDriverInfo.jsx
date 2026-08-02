@@ -13,10 +13,28 @@ function getDriverRatingClassName(rating) {
   return "bg-rose-50 text-rose-700 ring-rose-100";
 }
 
+function getDriverFitBadge(level) {
+  switch (level) {
+    case "best_fit":
+      return {
+        label: "Best fit",
+        className: "bg-emerald-50 text-emerald-700 ring-emerald-100",
+      };
+    case "good_fit":
+      return {
+        label: "Good fit",
+        className: "bg-sky-50 text-sky-700 ring-sky-100",
+      };
+    default:
+      return null;
+  }
+}
+
 function CabDriverInfo({
   driver,
   label = null,
   showRegistrationBadge = false,
+  showFitBadge = false,
   className = "",
 }) {
   const { getDriverCabText } = useTripsHelper();
@@ -26,6 +44,7 @@ function CabDriverInfo({
   }
 
   const cabText = getDriverCabText(driver);
+  const fitBadge = showFitBadge ? getDriverFitBadge(driver?.assignment_fit?.level) : null;
   const vehicleDetailsText = [driver?.color, driver?.capacity]
     .filter(Boolean)
     .join(" · ");
@@ -55,6 +74,13 @@ function CabDriverInfo({
               >
                 <Star className="h-3 w-3 fill-current" aria-hidden="true" />
                 {driver.avg_rating.toFixed(1)}
+              </span>
+            )}
+            {fitBadge && (
+              <span
+                className={`inline-flex shrink-0 rounded-full px-1.5 py-0.5 text-[11px] font-semibold ring-1 ${fitBadge.className}`}
+              >
+                {fitBadge.label}
               </span>
             )}
           </div>

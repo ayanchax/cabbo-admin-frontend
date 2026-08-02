@@ -179,6 +179,10 @@ export const useTripsHelper = () => {
      return trip?.needs_review || undefined
     }
 
+    const isStaleTrip = (trip) => {
+        return isPastOpenTrip(trip) || isUnknownTrip(trip);
+    }
+
     const isPastOpenTrip = (trip) => {
         return (
             trip?.label === TRIP_OCCURENCE_LABELS.PAST &&
@@ -713,7 +717,8 @@ export const useTripsHelper = () => {
         formatDateTime,
         formatCurrency,
         canShowDriverTripDetailsAction,
-        canShowCabReadinessChecklist
+        canShowCabReadinessChecklist,
+        isStaleTrip
     }
 
 }
