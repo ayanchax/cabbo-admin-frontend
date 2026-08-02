@@ -22,6 +22,7 @@ import { TRIP_OCCURENCE_LABELS, TRIP_STATUS } from "@/utils";
 
 const MIN_DRIVER_SEARCH_LENGTH = 2;
 const RECENT_UPDATE_HIGHLIGHT_MS = 2200;
+const ACTION_GUIDE_HIGHLIGHT_MS = 2000;
 
 function getDriverRows(response) {
   if (Array.isArray(response?.drivers)) return response.drivers;
@@ -57,9 +58,13 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
   const [searchText, setSearchText] = useState("");
   const [selectedDriver, setSelectedDriver] = useState(null);
   const [recentlyUpdated, setRecentlyUpdated] = useState(false);
+  const [recentlySelectedDriver, setRecentlySelectedDriver] = useState(false);
+  const panelRef = useRef(null);
   const panelContentRef = useRef(null);
+  const actionAreaRef = useRef(null);
   const searchInputRef = useRef(null);
   const highlightTimeoutRef = useRef(null);
+  const actionGuideTimeoutRef = useRef(null);
   const trimmedSearchText = searchText.trim();
   const debouncedSearchText = useDebounce(trimmedSearchText, 350);
   const assignedDriver = bookingDetail?.driver || null;
@@ -127,8 +132,29 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
       if (highlightTimeoutRef.current) {
         window.clearTimeout(highlightTimeoutRef.current);
       }
+      if (actionGuideTimeoutRef.current) {
+        window.clearTimeout(actionGuideTimeoutRef.current);
+      }
     };
   }, []);
+
+  const guideToAssignmentActionOnDriverSelection = () => {
+    setRecentlySelectedDriver(true);
+
+    window.requestAnimationFrame(() => {
+      actionAreaRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+    });
+
+    if (actionGuideTimeoutRef.current) {
+      window.clearTimeout(actionGuideTimeoutRef.current);
+    }
+    actionGuideTimeoutRef.current = window.setTimeout(() => {
+      setRecentlySelectedDriver(false);
+    }, ACTION_GUIDE_HIGHLIGHT_MS);
+  };
 
   if (!showPanel) {
     return null;
@@ -168,6 +194,12 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
           ),
       );
       setRecentlyUpdated(true);
+      window.requestAnimationFrame(() => {
+        panelRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      });
       if (highlightTimeoutRef.current) {
         window.clearTimeout(highlightTimeoutRef.current);
       }
@@ -266,6 +298,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
                 onClick={() => {
                   if (!isAssigning) {
                     setSelectedDriver(driver);
+                    guideToAssignmentActionOnDriverSelection();
                   }
                 }}
                 disabled={isAssigning}
@@ -275,7 +308,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
                     : "border-slate-100 bg-white hover:border-slate-200 hover:bg-slate-50"
                 } disabled:cursor-not-allowed disabled:opacity-60`}
               >
-                <span className="flex min-w-0 gap-3">
+                <span className="flex min-w-0 flex-1 gap-3">
                   <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-400 ring-1 ring-slate-100">
                     <CarFront className="h-4 w-4" aria-hidden="true" />
                   </span>
@@ -293,7 +326,14 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
         </div>
       )}
 
-      <div className="mt-3 flex items-center justify-end gap-2">
+      <div
+        ref={actionAreaRef}
+        className={`mt-3 flex items-center justify-end gap-2 rounded-lg p-1 transition ${
+          recentlySelectedDriver
+            ? "bg-sky-50/70 ring-2 ring-sky-100"
+            : "bg-transparent"
+        }`}
+      >
         <span />
         <div className="flex w-full items-center justify-end gap-2 sm:w-auto">
           {driverState?.assigned && (
@@ -330,6 +370,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
   if (driverState?.assigned) {
     return (
       <section
+        ref={panelRef}
         className={`rounded-lg border bg-white p-4 transition ${
           recentlyUpdated
             ? "border-sky-300 shadow-[0_0_0_3px_rgba(14,165,233,0.12)]"
@@ -371,6 +412,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
 
   return (
     <section
+      ref={panelRef}
       className={`rounded-lg border bg-white p-4 transition ${
         recentlyUpdated
           ? "border-sky-300 shadow-[0_0_0_3px_rgba(14,165,233,0.12)]"
