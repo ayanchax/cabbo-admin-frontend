@@ -109,6 +109,7 @@ Backend direction:
 - [x] Show cab readiness checklist for promised amenities only on active/upcoming operational trips.
 - [x] Show refund/cancellation summary for cancelled trips.
 - [x] Show assigned driver and cab details.
+  - Include actual vehicle signals such as registration number, cab model/type/fuel, color, capacity, roof-carrier availability, and driver rating.
 - [x] Show special requests/customer notes.
 - [x] Show support context with booking ID prominently visible.
 - [x] Add copyable booking ID wherever booking ID is displayed.
@@ -135,11 +136,15 @@ Backend direction:
 - [x] Restrict assignment/reassignment to upcoming `created` or `confirmed` trips.
 - [x] Search/select driver from backend-provided options.
 - [x] Debounce driver search and show minimum-character helper.
+- [x] Show `Best fit` and `Good fit` labels from backend driver-suggestion scoring; hide `review_fit` and `no_criteria`.
 - [x] Show selected driver/cab preview before submit.
 - [x] Show assignment guidance to review cab, luggage, and promised amenities before selecting a driver.
 - [x] Disable input, cancel/toggle actions, driver choices, and submit while assignment is pending.
 - [x] Patch booking detail and trips list cache after successful assignment/reassignment.
 - [x] Show a brief recent-change highlight after successful assignment/reassignment.
+- [x] Scroll the assigned-driver block into view after successful assignment/reassignment so the highlight is visible.
+- [x] Scroll and briefly highlight the assignment action area after a driver option is selected.
+- [x] Keep driver suggestion and assigned-driver cards readable on narrow mobile admin views.
 - [x] Handle backend validation errors clearly.
 - [x] Document driver assignment rules in `driver-assignment-panel-rationale.md`.
 
