@@ -4,10 +4,6 @@ export const APP = {
     tagline: "Your ride, simplified"
 }
 export const LOCAL_STORAGE_KEYS = {
-    "token": "atoken",
-    "adminUserId": "aUserId",
-    "adminRole": "aRole",
-    "adminTokenExpiresAt": "aTokenExpiresAt",
     "clientGeography": "clientGeography"
 
 }
@@ -20,10 +16,7 @@ export const ADMIN_ROLES = {
     STATE_ADMIN: "state_admin",
 }
 
-export const V1_ALLOWED_ADMIN_ROLES = [
-    ADMIN_ROLES.SUPER_ADMIN,
-    ADMIN_ROLES.DRIVER_ADMIN,
-]
+
 export const API_VERSION = import.meta.env.VITE_API_VERSION || "/api/v1";
 
 
@@ -164,6 +157,7 @@ export const DEFAULT_GEOGRAPHY = {
     };
 
 
+export const UNAUTHORIZED_STATUS_CODE =401;
 export const FORBIDDEN_STATUS_CODE = 403;
 export const NOT_FOUND_STATUS_CODE = 404;
 export const EMPTY_VALUE = "--"
