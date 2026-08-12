@@ -14,7 +14,7 @@ function DisplayAccount({
   isCollapsed = false,
 }) {
   const navigate = useNavigate();
-  const { logout, clearAuthToken } = useAuth();
+  const { logout } = useAuth();
   const { showToast } = useToast();
   const { adminLabel, adminRole } = useAdmin();
 
@@ -22,7 +22,6 @@ function DisplayAccount({
     if (!showLogout) return;
     try {
       await logout.mutateAsync();
-      clearAuthToken();
       navigate(ROUTES.LOGIN, { replace: true });
     } catch {
       showToast("Error logging you out, please try again in sometime", "error");

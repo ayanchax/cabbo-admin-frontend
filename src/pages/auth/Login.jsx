@@ -7,7 +7,8 @@ import {
   APP,
   ROUTES,
   SERVER_ERROR_CODES,
-  V1_ALLOWED_ADMIN_ROLES,
+  UNAUTHORIZED_STATUS_CODE,
+  FORBIDDEN_STATUS_CODE
 } from "@/utils";
 
 const LOGIN_MESSAGES = {
@@ -22,8 +23,6 @@ const LOGIN_MESSAGES = {
   passwordNotSet:
     "This account does not have a password set yet. Please contact Cabbo administration.",
   roleError: "This account role is not configured correctly. Please contact Cabbo administration.",
-  unsupportedRole:
-    "This admin role is not enabled in the operations console.",
   unavailable: "Cabbo Admin console is unavailable right now. Please try again in sometime.",
 };
 
@@ -53,16 +52,14 @@ const getLoginErrorMessage = (error) => {
     return LOGIN_MESSAGES.roleError;
   }
 
-  if (status === 401) return LOGIN_MESSAGES.invalidCredentials;
-  if (status === 403) return LOGIN_MESSAGES.forbidden;
+  if (status === UNAUTHORIZED_STATUS_CODE) return LOGIN_MESSAGES.invalidCredentials;
+  if (status === FORBIDDEN_STATUS_CODE) return LOGIN_MESSAGES.forbidden;
   return LOGIN_MESSAGES.unavailable;
 };
 
-const getLoginResponse = (response) => response?.data || {};
-
 function Login() {
   const navigate = useNavigate();
-  const { login, setSession } = useAuth();
+  const { login } = useAuth();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const [username, setUsername] = useState("");
@@ -121,23 +118,10 @@ function Login() {
     setFieldErrors({ username: false, password: false });
 
     try {
-      const response = await login.mutateAsync({
+      await login.mutateAsync({
         username: trimmedUsername,
         password,
       });
-      const {
-        access_token: token,
-        role,
-      } = getLoginResponse(response);
-
-      if (!V1_ALLOWED_ADMIN_ROLES.includes(role)) {
-        setError(LOGIN_MESSAGES.unsupportedRole);
-        setFieldErrors({ username: true, password: true });
-        usernameRef.current?.focus();
-        return;
-      }
-
-      setSession({ token, role });
       navigate(ROUTES.HOME, { replace: true });
     } catch (error) {
       if (isDevMode) {
