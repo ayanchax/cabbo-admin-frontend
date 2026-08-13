@@ -1,9 +1,14 @@
-import { api } from "@/api";
 import { ENDPOINTS } from "@/utils";
 
- 
-
 export const fetchClientGeography = async () => {
-  const {data } = await api.get(ENDPOINTS.GEOGRAPHY.CLIENT);
+  const response = await fetch(ENDPOINTS.GEOGRAPHY.CLIENT, {
+    credentials: "omit",
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to fetch client geography.");
+  }
+
+  const data = await response.json();
   return data;
 }
