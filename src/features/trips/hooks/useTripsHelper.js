@@ -199,8 +199,21 @@ export const useTripsHelper = () => {
     };
 
     const needsDriverAssignment = (trip) => {
-        return trip?.needs_driver || ( !trip?.driver?.name && isUpcomingAssignableTrip(trip));
+        if (typeof trip?.needs_driver === "boolean") {
+            return trip.needs_driver;
+        }
+
+        return !trip?.driver?.name && isUpcomingAssignableTrip(trip);
     };
+
+    const getDriverAssignmentWindow = (trip) => {
+        if (trip?.admin_driver_assignment_notice) {
+            return trip.admin_driver_assignment_notice;
+        }
+        return null;
+    };
+
+     
 
     const getDriverState = (trip) => {
         if (trip?.driver?.name) {
@@ -221,6 +234,17 @@ export const useTripsHelper = () => {
 
         if (trip?.status === TRIP_STATUS.CANCELLED) {
             return null;
+        }
+
+        const assignmentWindow = getDriverAssignmentWindow(trip);
+
+        if (assignmentWindow) {
+            return {
+                label: "Driver assignment later",
+                className: "bg-slate-100 text-slate-600",
+                assigned: false,
+                assignmentNotice:assignmentWindow
+            };
         }
 
         return {
@@ -718,6 +742,7 @@ export const useTripsHelper = () => {
         formatCurrency,
         canShowDriverTripDetailsAction,
         canShowCabReadinessChecklist,
+        getDriverAssignmentWindow,
         isStaleTrip
     }
 

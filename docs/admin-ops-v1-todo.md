@@ -136,6 +136,10 @@ Backend direction:
 - [x] Restrict assignment/reassignment to upcoming `created` or `confirmed` trips.
 - [x] Search/select driver from backend-provided options.
 - [x] Debounce driver search and show minimum-character helper.
+- [x] Use backend `needs_driver` boolean as the source of truth when present; derive only as fallback.
+- [x] Use backend `needs_review` with `needs_driver` to decide when driver assignment can be managed; derive only as fallback.
+- [x] Show a quiet "driver assignment later" state when backend says the assignment window is not open yet.
+- [x] Show simple operator copy for when driver assignment can start.
 - [x] Show `Best fit` and `Good fit` labels from backend driver-suggestion scoring; hide `review_fit` and `no_criteria`.
 - [x] Show selected driver/cab preview before submit.
 - [x] Show assignment guidance to review cab, luggage, and promised amenities before selecting a driver.

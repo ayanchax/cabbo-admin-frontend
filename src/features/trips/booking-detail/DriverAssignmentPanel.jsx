@@ -5,6 +5,7 @@ import {
   CarFront,
   CheckCircle2,
   ChevronDown,
+  Clock3,
   LoaderCircle,
   PencilLine,
   Search,
@@ -17,6 +18,8 @@ import {
   useAssignDriverMutation,
   useToast,
   useDebounce,
+  useTimezone,
+  useLocale,
 } from "@/hooks";
 import { useTripsHelper } from "@/features/trips/hooks";
 import { TRIP_OCCURENCE_LABELS, TRIP_STATUS } from "@/utils";
@@ -52,9 +55,11 @@ function updateTripDriverInCache(response, bookingId, driver) {
 }
 
 function DriverAssignmentPanel({ bookingDetail, driverState }) {
+  const { timezone: clientTimezone } = useTimezone();
+  const { locale } = useLocale();
   const { showToast } = useToast();
   const queryClient = useQueryClient();
-  const {isStaleTrip} = useTripsHelper();
+  const {isStaleTrip, formatDateTime} = useTripsHelper();
   const showFitBadge = !isStaleTrip(bookingDetail);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -71,15 +76,30 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
   const trimmedSearchText = searchText.trim();
   const debouncedSearchText = useDebounce(trimmedSearchText, 350);
   const assignedDriver = bookingDetail?.driver || null;
+  const hasServerDriverAssignmentState =
+    typeof bookingDetail?.needs_driver === "boolean" &&
+    typeof bookingDetail?.needs_review === "boolean";
   const canManageDriverAssignment =
-    (bookingDetail?.needs_driver && bookingDetail?.needs_review) ||
-    (bookingDetail?.label === TRIP_OCCURENCE_LABELS.UPCOMING &&
-      [TRIP_STATUS.CREATED, TRIP_STATUS.CONFIRMED].includes(
-        bookingDetail?.status,
-      ));
+    hasServerDriverAssignmentState
+      ? bookingDetail.needs_driver && bookingDetail.needs_review
+      : bookingDetail?.label === TRIP_OCCURENCE_LABELS.UPCOMING &&
+        [TRIP_STATUS.CREATED, TRIP_STATUS.CONFIRMED].includes(
+          bookingDetail?.status,
+        );
   const showPanel =
     driverState?.assigned ||
     (driverState?.label === "Needs driver" && canManageDriverAssignment);
+  const {
+    message: assignmentMessage = null,
+    assignment_window_starts_at = null,
+  } = driverState?.assignmentNotice || {};
+  const assignmentWindowStartText = assignment_window_starts_at
+    ? formatDateTime(
+        assignment_window_starts_at,
+        locale,
+        clientTimezone?.timezone ?? bookingDetail?.timezone,
+      )
+    : "";
   const actionLabel = driverState?.assigned
     ? "Reassign driver"
     : "Assign driver";
@@ -164,7 +184,35 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
   };
 
   if (!showPanel) {
-    return null;
+    if (!assignmentMessage) {
+      return null;
+    }
+
+    return (
+      <section
+        className="rounded-lg border border-slate-200 bg-white p-4"
+        aria-label="Driver assignment window"
+      >
+        <div className="flex min-w-0 items-start gap-3">
+          <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-50 text-slate-500 ring-1 ring-slate-100">
+            <Clock3 className="h-4 w-4" aria-hidden="true" />
+          </span>
+          <span className="min-w-0">
+            <span className="block text-sm font-semibold text-slate-950">
+              No driver action needed yet
+            </span>
+            {assignmentWindowStartText && (
+              <span className="mt-0.5 block text-xs font-medium leading-5 text-slate-400">
+                You can assign driver from <strong>{assignmentWindowStartText}</strong>
+              </span>
+            )}
+            <span className="mt-1 block text-xs leading-5 text-slate-500">
+              {assignmentMessage}
+            </span>
+          </span>
+        </div>
+      </section>
+    );
   }
 
   const handleAssign = async () => {
