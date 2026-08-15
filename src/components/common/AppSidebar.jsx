@@ -14,20 +14,20 @@ function AppSidebar({ isCollapsed = false, onToggleCollapse = () => {} }) {
       }`}
     >
       <div
-        className={`flex h-16 items-center border-b border-white/10 ${
-          isCollapsed ? "justify-center px-3" : "gap-3 px-5"
+        className={`flex items-center border-b border-white/10 ${
+          isCollapsed ? "h-16 justify-center px-3" : "h-20 gap-3 px-2"
         }`}
       >
         {!isCollapsed && (
-          <img
-            src={import.meta.env.VITE_APP_LOGO_URL}
-            alt={APP.name}
-            className="h-8 w-auto object-contain"
-          />
-        )}
-        {!isCollapsed && (
           <div className="min-w-0">
-            <p className="text-sm font-semibold leading-5">Admin Console</p>
+            <img
+              src={import.meta.env.VITE_APP_LOGO_URL}
+              alt={APP.name}
+              className="h-8 w-28 object-contain brightness-250 contrast-200"
+            />
+            <p className="mt-1 pl-4 text-xs font-semibold leading-4 text-slate-400">
+              Admin Console
+            </p>
           </div>
         )}
         <button

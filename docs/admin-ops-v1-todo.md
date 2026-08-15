@@ -183,6 +183,10 @@ Backend direction:
 ## 8. Access, Security, And Privacy
 
 - [x] Confirm admin auth mechanism with backend.
+- [x] Use cookie-based authentication for first-party admin API calls.
+- [x] Centralize the React Query client so auth/session cleanup can clear cached admin data consistently.
+- [x] Centralize client-side logout cleanup for manual logout and unauthorized-session handling.
+- [x] Keep third-party public API calls credential-free so cookie auth does not trigger credentialed CORS failures.
 - [x] Confirm role/permission model for V1:
   - trip operations: roles allowed by backend
   - refund recovery: `super_admin`, `finance_admin`
@@ -192,6 +196,7 @@ Backend direction:
 - [x] Avoid storing unnecessary PII in frontend state.
 - [x] Redact sensitive values in client-side logs.
 - [x] Handle `401` and `403` distinctly.
+- [x] Redirect to login and clear local admin query cache when protected admin APIs return an unauthorized session.
 - [x] Show server-enforced `403` forbidden state in trips list.
 - [x] Verify admin frontend calls only admin/ops backend endpoints.
 
@@ -199,6 +204,7 @@ Backend direction:
 
 - [x] Admin login works.
 - [x] Admin logout clears session and route access.
+- [x] Stale/resumed tabs clear local admin state and return to login after an unauthorized protected API response.
 - [x] Unauthorized users cannot access protected admin screens.
 - [x] Trip list filters work.
 - [x] Trip list pagination works.
