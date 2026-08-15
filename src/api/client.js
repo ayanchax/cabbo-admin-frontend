@@ -1,6 +1,6 @@
 import axios from "axios";
 import { NOT_FOUND_STATUS_CODE } from "@/utils";
-import { logout as clientLogout } from "@/api/logout";
+import { logout } from "@/api/logout";
 import { ENDPOINTS, ROUTES, SERVER_ERROR_CODES } from "@/utils";
 
 
@@ -41,7 +41,7 @@ const isUnauthorizedSessionError = (error) => {
 };
 
 const handleUnauthorizedSession = () => {
-  clientLogout()
+  logout()
   if (window.location.pathname !== ROUTES.LOGIN) {
     // Route user to login page if unauthorized session detected on a protected route and forget history.
     window.location.replace(ROUTES.LOGIN);
