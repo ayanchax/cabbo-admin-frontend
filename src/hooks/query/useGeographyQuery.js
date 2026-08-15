@@ -6,6 +6,7 @@ import { fetchClientGeography } from "@/api";
 // LocalStorage cache key and TTL for client geography
 const CLIENT_GEO_CACHE_KEY = LOCAL_STORAGE_KEYS.clientGeography;
 const CLIENT_GEO_CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours in ms
+const hasValidGeography = (geography) => Boolean(geography?.country_code);
 
 
 export const useGeographyQuery = () => {
@@ -45,14 +46,23 @@ export const useGeographyQuery = () => {
         }
     };
 
-    const { data: clientData, error: clientError } = useQuery({
+    const { data: clientData, error: clientError, isLoading:clientGeographyLoading } = useQuery({
         queryKey: ["clientGeography"],
         queryFn: async () => {
-            const cached = getCachedClientGeography();
-            if (cached) return cached;
-            const fresh = await fetchClientGeography();
-            setCachedClientGeography(fresh);
-            return fresh;
+            try {
+                const cached = getCachedClientGeography();
+                if (hasValidGeography(cached)) return cached;
+                const fresh = await fetchClientGeography();
+                if (hasValidGeography(fresh)) {
+                    setCachedClientGeography(fresh);
+                    return fresh;
+                }
+                return null;
+            }
+            catch {
+                return null
+            }
+
         },
         staleTime: Infinity,
         gcTime: Infinity,
@@ -63,14 +73,16 @@ export const useGeographyQuery = () => {
 
 
 
+    const hasClientGeography = hasValidGeography(clientData);
 
     // Use ipapi country_code if available, else fallback
+
     const clientCountryCode = clientData?.country_code?.toUpperCase() || fallbackGeography.country_code;
     const clientCountryName = clientData?.country_name || fallbackGeography.country_name;
 
     // Compose client geography object
     const clientGeography =
-        (!clientError && clientData && clientData.country_code)
+        (hasClientGeography)
             ? {
                 ...fallbackGeography,
                 ...clientData,
@@ -85,6 +97,8 @@ export const useGeographyQuery = () => {
         clientGeographyData: clientGeography,
         clientGeographyCode: clientCountryCode,
         fallbackGeography,
+        clientGeographyLoading,
         clientGeographyError: clientError,
+        hasClientGeography
     };
 };

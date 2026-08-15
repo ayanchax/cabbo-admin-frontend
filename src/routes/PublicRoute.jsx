@@ -9,7 +9,10 @@ const PublicRoute = () => {
     data:isAdminLoggedIn, 
     isLoading:isAdminLoggedInStatusLoading, 
     error:isAdminLoggedInStatusError 
-  } = useIsLoggedInQuery();
+  } = useIsLoggedInQuery(true, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
 
   // checking session
   if (isAdminLoggedInStatusLoading) {

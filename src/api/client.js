@@ -1,5 +1,8 @@
 import axios from "axios";
 import { NOT_FOUND_STATUS_CODE } from "@/utils";
+import { logout as clientLogout } from "@/api/logout";
+import { ENDPOINTS, ROUTES, SERVER_ERROR_CODES } from "@/utils";
+
 
 const isDevMode = import.meta.env.VITE_DEV_MODE === "true";
 const api = axios.create({
@@ -23,10 +26,35 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+const isUnauthorizedSessionError = (error) => {
+  const status = error.response?.status;
+  const errorCode = error.response?.data?.error_code;
+  const url = error.config?.url || "";
+  const isAuthCheckRequest = url.includes(ENDPOINTS.ADMIN.IS_LOGGED_IN);
+
+  // Return true if the endpoint is a protected admin endpoint other than /is-logged-in and status is 401 with an UNAUTHORIZED SERVER code
+  return (
+    !isAuthCheckRequest &&
+    [401].includes(status) &&
+    errorCode === SERVER_ERROR_CODES.UNAUTHORIZED
+  );
+};
+
+const handleUnauthorizedSession = () => {
+  clientLogout()
+  if (window.location.pathname !== ROUTES.LOGIN) {
+    // Route user to login page if unauthorized session detected on a protected route and forget history.
+    window.location.replace(ROUTES.LOGIN);
+  }
+};
+
 // Response interceptor to log error status codes globally
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (isUnauthorizedSessionError(error)) {
+      handleUnauthorizedSession();
+    }
     if (!isDevMode) {
       return Promise.reject(error);
     }

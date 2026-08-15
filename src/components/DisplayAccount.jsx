@@ -3,11 +3,12 @@ import { useAdmin } from "@/hooks";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks";
 import { ROUTES } from "@/utils";
-import { useToast } from "@/hooks";
 import {
   LogOut,
   UserRound,
 } from "lucide-react";
+import { logout as clientLogout} from "@/api";
+
 function DisplayAccount({
   placement = "bottom",
   showLogout = false,
@@ -15,16 +16,19 @@ function DisplayAccount({
 }) {
   const navigate = useNavigate();
   const { logout } = useAuth();
-  const { showToast } = useToast();
   const { adminLabel, adminRole } = useAdmin();
 
   const handleLogout = async () => {
     if (!showLogout) return;
     try {
       await logout.mutateAsync();
-      navigate(ROUTES.LOGIN, { replace: true });
     } catch {
-      showToast("Error logging you out, please try again in sometime", "error");
+      // Even if the backend logout call fails, clear this device's session.
+    }
+    finally{
+      clientLogout()
+      navigate(ROUTES.LOGIN, { replace: true }); // redirect to login page and remove the current page from history so that user cannot go back to it using browser back button
+
     }
   };
   if (placement == "top") {

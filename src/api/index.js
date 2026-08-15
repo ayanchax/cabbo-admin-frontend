@@ -5,3 +5,6 @@ export {getTripsDashboard, getBookingDetail, assignDriverToTrip, updateTripStatu
 export {fetchClientGeography} from "./geography"
 export {searchDrivers} from "./driver"
 export {getLocationMapUrl} from "./location"
+export {queryClient} from "./queryClient"
+export {logout as clientLogout} from "./logout"
+
