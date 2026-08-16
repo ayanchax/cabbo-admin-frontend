@@ -1,0 +1,239 @@
+# Cabbo Admin/Ops V1 TODO
+
+Execution checklist for the deliberately boring Admin/Ops MVP.
+
+Status: V1 feature scope is locked. No more feature additions before launch;
+only bug fixes, copy polish, and release-critical fixes should be taken in.
+
+This project exists to support launch operations. Keep the scope narrow: run
+daily trips safely, assign drivers, update operational status, and inspect the
+context needed for customer support.
+
+## Focus Rules
+
+- Build operational workflows, not dashboards.
+- Prefer dense, scannable operations UI over marketing-style pages. Use compact cards where they reduce horizontal scrolling and improve operator scan speed.
+- Every list must be paginated and filterable enough to avoid expensive broad queries.
+- Every mutation must show loading, success, validation-error, and failure states.
+- Do not add pricing/config CRUD, analytics, legal CMS, fleet/package editors, or support-ticketing in V1.
+- Admin UI should only call admin/ops endpoints exposed by the backend, not customer-facing endpoints.
+
+## Target V1 Shape
+
+| Component | Target |
+| --- | --- |
+| Admin frontend dev | `https://admin.dev.cabbo.co.in` |
+| Admin frontend prod | `https://admin.cabbo.co.in` |
+| Backend API dev | existing `https://api.dev.cabbo.co.in` |
+| Backend API prod | existing `https://api.cabbo.co.in` |
+
+Backend direction:
+
+- For V1, keep admin/ops endpoints in the existing backend to avoid delaying launch.
+- Keep admin auth, roles, internal DTOs, and audit logging clearly separated from customer-facing routes and DTOs inside the backend.
+- Defer splitting customer and admin APIs into separate deployed services until traffic, team size, or operational risk justifies it.
+
+## 1. Admin App Foundation
+
+- [x] Create the Admin/Ops frontend project structure.
+- [x] Configure routing.
+- [x] Configure environment variables:
+  - `VITE_API_BASE_URL`
+  - app environment name
+- [x] Add API client with auth header support.
+- [x] Add central error handling and friendly failure messages.
+- [x] Add authenticated route guard.
+- [x] Add login UI.
+- [x] Add logout UI.
+- [x] Persist admin token/session safely.
+- [x] Clear admin session on logout.
+- [x] Add base layout:
+  - compact sidebar/top navigation
+  - current admin identity
+  - logout action
+  - responsive mobile/tablet fallback
+
+## 2. Trips Operations List
+
+- [x] Build trips/bookings operations cards as the first screen.
+- [x] Show essential card fields:
+  - booking ID
+  - trip type
+  - customer
+  - route summary
+  - start time
+  - operational status
+  - assigned driver/cab state
+  - driver fare and driver-call context
+- [x] Show driver-call context on cards:
+  - passenger and luggage count
+  - local package hours/km
+  - outstation included km and total days
+  - driver allowance per day for outstation
+  - extra km/hour rates where relevant
+  - toll/parking extra strip for driver-call clarity
+  - airport flight/terminal/placard indicators
+  - special-request indicator without exposing the full request text
+- [x] Hide misleading/noisy card fields:
+  - no assignment-needed badge for past/completed/cancelled trips
+  - no synthetic driver state when a trip needs review
+  - no zero-value fare breakdowns
+  - no overage rates when driver fare is zero or trip needs review
+  - no toll/parking extra strip when driver fare is zero
+- [x] Sort visible trips by nearest start time.
+- [x] Add backend-backed filters:
+  - [x] status
+  - [x] trip type
+  - [x] date range
+  - [x] booking ID
+- [x] Add super-admin-only `Today's bookings` filter/view:
+  - filter by booking/order creation date instead of trip start date
+  - keep existing status/trip-type filters compatible where practical
+  - use existing trip stats/cards so this does not become a separate dashboard
+  - backend must enforce elevated access even if frontend hides the control
+- [x] Prefer server-provided trip stats and use derived counts only as fallback.
+- [x] Add compact stat-card icons and subtle status-colored accents.
+
+- [x] Add pagination.
+- [x] Preserve trip filters and pagination page in the URL for back/forward navigation.
+- [x] Add loading, empty, error, retry, and forbidden states.
+
+- [x] Open trip detail from each card.
+
+## 3. Trip Detail
+
+- [x] Show internal booking/trip summary.
+- [x] Show customer context needed for operations.
+- [x] Show route, pickup/drop, stops, dates, package, cab type, and passenger/luggage preferences.
+- [x] Show actual end time only for completed trips.
+- [x] Show cab readiness checklist for promised amenities only on active/upcoming operational trips.
+- [x] Show refund/cancellation summary for cancelled trips.
+- [x] Show assigned driver and cab details.
+  - Include actual vehicle signals such as registration number, cab model/type/fuel, color, capacity, roof-carrier availability, and driver rating.
+- [x] Show special requests/customer notes.
+- [x] Show support context with booking ID prominently visible.
+- [x] Add copyable booking ID wherever booking ID is displayed.
+- [x] Add booking-detail refresh action.
+- [x] Add copy-to-driver trip details action:
+  - customer name and phone number
+  - pickup location with Google Maps link
+  - drop location with Google Maps link when applicable
+  - hop names when applicable, without generating multiple hop links
+  - offered driver fare and relevant extra km/hour rates
+  - toll, parking, state permit, and included-charge context where applicable
+  - fare breakdown such as base fare and driver allowance where applicable
+  - professional driver instruction to call the customer at least 15 minutes before arrival and avoid direct fare bargaining with the customer
+  - lazy map-link lookup through the location map hook
+  - WhatsApp-friendly copy with scannable formatting and prefilled WhatsApp handoff
+- [x] Add loading, missing-trip, forbidden, and generic-error states.
+
+## 4. Driver Assignment
+
+- [x] Show unassigned state for eligible upcoming bookings.
+- [x] Add driver assignment action.
+- [x] Add driver reassignment action.
+- [x] Keep assigned driver details always visible.
+- [x] Restrict assignment/reassignment to upcoming `created` or `confirmed` trips.
+- [x] Search/select driver from backend-provided options.
+- [x] Debounce driver search and show minimum-character helper.
+- [x] Use backend `needs_driver` boolean as the source of truth when present; derive only as fallback.
+- [x] Use backend `needs_review` with `needs_driver` to decide when driver assignment can be managed; derive only as fallback.
+- [x] Show a quiet "driver assignment later" state when backend says the assignment window is not open yet.
+- [x] Show simple operator copy for when driver assignment can start.
+- [x] Show `Best fit` and `Good fit` labels from backend driver-suggestion scoring; hide `review_fit` and `no_criteria`.
+- [x] Show selected driver/cab preview before submit.
+- [x] Show assignment guidance to review cab, luggage, and promised amenities before selecting a driver.
+- [x] Disable input, cancel/toggle actions, driver choices, and submit while assignment is pending.
+- [x] Patch booking detail and trips list cache after successful assignment/reassignment.
+- [x] Show a brief recent-change highlight after successful assignment/reassignment.
+- [x] Scroll the assigned-driver block into view after successful assignment/reassignment so the highlight is visible.
+- [x] Scroll and briefly highlight the assignment action area after a driver option is selected.
+- [x] Keep driver suggestion and assigned-driver cards readable on narrow mobile admin views.
+- [x] Handle backend validation errors clearly.
+- [x] Document driver assignment rules in `driver-assignment-panel-rationale.md`.
+
+## 5. Operational Status Updates
+
+- [x] Treat server-derived status values and allowed transitions as the source of truth; frontend only displays them and submits selected actions.
+- [x] Show allowed next actions based on backend-provided status.
+- [x] Support V1 transitions:
+  - `confirmed -> ongoing`
+  - `confirmed -> cancelled`
+  - `ongoing -> completed`
+  - `ongoing -> dispute`
+  - stale/past open trip -> completed
+  - stale/past open trip -> dispute
+- [x] Require reason/note where backend requires it.
+- [x] Confirm destructive/sensitive transitions.
+- [x] Refresh trip detail after success.
+- [x] Show backend validation errors for invalid transitions.
+
+## 6. Refund Recovery
+
+- [x] Show refund recovery action only where a refund is applicable and backend refund initiation is still needed.
+- [x] Scope refund initiation UI to `super_admin` and `finance_admin` only.
+- [x] Call `GET /api/v1/admin/trips/refunds/booking/{booking_id}/issue-refund`.
+- [x] Explain in simple UI copy that this sends a refund issuance request and Cabbo will keep checking again later if it does not go through yet.
+- [x] Use this only as an on-demand refund issuance request for operational recovery.
+- [x] Require confirmation before initiating refund recovery.
+- [x] Show success, backend validation failure, forbidden, and generic failure states.
+- [x] Do not refetch immediately after a successful request; show a local success note and let later visits reflect backend refund status.
+
+
+## 8. Access, Security, And Privacy
+
+- [x] Confirm admin auth mechanism with backend.
+- [x] Use cookie-based authentication for first-party admin API calls.
+- [x] Centralize the React Query client so auth/session cleanup can clear cached admin data consistently.
+- [x] Centralize client-side logout cleanup for manual logout and unauthorized-session handling.
+- [x] Keep third-party public API calls credential-free so cookie auth does not trigger credentialed CORS failures.
+- [x] Confirm role/permission model for V1:
+  - trip operations: roles allowed by backend
+  - refund recovery: `super_admin`, `finance_admin`
+  - today's bookings/founder view: `super_admin`
+- [x] Ensure customer-safe and internal DTOs stay separate.
+- [x] Never expose admin tokens or admin-only API behavior through customer frontend code.
+- [x] Avoid storing unnecessary PII in frontend state.
+- [x] Redact sensitive values in client-side logs.
+- [x] Handle `401` and `403` distinctly.
+- [x] Redirect to login and clear local admin query cache when protected admin APIs return an unauthorized session.
+- [x] Show server-enforced `403` forbidden state in trips list.
+- [x] Verify admin frontend calls only admin/ops backend endpoints.
+
+## 9. QA Checklist
+
+- [x] Admin login works.
+- [x] Admin logout clears session and route access.
+- [x] Stale/resumed tabs clear local admin state and return to login after an unauthorized protected API response.
+- [x] Unauthorized users cannot access protected admin screens.
+- [x] Trip list filters work.
+- [x] Trip list pagination works.
+- [x] Trip detail loads for valid booking IDs.
+- [x] Trips list forbidden state is clear.
+- [x] Missing/forbidden trip detail states are clear.
+- [x] Driver assignment works.
+- [x] Driver reassignment works.
+- [x] Operational status updates work for allowed transitions.
+- [x] Invalid transitions show clear backend errors.
+- [x] Payment/refund summaries display accurately.
+- [x] Refund recovery action is visible only to `super_admin` and `finance_admin`.
+- [x] Refund recovery initiation handles success, `400`, `403`, and generic failures.
+- [x] Special requests/customer notes are visible where expected.
+- [x] Layout works on laptop and mobile-width emergency usage.
+- [x] No text overflow in cards, filters, buttons, or modals.
+
+## Deferred Beyond Admin/Ops V1
+
+Deferred items are tracked in `post-v1-backlogs.md`.
+
+## Done Means
+
+- Admin can log in.
+- Admin can find a booking quickly.
+- Admin can inspect the operational context for a booking.
+- Admin can assign or reassign a driver.
+- Admin can perform the required V1 operational status transitions.
+- Admin can see payment/refund context needed for support.
+- All mutation flows have confirmation, loading, success, and error states.
+- Admin/Ops frontend never calls customer-facing endpoints directly.
+- Admin/Ops V1 scope is locked for launch.

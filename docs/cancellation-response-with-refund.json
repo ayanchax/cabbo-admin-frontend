@@ -1,0 +1,156 @@
+{
+    "booking_id": "OUTSTATION-P5XNQH131RLONIST",
+    "customer": {
+        "name": "Mayank",
+        "email": "mayank80@gmail.com",
+        "phone_number": "+91 8017184241",
+        "opt_in_updates": false
+    },
+    "origin": {
+        "display_name": "Bengaluru",
+        "lat": 12.9628957,
+        "lng": 77.57754,
+        "place_id": "ChIJbU60yXAWrjsR4E9-UejD3_g",
+        "address": "Bengaluru, Karnataka, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "Bangalore Division"
+    },
+    "destination": {
+        "display_name": "Mysuru",
+        "lat": 12.2958104,
+        "lng": 76.6393805,
+        "place_id": "ChIJ-S5XHThwrzsRbTn4wOjsiSs",
+        "address": "Mysuru, Karnataka, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "Mysore Division"
+    },
+    "is_interstate": false,
+    "total_unique_states": 1,
+    "is_round_trip": true,
+    "start_datetime": "2026-09-23T16:15:00",
+    "expected_end_datetime": "2026-09-25T16:15:00",
+    "end_datetime": "2026-09-25T16:15:00",
+    "total_days": 2,
+    "included_kms": 600,
+    "cancellation": {
+        "id": "f30130af-99fd-49cd-9b42-b4716ac8b4ed",
+        "entity_id": "23c36698-f9f4-468a-863d-de015e0f238d",
+        "canceled_by": "b8b048b5-ba33-41a7-9346-4cf8a2235bcb",
+        "cancellation_sub_status": "driver_cancelled",
+        "reason": "No reason provided",
+        "created_at": "2026-07-29T21:29:46",
+        "updated_at": "2026-07-29T21:29:46"
+    },
+    "num_adults": 1,
+    "num_children": 0,
+    "num_large_suitcases": 0,
+    "num_carryons": 0,
+    "num_backpacks": 0,
+    "num_other_bags": 0,
+    "num_luggages": 0,
+    "num_passengers": 1,
+    "in_car_amenities": {
+        "ac": true,
+        "music_system": true,
+        "water_bottle": true,
+        "tissues": true,
+        "candies": true,
+        "snacks": false,
+        "phone_charger": true,
+        "aux_cable": true,
+        "bluetooth": true,
+        "wifi": false
+    },
+    "status": "cancelled",
+    "price_breakdown": {
+        "base_fare": 13200,
+        "permit_fee": 0,
+        "driver_allowance": 800
+    },
+    "overages": {
+        "disclaimer": [
+            "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+            "If you extend the trip beyond the booked 2 day(s), an additional ₹7000 per extra day will apply, that includes 300 kms and driver allowance for one day - pay the driver directly.",
+            "If you exceed the included mileage of 600 kms, an overage charge of ₹22 per km will apply - pay the driver directly.",
+            "If the driver is required to drive during night hours (8PM to 6AM), a night surcharge of ₹100.0 per hour will apply - pay the driver directly.",
+            "Extra charges apply for tolls, paid parking, night driving surcharges, extra days, and extra mileage, if applicable - pay the driver directly.",
+            "If the trip includes hill climbs, the cab AC may be switched off during such climbs."
+        ],
+        "overage_amount_per_km": 22,
+        "overage_estimate_amount": 0,
+        "indicative_overage_warning": false
+    },
+    "refund": {
+        "refund_status": "initiated",
+        "refund_amount": 299,
+        "refund_description": " INITIATED. Full refund for cancellation of trip 23c36698-f9f4-468a-863d-de015e0f238d with cancellation sub status driver_cancelled",
+        "refund_details": {
+            "id": "pay_T9sqPqAIsj811j",
+            "notes": {
+                "requestor": "596170c2-fe36-477a-ac2c-4b16aa07f9ca",
+                "refund_type": "full",
+                "customer_name": "Mayank",
+                "reference_source_id": "23c36698-f9f4-468a-863d-de015e0f238d"
+            },
+            "amount": 299,
+            "entity": "refund",
+            "status": "initiated",
+            "currency": "INR",
+            "payment_id": "pay_T9sqPqAIsj811j",
+            "base_amount": 29900
+        },
+        "refund_initiated_datetime": "2026-07-29T21:29:46",
+        "refund_type": "full",
+        "refund_provider": "razorpay",
+        "refund_trigger": "automatic"
+    },
+    "can_issue_refund": true,
+    "rate_per_km": 23.83,
+    "special_needs_requests": "ok here",
+    "estimated_km": 287.54,
+    "timezone": "Asia/Kolkata",
+    "trip_type": {
+        "trip_type": "outstation",
+        "display_name": "Outstation Trip",
+        "description": "Multi-day intercity travel. Ideal for business, leisure, or family trips outside your city."
+    },
+    "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "lowest_unit_name": "Paise",
+        "lowest_unit_conversion_factor": 100
+    },
+    "fleet": {
+        "car_type": "SUV+",
+        "fuel_type": "petrol",
+        "name": "SUV+",
+        "description": "Premium SUVs with extra comfort and luggage space.",
+        "cab_names": [
+            "Innova Crysta",
+            "Hexa",
+            "Fortuner",
+            "XUV500",
+            "Alcazar"
+        ],
+        "inventory_cab_names": [
+            "Innova Crysta"
+        ],
+        "capacity": "7+1",
+        "passenger_capacity": 7,
+        "luggage_capacity": {
+            "num_large_suitcases": 2,
+            "num_carryons": 2,
+            "num_backpacks": 3,
+            "num_other_bags": 2
+        },
+        "roof_carrier": true,
+        "total_luggages": 9
+    },
+    "label": "cancelled",
+    "needs_review": false,
+    "needs_driver": false,
+    "cost_to_driver": 14000,
+    "allowed_status_transitions": []
+}

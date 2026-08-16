@@ -1,0 +1,190 @@
+{
+    "booking_id": "OUTSTATION-MRS3VR13OWOTODXG",
+    "customer": {
+        "name": "Mayank",
+        "email": "mayank80@gmail.com",
+        "phone_number": "+91 8017184241",
+        "opt_in_updates": false
+    },
+    "origin": {
+        "display_name": "Kempegowda International Airport Bengaluru",
+        "lat": 13.198909,
+        "lng": 77.7068926,
+        "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+        "address": "Karnataka 560300, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "Bangalore Division",
+        "mobility_hub": "airport"
+    },
+    "destination": {
+        "display_name": "Mysuru",
+        "lat": 12.2958104,
+        "lng": 76.6393805,
+        "place_id": "ChIJ-S5XHThwrzsRbTn4wOjsiSs",
+        "address": "Mysuru, Karnataka, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "Mysore Division"
+    },
+    "is_interstate": false,
+    "total_unique_states": 1,
+    "is_round_trip": true,
+    "start_datetime": "2026-08-02T16:00:00",
+    "expected_end_datetime": "2026-08-05T16:00:00",
+    "end_datetime": "2026-08-05T16:00:00",
+    "total_days": 3,
+    "included_kms": 900,
+    "num_adults": 1,
+    "num_children": 0,
+    "num_large_suitcases": 0,
+    "num_carryons": 0,
+    "num_backpacks": 0,
+    "num_other_bags": 0,
+    "num_luggages": 0,
+    "num_passengers": 1,
+    "in_car_amenities": {
+        "ac": true,
+        "music_system": true,
+        "water_bottle": true,
+        "tissues": true,
+        "candies": true,
+        "snacks": false,
+        "phone_charger": true,
+        "aux_cable": true,
+        "bluetooth": true,
+        "wifi": false
+    },
+    "driver": {
+        "name": "Bishal Dey",
+        "phone": "+91 9875642209",
+        "cab_registration_number": "KA14B9113",
+        "cab_type": "Sedan",
+        "fuel_type": "diesel",
+        "cab_model_and_make": "Maruti Swift Dzire"
+    },
+    "status": "confirmed",
+    "price_breakdown": {
+        "base_fare": 9900,
+        "permit_fee": 0,
+        "driver_allowance": 1200
+    },
+    "overages": {
+        "disclaimer": [
+            "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+            "If you extend the trip beyond the booked 3 day(s), an additional ₹3700 per extra day will apply, that includes 300 kms and driver allowance for one day - pay the driver directly.",
+            "If you exceed the included mileage of 900 kms, an overage charge of ₹11 per km will apply - pay the driver directly.",
+            "If the driver is required to drive during night hours (8PM to 6AM), a night surcharge of ₹100.0 per hour will apply - pay the driver directly.",
+            "Extra charges apply for tolls, paid parking, night driving surcharges, extra days, and extra mileage, if applicable - pay the driver directly.",
+            "If the trip includes hill climbs, the cab AC may be switched off during such climbs."
+        ],
+        "overage_amount_per_km": 11,
+        "overage_estimate_amount": 0,
+        "indicative_overage_warning": false
+    },
+    "rate_per_km": 12.67,
+    "special_needs_requests": "hello",
+    "estimated_km": 367.47,
+    "timezone": "Asia/Kolkata",
+    "trip_type": {
+        "trip_type": "outstation",
+        "display_name": "Outstation Trip",
+        "description": "Multi-day intercity travel. Ideal for business, leisure, or family trips outside your city."
+    },
+    "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "lowest_unit_name": "Paise",
+        "lowest_unit_conversion_factor": 100
+    },
+    "fleet": {
+        "car_type": "Sedan",
+        "fuel_type": "cng",
+        "name": "Sedan",
+        "description": "Comfortable sedans, suitable for city and outstation travel.",
+        "cab_names": [
+            "Dzire",
+            "Amaze",
+            "Indigo"
+        ],
+        "inventory_cab_names": [
+            "Dzire"
+        ],
+        "capacity": "4+1",
+        "passenger_capacity": 4,
+        "luggage_capacity": {
+            "num_large_suitcases": 1,
+            "num_carryons": 1,
+            "num_backpacks": 1,
+            "num_other_bags": 0
+        },
+        "roof_carrier": false,
+        "total_luggages": 3
+    },
+    "label": "upcoming",
+    "cost_to_driver": 11100,
+    "allowed_status_transitions": [
+        {
+            "target_status": "ongoing",
+            "label": "Start trip",
+            "requires_confirmation": true,
+            "confirmation_level": "light",
+            "payload_fields": [
+                {
+                    "name": "reason",
+                    "type": "string",
+                    "required": false,
+                    "label": "Reason"
+                },
+                {
+                    "name": "start_datetime",
+                    "type": "datetime",
+                    "required": false,
+                    "label": "Actual start time"
+                }
+            ]
+        },
+        {
+            "target_status": "cancelled",
+            "label": "Cancel trip",
+            "requires_confirmation": true,
+            "confirmation_level": "strong",
+            "payload_fields": [
+                {
+                    "name": "reason",
+                    "type": "string",
+                    "required": true,
+                    "label": "Reason"
+                },
+                {
+                    "name": "cancelation_detail",
+                    "type": "object",
+                    "required": true,
+                    "label": "Cancellation details",
+                    "fields": [
+                        {
+                            "name": "cancelation_detail.cancellation_sub_status",
+                            "type": "enum",
+                            "required": true,
+                            "label": "Cancellation sub-status",
+                            "options": [
+                                "customer_cancelled",
+                                "customer_no_show",
+                                "driver_cancelled",
+                                "driver_unavailable",
+                                "driver_no_show",
+                                "other"
+                            ]
+                        },
+                        {
+                            "name": "cancelation_detail.reason",
+                            "type": "string",
+                            "required": false,
+                            "label": "Cancellation note"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

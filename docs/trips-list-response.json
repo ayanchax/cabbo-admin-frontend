@@ -1,0 +1,1386 @@
+[
+    {
+        "id": "4dd63184-bed8-43b3-be6e-3e342e82ccf8",
+        "booking_id": "AIRPORTTFR-PICKUP-0GDKSTD088WC4AUO",
+        "customer": {
+            "name": "Ayan Chax",
+            "email": "ayanchax9088@gmail.com",
+            "phone_number": "+91 9831305667",
+            "opt_in_updates": false,
+            "profile_picture_url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/6e4d3042-6968-41c5-897d-55b80676fb07/images/avatar/1bff5708c7534e318c3f18d2c50ed30f.png"
+        },
+        "origin": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR",
+            "mobility_hub": "airport"
+        },
+        "destination": {
+            "display_name": "Mahatma Gandhi Road",
+            "lat": 12.9730884,
+            "lng": 77.616979,
+            "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+            "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "start_datetime": "2026-08-20T20:00:00",
+        "num_adults": 1,
+        "num_children": 0,
+        "num_large_suitcases": 0,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": false,
+            "snacks": false,
+            "phone_charger": false,
+            "aux_cable": false,
+            "bluetooth": false,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "toll": 0,
+            "parking": 100,
+            "base_fare": 864,
+            "placard_charge": 0
+        },
+        "overages": {
+            "disclaimer": [
+                "Fare applies to the selected airport transfer route. This fare includes airport parking. Extra charges may apply for customer-requested route changes, detours, additional stops, waiting, or charges outside the selected fare."
+            ],
+            "overage_amount_per_km": 19,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Parking",
+            "Water bottles and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)"
+        ],
+        "placard_required": false,
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "airport_pickup",
+            "display_name": "Airport Pickup",
+            "description": "Pickup from airport to your destination. Includes flight tracking and driver meet & greet."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "diesel",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 30 minutes before trip start.",
+            "If you cancel after this period, 20% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 964
+    },
+    {
+        "id": "83c3f9a0-e08e-4e29-a4c7-b53f6d2a0687",
+        "booking_id": "RENTAL-2G6HAECZPY6GB0VC",
+        "customer": {
+            "name": "Ayan Chax",
+            "email": "ayanchax9088@gmail.com",
+            "phone_number": "+91 9831305667",
+            "opt_in_updates": false,
+            "profile_picture_url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/6e4d3042-6968-41c5-897d-55b80676fb07/images/avatar/1bff5708c7534e318c3f18d2c50ed30f.png"
+        },
+        "origin": {
+            "display_name": "Mahatma Gandhi Road",
+            "lat": 12.9730884,
+            "lng": 77.616979,
+            "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+            "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "destination": {
+            "display_name": "Mahatma Gandhi Road",
+            "lat": 12.9730884,
+            "lng": 77.616979,
+            "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+            "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "package": {
+            "included_hours": 6,
+            "included_km": 60,
+            "driver_allowance": 0,
+            "best_intended_for": "Great for half-day outings or city sightseeing."
+        },
+        "start_datetime": "2026-07-25T00:30:00",
+        "expected_end_datetime": "2026-07-25T06:30:00",
+        "included_kms": 60,
+        "num_adults": 1,
+        "num_children": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": false,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": false,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 1620,
+            "driver_allowance": 0
+        },
+        "overages": {
+            "disclaimer": [
+                "If you exceed the included hours and/or kilometres in your selected package (6Hours / 60KM), an additional charge of ₹5 per minute and/or ₹14 per km will apply.",
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "Extra charges apply for tolls, paid parking, and extra hours, and extra mileage, if applicable - pay the driver directly."
+            ],
+            "overage_amount_per_km": 14,
+            "overage_amount_per_hour": 280,
+            "indicative_overage_warning": false
+        },
+        "rate_per_min": 4.83,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Water bottles and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)"
+        ],
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "local",
+            "display_name": "Local City Ride",
+            "description": "Hourly rental for city travel. Flexible for errands, meetings, and sightseeing within city limits."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "cng",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 hour before trip start.",
+            "If you cancel after this period, 50% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 1620
+    },
+    {
+        "id": "007fb5ba-25f1-45de-9998-337924c58336",
+        "booking_id": "AIRPORTTFR-PICKUP-R5PZWNUGARGDK94I",
+        "customer": {
+            "name": "Ayan Chax",
+            "email": "ayanchax9088@gmail.com",
+            "phone_number": "+91 9831305667",
+            "opt_in_updates": false,
+            "profile_picture_url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/6e4d3042-6968-41c5-897d-55b80676fb07/images/avatar/1bff5708c7534e318c3f18d2c50ed30f.png"
+        },
+        "origin": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR",
+            "mobility_hub": "airport"
+        },
+        "destination": {
+            "display_name": "Mahatma Gandhi Road",
+            "lat": 12.9730884,
+            "lng": 77.616979,
+            "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+            "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "start_datetime": "2026-08-26T21:30:00",
+        "num_adults": 5,
+        "num_children": 0,
+        "num_large_suitcases": 2,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 2,
+        "num_passengers": 5,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": false,
+            "snacks": false,
+            "phone_charger": false,
+            "aux_cable": false,
+            "bluetooth": false,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "toll": 120,
+            "parking": 100,
+            "base_fare": 1332,
+            "placard_charge": 50
+        },
+        "overages": {
+            "disclaimer": [
+                "Fare applies to the selected airport transfer route. This fare includes selected toll-road tolls, airport parking and placard charges. Extra charges may apply for customer-requested route changes, detours, additional stops, waiting, or charges outside the selected fare."
+            ],
+            "overage_amount_per_km": 36,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Toll",
+            "Parking",
+            "Placard charges",
+            "Water bottles and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)"
+        ],
+        "flight_number": "A235",
+        "terminal_number": "T24",
+        "toll_road_preferred": true,
+        "placard_required": true,
+        "placard_name": "Mitan Pauls",
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "airport_pickup",
+            "display_name": "Airport Pickup",
+            "description": "Pickup from airport to your destination. Includes flight tracking and driver meet & greet."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "SUV",
+            "fuel_type": "cng",
+            "name": "SUV",
+            "description": "Spacious SUVs, good for family/group travel and rough roads.",
+            "cab_names": [
+                "Ertiga",
+                "Innova",
+                "Marazzo",
+                "XL6",
+                "Mobilio"
+            ],
+            "inventory_cab_names": [
+                "Ertiga",
+                "Innova"
+            ],
+            "capacity": "6+1",
+            "passenger_capacity": 6,
+            "luggage_capacity": {
+                "num_large_suitcases": 2,
+                "num_carryons": 2,
+                "num_backpacks": 2,
+                "num_other_bags": 1
+            },
+            "roof_carrier": true,
+            "total_luggages": 7
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 30 minutes before trip start.",
+            "If you cancel after this period, 20% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 1602
+    },
+    {
+        "id": "23c36698-f9f4-468a-863d-de015e0f238d",
+        "booking_id": "OUTSTATION-P5XNQH131RLONIST",
+        "customer": {
+            "name": "Mayank",
+            "email": "mayank80@gmail.com",
+            "phone_number": "+91 8017184241",
+            "opt_in_updates": false
+        },
+        "origin": {
+            "display_name": "Bengaluru",
+            "lat": 12.9628957,
+            "lng": 77.57754,
+            "place_id": "ChIJbU60yXAWrjsR4E9-UejD3_g",
+            "address": "Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Bangalore Division"
+        },
+        "destination": {
+            "display_name": "Mysuru",
+            "lat": 12.2958104,
+            "lng": 76.6393805,
+            "place_id": "ChIJ-S5XHThwrzsRbTn4wOjsiSs",
+            "address": "Mysuru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Mysore Division"
+        },
+        "is_interstate": false,
+        "total_unique_states": 1,
+        "is_round_trip": true,
+        "start_datetime": "2026-09-23T16:15:00",
+        "expected_end_datetime": "2026-09-25T16:15:00",
+        "end_datetime": "2026-09-25T16:15:00",
+        "total_days": 2,
+        "included_kms": 600,
+        "num_adults": 1,
+        "num_children": 0,
+        "num_large_suitcases": 0,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": true,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": true,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 13200,
+            "permit_fee": 0,
+            "driver_allowance": 800
+        },
+        "overages": {
+            "disclaimer": [
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "If you extend the trip beyond the booked 2 day(s), an additional ₹7000 per extra day will apply, that includes 300 kms and driver allowance for one day - pay the driver directly.",
+                "If you exceed the included mileage of 600 kms, an overage charge of ₹22 per km will apply - pay the driver directly.",
+                "If the driver is required to drive during night hours (8PM to 6AM), a night surcharge of ₹100.0 per hour will apply - pay the driver directly.",
+                "Extra charges apply for tolls, paid parking, night driving surcharges, extra days, and extra mileage, if applicable - pay the driver directly.",
+                "If the trip includes hill climbs, the cab AC may be switched off during such climbs."
+            ],
+            "overage_amount_per_km": 22,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "rate_per_km": 23.83,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Driver allowance",
+            "Water bottles, candies, and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)",
+            "Self sponsored driver accomodation",
+            "Night surcharges(if applicable)"
+        ],
+        "special_needs_requests": "ok here",
+        "estimated_km": 287.54,
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "outstation",
+            "display_name": "Outstation Trip",
+            "description": "Multi-day intercity travel. Ideal for business, leisure, or family trips outside your city."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "SUV+",
+            "fuel_type": "petrol",
+            "name": "SUV+",
+            "description": "Premium SUVs with extra comfort and luggage space.",
+            "cab_names": [
+                "Innova Crysta",
+                "Hexa",
+                "Fortuner",
+                "XUV500",
+                "Alcazar"
+            ],
+            "inventory_cab_names": [
+                "Innova Crysta"
+            ],
+            "capacity": "7+1",
+            "passenger_capacity": 7,
+            "luggage_capacity": {
+                "num_large_suitcases": 2,
+                "num_carryons": 2,
+                "num_backpacks": 3,
+                "num_other_bags": 2
+            },
+            "roof_carrier": true,
+            "total_luggages": 9
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 day before trip start.",
+            "If you cancel after this period, 80% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 14000
+    },
+    {
+        "id": "8c60c83e-6e3f-4cd5-aa12-e9ea8722f94e",
+        "booking_id": "OUTSTATION-MRS3VR13OWOTODXG",
+        "customer": {
+            "name": "Mayank",
+            "email": "mayank80@gmail.com",
+            "phone_number": "+91 8017184241",
+            "opt_in_updates": false
+        },
+        "origin": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Bangalore Division",
+            "mobility_hub": "airport"
+        },
+        "destination": {
+            "display_name": "Mysuru",
+            "lat": 12.2958104,
+            "lng": 76.6393805,
+            "place_id": "ChIJ-S5XHThwrzsRbTn4wOjsiSs",
+            "address": "Mysuru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Mysore Division"
+        },
+        "is_interstate": false,
+        "total_unique_states": 1,
+        "is_round_trip": true,
+        "start_datetime": "2026-08-02T16:00:00",
+        "expected_end_datetime": "2026-08-05T16:00:00",
+        "end_datetime": "2026-08-05T16:00:00",
+        "total_days": 3,
+        "included_kms": 900,
+        "num_adults": 1,
+        "num_children": 0,
+        "num_large_suitcases": 0,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": true,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": true,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 9900,
+            "permit_fee": 0,
+            "driver_allowance": 1200
+        },
+        "overages": {
+            "disclaimer": [
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "If you extend the trip beyond the booked 3 day(s), an additional ₹3700 per extra day will apply, that includes 300 kms and driver allowance for one day - pay the driver directly.",
+                "If you exceed the included mileage of 900 kms, an overage charge of ₹11 per km will apply - pay the driver directly.",
+                "If the driver is required to drive during night hours (8PM to 6AM), a night surcharge of ₹100.0 per hour will apply - pay the driver directly.",
+                "Extra charges apply for tolls, paid parking, night driving surcharges, extra days, and extra mileage, if applicable - pay the driver directly.",
+                "If the trip includes hill climbs, the cab AC may be switched off during such climbs."
+            ],
+            "overage_amount_per_km": 11,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "rate_per_km": 12.67,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Driver allowance",
+            "Water bottles, candies, and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)",
+            "Self sponsored driver accomodation",
+            "Night surcharges(if applicable)"
+        ],
+        "special_needs_requests": "hello",
+        "estimated_km": 367.47,
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "outstation",
+            "display_name": "Outstation Trip",
+            "description": "Multi-day intercity travel. Ideal for business, leisure, or family trips outside your city."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "cng",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 day before trip start.",
+            "If you cancel after this period, 80% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 11100
+    },
+    {
+        "id": "a680da7e-a300-42d3-a119-65f2b1ae4149",
+        "booking_id": "RENTAL-4HHLLHLP6FSWPQSC",
+        "customer": {
+            "name": "Anuradha",
+            "email": "anuradhac1950@gmail.com",
+            "phone_number": "+91 9051512293",
+            "opt_in_updates": false
+        },
+        "origin": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR",
+            "mobility_hub": "airport"
+        },
+        "destination": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR",
+            "mobility_hub": "airport"
+        },
+        "package": {
+            "included_hours": 6,
+            "included_km": 60,
+            "driver_allowance": 0,
+            "best_intended_for": "Great for half-day outings or city sightseeing."
+        },
+        "start_datetime": "2026-07-18T18:45:00",
+        "expected_end_datetime": "2026-07-19T00:45:00",
+        "included_kms": 60,
+        "num_adults": 1,
+        "num_children": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": false,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": false,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 1680,
+            "driver_allowance": 0
+        },
+        "overages": {
+            "disclaimer": [
+                "If you exceed the included hours and/or kilometres in your selected package (6Hours / 60KM), an additional charge of ₹5 per minute and/or ₹15 per km will apply.",
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "Extra charges apply for tolls, paid parking, and extra hours, and extra mileage, if applicable - pay the driver directly."
+            ],
+            "overage_amount_per_km": 15,
+            "overage_amount_per_hour": 280,
+            "indicative_overage_warning": false
+        },
+        "rate_per_min": 5,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Water bottles and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)"
+        ],
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "local",
+            "display_name": "Local City Ride",
+            "description": "Hourly rental for city travel. Flexible for errands, meetings, and sightseeing within city limits."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "diesel",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 hour before trip start.",
+            "If you cancel after this period, 50% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 1680
+    },
+    {
+        "id": "5f3a5316-e1db-445c-b3f6-6a900297ee96",
+        "booking_id": "OUTSTATION-A80N1KNS6L6UCXC3",
+        "customer": {
+            "name": "Mayank",
+            "email": "mayank80@gmail.com",
+            "phone_number": "+91 8017184241",
+            "opt_in_updates": false
+        },
+        "origin": {
+            "display_name": "Mysuru",
+            "lat": 12.2958104,
+            "lng": 76.6393805,
+            "place_id": "ChIJ-S5XHThwrzsRbTn4wOjsiSs",
+            "address": "Mysuru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Mysore Division"
+        },
+        "destination": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Bangalore Division",
+            "mobility_hub": "airport"
+        },
+        "is_interstate": false,
+        "total_unique_states": 1,
+        "is_round_trip": true,
+        "start_datetime": "2026-07-07T12:45:00",
+        "expected_end_datetime": "2026-07-09T12:45:00",
+        "end_datetime": "2026-07-09T12:45:00",
+        "total_days": 2,
+        "included_kms": 600,
+        "num_adults": 5,
+        "num_children": 0,
+        "num_large_suitcases": 0,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 0,
+        "num_passengers": 5,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": true,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": true,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 12000,
+            "permit_fee": 0,
+            "driver_allowance": 800
+        },
+        "overages": {
+            "disclaimer": [
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "If you extend the trip beyond the booked 2 day(s), an additional ₹6400 per extra day will apply, that includes 300 kms and driver allowance for one day - pay the driver directly.",
+                "If you exceed the included mileage of 600 kms, an overage charge of ₹20 per km will apply - pay the driver directly.",
+                "If the driver is required to drive during night hours (8PM to 6AM), a night surcharge of ₹100.0 per hour will apply - pay the driver directly.",
+                "Extra charges apply for tolls, paid parking, night driving surcharges, extra days, and extra mileage, if applicable - pay the driver directly.",
+                "If the trip includes hill climbs, the cab AC may be switched off during such climbs."
+            ],
+            "overage_amount_per_km": 20,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "rate_per_km": 21.83,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Driver allowance",
+            "Water bottles, candies, and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)",
+            "Self sponsored driver accomodation",
+            "Night surcharges(if applicable)"
+        ],
+        "special_needs_requests": "hi there",
+        "estimated_km": 367.47,
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "outstation",
+            "display_name": "Outstation Trip",
+            "description": "Multi-day intercity travel. Ideal for business, leisure, or family trips outside your city."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "SUV+",
+            "fuel_type": "diesel",
+            "name": "SUV+",
+            "description": "Premium SUVs with extra comfort and luggage space.",
+            "cab_names": [
+                "Innova Crysta",
+                "Hexa",
+                "Fortuner",
+                "XUV500",
+                "Alcazar"
+            ],
+            "inventory_cab_names": [
+                "Innova Crysta"
+            ],
+            "capacity": "7+1",
+            "passenger_capacity": 7,
+            "luggage_capacity": {
+                "num_large_suitcases": 2,
+                "num_carryons": 2,
+                "num_backpacks": 3,
+                "num_other_bags": 2
+            },
+            "roof_carrier": true,
+            "total_luggages": 9
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 day before trip start.",
+            "If you cancel after this period, 80% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "past",
+        "cost_to_driver": 12800
+    },
+    {
+        "id": "dcb37699-39c2-4f8e-8eda-19bc48f81734",
+        "booking_id": "RENTAL-OR6WLF86PMQ2WW48",
+        "customer": {
+            "name": "Ayan Chax",
+            "email": "ayanchax9088@gmail.com",
+            "phone_number": "+91 9831305667",
+            "opt_in_updates": false,
+            "profile_picture_url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/6e4d3042-6968-41c5-897d-55b80676fb07/images/avatar/1bff5708c7534e318c3f18d2c50ed30f.png"
+        },
+        "origin": {
+            "display_name": "5th Cross Road, Medahalli",
+            "lat": 13.0263763,
+            "lng": 77.71189989999999,
+            "place_id": "ChIJj6KqdwARrjsRMp4DkkUCGVU",
+            "address": "3/2, KALABYRAVA, 3rd main, 5th Cross Rd, Rifco Shantiniketan Layout, Padmeshwari Nagar, Medahalli, Bengaluru, Karnataka 560049, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "destination": {
+            "display_name": "5th Cross Road, Medahalli",
+            "lat": 13.0263763,
+            "lng": 77.71189989999999,
+            "place_id": "ChIJj6KqdwARrjsRMp4DkkUCGVU",
+            "address": "3/2, KALABYRAVA, 3rd main, 5th Cross Rd, Rifco Shantiniketan Layout, Padmeshwari Nagar, Medahalli, Bengaluru, Karnataka 560049, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "package": {
+            "included_hours": 6,
+            "included_km": 60,
+            "driver_allowance": 0,
+            "best_intended_for": "Great for half-day outings or city sightseeing."
+        },
+        "start_datetime": "2026-07-05T18:30:00",
+        "expected_end_datetime": "2026-07-06T00:30:00",
+        "included_kms": 60,
+        "num_adults": 1,
+        "num_children": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": false,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": false,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 1620,
+            "driver_allowance": 0
+        },
+        "overages": {
+            "disclaimer": [
+                "If you exceed the included hours and/or kilometres in your selected package (6Hours / 60KM), an additional charge of ₹5 per minute and/or ₹14 per km will apply.",
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "Extra charges apply for tolls, paid parking, and extra hours, and extra mileage, if applicable - pay the driver directly."
+            ],
+            "overage_amount_per_km": 14,
+            "overage_amount_per_hour": 280,
+            "indicative_overage_warning": false
+        },
+        "rate_per_min": 4.83,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Water bottles and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)"
+        ],
+        "special_needs_requests": "hi there",
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "local",
+            "display_name": "Local City Ride",
+            "description": "Hourly rental for city travel. Flexible for errands, meetings, and sightseeing within city limits."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "cng",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 hour before trip start.",
+            "If you cancel after this period, 50% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "past",
+        "cost_to_driver": 1620
+    },
+    {
+        "id": "ed693464-3f1d-4a88-ba3d-3aab82906015",
+        "booking_id": "AIRPORTTFR-DROP-194KH3I6ZALWJEF5",
+        "customer": {
+            "name": "Oyendrila M",
+            "email": "oyendrila81@gmail.com",
+            "phone_number": "+91 8017084241",
+            "opt_in_updates": false,
+            "profile_picture_url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/5bb1fb57-d774-453f-8372-276a1caccd3a/images/avatar/24476b298984441c84cfaefe0b380280.png"
+        },
+        "origin": {
+            "display_name": "Mahatma Gandhi Road",
+            "lat": 12.9730884,
+            "lng": 77.616979,
+            "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+            "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR"
+        },
+        "destination": {
+            "display_name": "Kempegowda International Airport Bengaluru",
+            "lat": 13.198909,
+            "lng": 77.7068926,
+            "place_id": "ChIJZWJEdf4crjsRjkEpoelwbCk",
+            "address": "Karnataka 560300, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "BLR",
+            "mobility_hub": "airport"
+        },
+        "start_datetime": "2026-09-16T14:45:00",
+        "cancellation": {
+            "id": "f13c556b-c96d-465c-aafa-55341966675f",
+            "entity_id": "ed693464-3f1d-4a88-ba3d-3aab82906015",
+            "canceled_by": "5bb1fb57-d774-453f-8372-276a1caccd3a",
+            "cancellation_sub_status": "customer_cancelled",
+            "reason": "i dont know",
+            "created_at": "2026-07-05T11:59:31",
+            "updated_at": "2026-07-05T11:59:31"
+        },
+        "num_adults": 1,
+        "num_children": 0,
+        "num_large_suitcases": 0,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": false,
+            "snacks": false,
+            "phone_charger": false,
+            "aux_cable": false,
+            "bluetooth": false,
+            "wifi": false
+        },
+        "status": "cancelled",
+        "price_breakdown": {
+            "toll": 120,
+            "base_fare": 875
+        },
+        "overages": {
+            "disclaimer": [
+                "Fare applies to the selected airport transfer route. This fare includes selected toll-road tolls. Extra charges may apply for customer-requested route changes, detours, additional stops, waiting, or charges outside the selected fare."
+            ],
+            "overage_amount_per_km": 19,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "inclusions": [
+            "Base fare",
+            "Toll",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Water bottles and tissues"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)"
+        ],
+        "toll_road_preferred": true,
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "airport_drop",
+            "display_name": "Airport Drop",
+            "description": "Drop to airport from your location. Timely service for stress-free departures."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "diesel",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 30 minutes before trip start.",
+            "If you cancel after this period, 20% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "cancelled",
+        "cost_to_driver": 0
+    },
+    {
+        "id": "ca5fd05a-e603-412b-a6b0-057a6d4bc765",
+        "booking_id": "OUTSTATION-4JB2FOBOO9CBD0YQ",
+        "customer": {
+            "name": "Oyendrila M",
+            "email": "oyendrila81@gmail.com",
+            "phone_number": "+91 8017084241",
+            "opt_in_updates": false,
+            "profile_picture_url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/5bb1fb57-d774-453f-8372-276a1caccd3a/images/avatar/24476b298984441c84cfaefe0b380280.png"
+        },
+        "origin": {
+            "display_name": "Mahatma Gandhi Road",
+            "lat": 12.9730884,
+            "lng": 77.616979,
+            "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+            "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+            "country_code": "IN",
+            "state_code": "KA",
+            "region_code": "Bangalore Division"
+        },
+        "destination": {
+            "display_name": "Ooty Lake",
+            "lat": 11.4051576,
+            "lng": 76.6885527,
+            "place_id": "ChIJA9zgdn-9qDsRk7CpOWZ_a4A",
+            "address": "Ooty Lake, West Mere, Ooty, Tamil Nadu",
+            "country_code": "IN",
+            "state_code": "TN",
+            "region_code": "Ooty"
+        },
+        "is_interstate": true,
+        "total_unique_states": 2,
+        "unique_states": [
+            "tamil nadu",
+            "karnataka"
+        ],
+        "is_round_trip": true,
+        "start_datetime": "2026-09-02T11:45:00",
+        "expected_end_datetime": "2026-09-04T11:45:00",
+        "end_datetime": "2026-09-04T11:45:00",
+        "total_days": 2,
+        "included_kms": 600,
+        "num_adults": 1,
+        "num_children": 0,
+        "num_large_suitcases": 0,
+        "num_carryons": 0,
+        "num_backpacks": 0,
+        "num_other_bags": 0,
+        "num_luggages": 0,
+        "num_passengers": 1,
+        "in_car_amenities": {
+            "ac": true,
+            "music_system": true,
+            "water_bottle": true,
+            "tissues": true,
+            "candies": true,
+            "snacks": false,
+            "phone_charger": true,
+            "aux_cable": true,
+            "bluetooth": true,
+            "wifi": false
+        },
+        "status": "confirmed",
+        "price_breakdown": {
+            "base_fare": 7800,
+            "permit_fee": 500,
+            "driver_allowance": 800
+        },
+        "overages": {
+            "disclaimer": [
+                "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+                "If you extend the trip beyond the booked 2 day(s), an additional ₹4300 per extra day will apply, that includes 300 kms and driver allowance for one day - pay the driver directly.",
+                "If you exceed the included mileage of 600 kms, an overage charge of ₹13 per km will apply - pay the driver directly.",
+                "If the driver is required to drive during night hours (8PM to 6AM), a night surcharge of ₹100.0 per hour will apply - pay the driver directly.",
+                "Extra charges apply for tolls, paid parking, night driving surcharges, extra days, and extra mileage, if applicable - pay the driver directly.",
+                "If the trip includes hill climbs, the cab AC may be switched off during such climbs."
+            ],
+            "overage_amount_per_km": 13,
+            "overage_estimate_amount": 0,
+            "indicative_overage_warning": false
+        },
+        "rate_per_km": 15.66,
+        "inclusions": [
+            "Base fare",
+            "Premium AC cab with professional driver",
+            "Doorstep pickup and drop",
+            "Platform/Convenience fee",
+            "Well-maintained and sanitized vehicle",
+            "24/7 customer support",
+            "Driver allowance",
+            "Water bottles, candies, and tissues",
+            "State entry taxes"
+        ],
+        "exclusions": [
+            "Personal expenses",
+            "Self sponsored driver meals",
+            "Tolls(if applicable)",
+            "Paid parking(if applicable)",
+            "Self sponsored driver accomodation",
+            "Night surcharges(if applicable)"
+        ],
+        "estimated_km": 541.63,
+        "timezone": "Asia/Kolkata",
+        "trip_type": {
+            "trip_type": "outstation",
+            "display_name": "Outstation Trip",
+            "description": "Multi-day intercity travel. Ideal for business, leisure, or family trips outside your city."
+        },
+        "currency": {
+            "code": "INR",
+            "symbol": "₹",
+            "lowest_unit_name": "Paise",
+            "lowest_unit_conversion_factor": 100
+        },
+        "fleet": {
+            "car_type": "Sedan",
+            "fuel_type": "petrol",
+            "name": "Sedan",
+            "description": "Comfortable sedans, suitable for city and outstation travel.",
+            "cab_names": [
+                "Dzire",
+                "Amaze",
+                "Indigo"
+            ],
+            "inventory_cab_names": [
+                "Dzire"
+            ],
+            "capacity": "4+1",
+            "passenger_capacity": 4,
+            "luggage_capacity": {
+                "num_large_suitcases": 1,
+                "num_carryons": 1,
+                "num_backpacks": 1,
+                "num_other_bags": 0
+            },
+            "roof_carrier": false,
+            "total_luggages": 3
+        },
+        "refund_and_cancellation_policy": [
+            "Full refund if you cancel atleast 1 day before trip start.",
+            "If you cancel after this period, 80% of the paid amount will be refunded.",
+            "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+            "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+            "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+        ],
+        "label": "upcoming",
+        "cost_to_driver": 9100
+    }
+]

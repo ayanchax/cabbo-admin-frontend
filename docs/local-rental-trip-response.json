@@ -1,0 +1,135 @@
+{
+    "booking_id": "RENTAL-2G6HAECZPY6GB0VC",
+    "customer": {
+        "name": "Ayan Chax",
+        "email": "ayanchax9088@gmail.com",
+        "phone_number": "+91 9831305667",
+        "opt_in_updates": false,
+        "s3_image_info": {
+            "key": "customers/profile/6e4d3042-6968-41c5-897d-55b80676fb07/images/avatar/1bff5708c7534e318c3f18d2c50ed30f.png",
+            "url": "https://cabbo-dev-assets.s3.ap-south-2.amazonaws.com/customers/profile/6e4d3042-6968-41c5-897d-55b80676fb07/images/avatar/1bff5708c7534e318c3f18d2c50ed30f.png"
+        },
+        "id": "6e4d3042-6968-41c5-897d-55b80676fb07",
+        "created_at": "2026-07-05T10:04:39"
+    },
+    "origin": {
+        "display_name": "Mahatma Gandhi Road",
+        "lat": 12.9730884,
+        "lng": 77.616979,
+        "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+        "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "BLR"
+    },
+    "destination": {
+        "display_name": "Mahatma Gandhi Road",
+        "lat": 12.9730884,
+        "lng": 77.616979,
+        "place_id": "EklNRyBSb2FkLCBZZWxsYXBwYSBDaGV0dHkgTGF5b3V0LCBBc2hvayBOYWdhciwgQmVuZ2FsdXJ1LCBLYXJuYXRha2EsIEluZGlhIi4qLAoUChIJE7w9OYcWrjsRnj23UubIcIsSFAoSCdFQ8YSEFq47EVq7uEbqr18v",
+        "address": "Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka, India",
+        "country_code": "IN",
+        "state_code": "KA",
+        "region_code": "BLR"
+    },
+    "package": {
+        "included_hours": 6,
+        "included_km": 60,
+        "driver_allowance": 0,
+        "best_intended_for": "Great for half-day outings or city sightseeing."
+    },
+    "start_datetime": "2026-07-25T00:30:00",
+    "expected_end_datetime": "2026-07-25T06:30:00",
+    "included_kms": 60,
+    "num_adults": 1,
+    "num_children": 0,
+    "num_passengers": 1,
+    "in_car_amenities": {
+        "ac": true,
+        "music_system": true,
+        "water_bottle": true,
+        "tissues": true,
+        "candies": false,
+        "snacks": false,
+        "phone_charger": true,
+        "aux_cable": true,
+        "bluetooth": false,
+        "wifi": false
+    },
+    "status": "confirmed",
+    "price_breakdown": {
+        "base_fare": 1620,
+        "driver_allowance": 0
+    },
+    "overages": {
+        "disclaimer": [
+            "If you exceed the included hours and/or kilometres in your selected package (6Hours / 60KM), an additional charge of ₹5 per minute and/or ₹14 per km will apply.",
+            "You will be charged the full fare even if your trip is shorter than the booked duration or included mileage.",
+            "Extra charges apply for tolls, paid parking, and extra hours, and extra mileage, if applicable - pay the driver directly."
+        ],
+        "overage_amount_per_km": 14,
+        "overage_amount_per_hour": 280,
+        "indicative_overage_warning": false
+    },
+    "rate_per_min": 4.83,
+    "inclusions": [
+        "Base fare",
+        "Premium AC cab with professional driver",
+        "Doorstep pickup and drop",
+        "Platform/Convenience fee",
+        "Well-maintained and sanitized vehicle",
+        "24/7 customer support",
+        "Water bottles and tissues"
+    ],
+    "exclusions": [
+        "Personal expenses",
+        "Self sponsored driver meals",
+        "Tolls(if applicable)",
+        "Paid parking(if applicable)"
+    ],
+    "timezone": "Asia/Kolkata",
+    "trip_type": {
+        "trip_type": "local",
+        "display_name": "Local City Ride",
+        "description": "Hourly rental for city travel. Flexible for errands, meetings, and sightseeing within city limits."
+    },
+    "currency": {
+        "code": "INR",
+        "symbol": "₹",
+        "lowest_unit_name": "Paise",
+        "lowest_unit_conversion_factor": 100
+    },
+    "fleet": {
+        "car_type": "Sedan",
+        "fuel_type": "cng",
+        "name": "Sedan",
+        "description": "Comfortable sedans, suitable for city and outstation travel.",
+        "cab_names": [
+            "Dzire",
+            "Amaze",
+            "Indigo"
+        ],
+        "inventory_cab_names": [
+            "Dzire"
+        ],
+        "capacity": "4+1",
+        "passenger_capacity": 4,
+        "luggage_capacity": {
+            "num_large_suitcases": 1,
+            "num_carryons": 1,
+            "num_backpacks": 1,
+            "num_other_bags": 0
+        },
+        "roof_carrier": false,
+        "total_luggages": 3
+    },
+    "refund_and_cancellation_policy": [
+        "Full refund if you cancel atleast 1 hour before trip start.",
+        "If you cancel after this period, 50% of the paid amount will be refunded.",
+        "Full refund if your trip could not be fulfilled due to Cabbo operational issues (e.g., no driver assigned, vehicle breakdown before trip start, or force majeure events).",
+        "Refunds are processed instantly upon cancellation confirmation. Depending on your payment method, it may take 1-3 business days for the amount to reflect in your source account.",
+        "For any refund or cancellation queries, please contact Cabbo support. We are committed to transparent and fair policies."
+    ],
+    "label": "upcoming",
+    "cost_to_driver": 1620
+}

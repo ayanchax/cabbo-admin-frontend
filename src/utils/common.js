@@ -1,0 +1,127 @@
+import { DEFAULT_CURRENCY_SYMBOL, DEFAULT_CURRENCY_CODE } from "@/utils";
+export const isPhoneNumberValid = (phone) => {
+  // Basic validation: check if it's 10 digits and only contains numbers
+  // Phone numbers are generally 10 digits long (without country code) in most countries, including India, plus this is again checked in backend per country rules, so we can show a generic error message for all countries.
+  const phoneRegex = /^\d{10}$/;
+  return phoneRegex.test(phone);
+}
+
+export const sanitizePhoneNumber = (input, countryCode) => {
+  if (!input) return "";
+
+  let phone = input.trim();
+
+  // Remove spaces, dashes, etc
+  phone = phone.replace(/\D/g, "");
+
+  // Remove leading zeros
+  phone = phone.replace(/^0+/, "");
+
+  // Remove country code if user typed it
+  const numericCountryCode = countryCode ? countryCode.replace("+", "") : "";
+
+  // If the phone number starts with the country code, remove it
+  if (
+    phone.length > 10 &&
+    phone.startsWith(numericCountryCode)
+  ) {
+    phone = phone.slice(numericCountryCode.length);
+  }
+
+  return phone;
+};
+
+export const isValidEmail = (email) => {
+  if (!email) return false;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+
+export const parseUtcDate = (timestamp) => {
+  if (!timestamp) return null;
+
+  try {
+    return timestamp.endsWith("Z") || timestamp.includes("+")
+      ? new Date(timestamp)
+      : new Date(timestamp + "Z");
+  } catch {
+    return null;
+  }
+};
+
+export const utcOffsetStringToMinutes = (offsetStr) => {
+  const match = /^([+-])(\d{2})(\d{2})$/.exec(offsetStr);
+  if (!match) return null;
+  const sign = match[1] === '+' ? 1 : -1;
+  const hours = parseInt(match[2], 10);
+  const minutes = parseInt(match[3], 10);
+  return sign * (hours * 60 + minutes);
+}
+
+ 
+
+export const formatMoney = (amount, currencyCode = DEFAULT_CURRENCY_CODE) => {
+  if (amount === null || amount === undefined || Number.isNaN(Number(amount))) {
+    return "--";
+  }
+
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: currencyCode || DEFAULT_CURRENCY_CODE,
+    maximumFractionDigits: 0,
+  }).format(Number(amount));
+};
+
+export function titleCase(value) {
+  if (!value) return "";
+  return value
+    .replaceAll("_", " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+export function getInitials(name = "") {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("");
+}
+
+
+export const humanReadableDateTime = (datetime, locale = undefined, timezone = undefined) => {
+  if (!datetime) return "";
+  if (!datetime?.isoString) {
+    console.warn("Invalid datetime object passed to humanReadableDateTime:", datetime);
+    datetime = { isoString: datetime }; // Attempt to treat it as a raw ISO string
+  };
+  return new Date(datetime.isoString).toLocaleString(locale, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: timezone,
+  });
+}
+
+export const normalizeKey = (key) => key.replace(/[^a-zA-Z0-9_]/g, "").toLowerCase();
+
+export const formatSnakeCasedStringAsLabel = (value) => {
+  if (!value) return "Not set";
+  return String(value)
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+};
+
+export const pluralize = (count, singular, plural = `${singular}s`) => {
+  if (!Number(count)) return null;
+  return `${count} ${Number(count) === 1 ? singular : plural}`;
+};
+
+ 
