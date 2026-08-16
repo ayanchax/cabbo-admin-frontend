@@ -81,7 +81,7 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
     typeof bookingDetail?.needs_review === "boolean";
   const canManageDriverAssignment =
     hasServerDriverAssignmentState
-      ? bookingDetail.needs_driver && bookingDetail.needs_review
+      ? bookingDetail.needs_driver || bookingDetail.needs_review
       : bookingDetail?.label === TRIP_OCCURENCE_LABELS.UPCOMING &&
         [TRIP_STATUS.CREATED, TRIP_STATUS.CONFIRMED].includes(
           bookingDetail?.status,
