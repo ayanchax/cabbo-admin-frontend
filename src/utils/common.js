@@ -1,4 +1,6 @@
 import { DEFAULT_CURRENCY_SYMBOL, DEFAULT_CURRENCY_CODE } from "@/utils";
+import { isDevMode } from "@/api";
+
 export const isPhoneNumberValid = (phone) => {
   // Basic validation: check if it's 10 digits and only contains numbers
   // Phone numbers are generally 10 digits long (without country code) in most countries, including India, plus this is again checked in backend per country rules, so we can show a generic error message for all countries.
@@ -96,7 +98,8 @@ export function getInitials(name = "") {
 export const humanReadableDateTime = (datetime, locale = undefined, timezone = undefined) => {
   if (!datetime) return "";
   if (!datetime?.isoString) {
-    console.warn("Invalid datetime object passed to humanReadableDateTime:", datetime);
+    if(isDevMode)
+      console.warn("Invalid datetime object passed to humanReadableDateTime:", datetime);
     datetime = { isoString: datetime }; // Attempt to treat it as a raw ISO string
   };
   return new Date(datetime.isoString).toLocaleString(locale, {

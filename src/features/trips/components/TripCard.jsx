@@ -209,7 +209,7 @@ function TripCard({
   };
 
   return (
-    <article className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md">
+    <article className="relative overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:shadow-md focus-within:border-slate-500 focus-within:ring-2 focus-within:ring-slate-300">
       <div
         className={`absolute inset-y-0 left-0 w-1 ${operationalStatus.railClassName}`}
       />
@@ -247,7 +247,7 @@ function TripCard({
           <button
             type="button"
             onClick={handleOpen}
-            className="h-9 w-full shrink-0 cursor-pointer rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white transition hover:bg-slate-800 md:ml-auto md:h-8 md:w-auto"
+            className="h-9 w-full shrink-0 cursor-pointer rounded-lg bg-slate-950 px-4 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2 md:ml-auto md:h-8 md:w-auto"
           >
             Open
           </button>
