@@ -44,6 +44,7 @@ function getWhatsAppUrl(phoneNumber, message) {
 
 function buildDriverMessage({
   bookingDetail,
+  driverCabText,
   destinationMapUrl,
   formattedStart,
   originMapUrl,
@@ -62,12 +63,14 @@ function buildDriverMessage({
   const tripName =
     bookingDetail?.trip_type?.display_name ||
     formatSnakeCasedStringAsLabel(bookingDetail?.trip_type?.trip_type);
-  const fleetText = [
+  const requestedFleetText = [
     bookingDetail?.fleet?.name || bookingDetail?.fleet?.car_type,
     bookingDetail?.fleet?.fuel_type ? `(${bookingDetail.fleet.fuel_type})` : null,
   ]
     .filter(Boolean)
     .join(" ");
+  const cabText = driverCabText || requestedFleetText;
+  const capacity = bookingDetail?.driver?.capacity || bookingDetail?.fleet?.capacity;
   const breakdownLines = priceBreakdown.map(([key, value]) => {
     return `• ${formatSnakeCasedStringAsLabel(key)}: ${formatMoney(
       value,
@@ -119,6 +122,7 @@ function buildDriverMessage({
     `🧾 Booking ID: ${bookingDetail?.booking_id || EMPTY_VALUE}`,
     `🚘 Trip type: ${tripName}`,
     `🕒 Start time: ${formattedStart || EMPTY_VALUE}`,
+    "🕒 Reporting time: 15 minutes before start time",
     "",
     "👤 Customer",
     `• Name: ${customerName}`,
@@ -139,10 +143,8 @@ function buildDriverMessage({
     hops.length > 0 ? `• Via: ${hops.join(" → ")}` : null,
     "",
     "💰 Cab and fare",
-    fleetText ? `• Cab: ${fleetText}` : null,
-    bookingDetail?.fleet?.capacity
-      ? `• Capacity: ${bookingDetail.fleet.capacity}`
-      : null,
+    cabText ? `• Cab: ${cabText}` : null,
+    capacity ? `• Capacity: ${capacity}` : null,
     driverFareLine,
     ...includedLines,
     overageLines.length > 0 ? "" : null,
@@ -181,6 +183,7 @@ function useDriverDispatchCopy(bookingDetail) {
     getVisibleOverageRates,
     getVisiblePriceBreakdown,
     getDriverState,
+    getDriverCabText,
   } = useTripsHelper();
 
   const hasAssignedDriver = getDriverState(bookingDetail)?.assigned || false;
@@ -201,6 +204,13 @@ function useDriverDispatchCopy(bookingDetail) {
       const originMapUrl = originMapResult?.data || null;
       const destinationMapUrl = destinationMapResult?.data || null;
       const operationalStatus = getOperationalStatus(bookingDetail);
+      const timezone = clientTimezone?.timezone ?? bookingDetail?.timezone;
+      const driverCabText = [
+        bookingDetail?.driver?.cab_registration_number,
+        getDriverCabText(bookingDetail?.driver),
+      ]
+        .filter(Boolean)
+        .join(" | ");
       const shouldShowFareDetail = canShowFareDetails(
         operationalStatus.needsReview,
         bookingDetail?.status,
@@ -210,6 +220,7 @@ function useDriverDispatchCopy(bookingDetail) {
       );
       const message = buildDriverMessage({
         bookingDetail,
+        driverCabText,
         destinationMapUrl,
         extraChargesText: shouldShowFareDetail
           ? getExtraChargesText(bookingDetail)
@@ -217,7 +228,7 @@ function useDriverDispatchCopy(bookingDetail) {
         formattedStart: formatTripDate(
           bookingDetail?.start_datetime,
           locale,
-          clientTimezone?.timezone ?? bookingDetail?.timezone,
+          timezone,
         ),
         originMapUrl,
         overageRates:

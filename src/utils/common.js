@@ -63,7 +63,11 @@ export const utcOffsetStringToMinutes = (offsetStr) => {
 
  
 
-export const formatMoney = (amount, currencyCode = DEFAULT_CURRENCY_CODE) => {
+export const formatMoney = (
+  amount,
+  currencyCode = DEFAULT_CURRENCY_CODE,
+  keepDecimals = false
+) => {
   if (amount === null || amount === undefined || Number.isNaN(Number(amount))) {
     return "--";
   }
@@ -71,7 +75,7 @@ export const formatMoney = (amount, currencyCode = DEFAULT_CURRENCY_CODE) => {
   return new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: currencyCode || DEFAULT_CURRENCY_CODE,
-    maximumFractionDigits: 0,
+    maximumFractionDigits: keepDecimals ? 2 : 0,
   }).format(Number(amount));
 };
 

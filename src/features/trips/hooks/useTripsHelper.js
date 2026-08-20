@@ -712,8 +712,8 @@ export const useTripsHelper = () => {
             .join(" | ");
     };
 
-    const formatCurrency = (value, currencyCode = DEFAULT_CURRENCY_CODE) => {
-  return formatMoney(value, currencyCode)
+    const formatCurrency = (value, currencyCode = DEFAULT_CURRENCY_CODE, keepDecimal=false) => {
+  return formatMoney(value, currencyCode, keepDecimal)
 };
 
 

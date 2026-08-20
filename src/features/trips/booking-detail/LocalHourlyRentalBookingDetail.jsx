@@ -11,7 +11,7 @@ import { useTripsHelper } from "@/features/trips/hooks";
 function LocalHourlyRentalBookingDetail({ bookingDetail }) {
   const { timezone: clientTimezone } = useTimezone();
   const { locale } = useLocale();
-  const { canShowActualEndDateTime, formatDateTime } = useTripsHelper();
+  const { canShowActualEndDateTime, formatDateTime, formatCurrency } = useTripsHelper();
   const showActualEndDateTime = canShowActualEndDateTime(bookingDetail);
 
   return (
@@ -46,10 +46,11 @@ function LocalHourlyRentalBookingDetail({ bookingDetail }) {
               )}
             />
           )}
-
+          
+          
           <DetailField
             label="Rate Per Minute"
-            value={bookingDetail?.rate_per_min}
+            value={formatCurrency(bookingDetail?.rate_per_min, bookingDetail?.currency?.code, true)}
           />
         </DetailGrid>
       </DetailSection>
