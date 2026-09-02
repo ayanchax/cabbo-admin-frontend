@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAdmin } from "@/hooks";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks";
@@ -7,7 +7,7 @@ import {
   LogOut,
   UserRound,
 } from "lucide-react";
-import { logout as clientLogout} from "@/api";
+import { clientLogout } from "@/api";
 
 function DisplayAccount({
   placement = "bottom",
@@ -17,19 +17,16 @@ function DisplayAccount({
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { adminLabel, adminRole } = useAdmin();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const handleLogout = async () => {
-    if (!showLogout) return;
-    try {
-      await logout.mutateAsync();
-    } catch {
+  const handleLogout = () => {
+    if (!showLogout || isLoggingOut) return;
+    setIsLoggingOut(true);
+    void logout.mutateAsync().catch(() => {
       // Even if the backend logout call fails, clear this device's session.
-    }
-    finally{
-      clientLogout()
-      navigate(ROUTES.LOGIN, { replace: true }); // redirect to login page and remove the current page from history so that user cannot go back to it using browser back button
-
-    }
+    });
+    clientLogout();
+    navigate(ROUTES.LOGIN, { replace: true }); // redirect to login page and remove the current page from history so that user cannot go back to it using browser back button
   };
   if (placement == "top") {
     return (
@@ -44,7 +41,8 @@ function DisplayAccount({
           type="button"
           onClick={handleLogout}
           aria-label="Logout"
-          className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"
+          disabled={isLoggingOut}
+          className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-50 hover:text-slate-950 disabled:cursor-wait disabled:opacity-60"
         >
           <LogOut className="h-4 w-4" />
         </button>
@@ -67,7 +65,8 @@ function DisplayAccount({
               onClick={handleLogout}
               aria-label="Logout"
               title="Logout"
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-white/10 text-slate-300 transition hover:bg-white/10 hover:text-white"
+              disabled={isLoggingOut}
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border border-white/10 text-slate-300 transition hover:bg-white/10 hover:text-white disabled:cursor-wait disabled:opacity-60"
             >
               <LogOut className="h-4 w-4" />
             </button>
@@ -93,7 +92,8 @@ function DisplayAccount({
           <button
             type="button"
             onClick={handleLogout}
-            className="mt-3 flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/10 text-sm font-semibold text-slate-200 transition hover:bg-white/10 hover:text-white"
+            disabled={isLoggingOut}
+            className="mt-3 flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-white/10 text-sm font-semibold text-slate-200 transition hover:bg-white/10 hover:text-white disabled:cursor-wait disabled:opacity-60"
           >
             <LogOut className="h-4 w-4" />
             Logout
