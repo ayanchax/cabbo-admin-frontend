@@ -100,7 +100,7 @@
     },
     "fleet": {
         "car_type": "Sedan",
-        "fuel_type": "diesel",
+        
         "name": "Sedan",
         "description": "Comfortable sedans, suitable for city and outstation travel.",
         "cab_names": [

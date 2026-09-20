@@ -124,7 +124,6 @@
     },
     "fleet": {
         "car_type": "SUV+",
-        "fuel_type": "petrol",
         "name": "SUV+",
         "description": "Premium SUVs with extra comfort and luggage space.",
         "cab_names": [
