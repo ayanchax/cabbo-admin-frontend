@@ -209,7 +209,7 @@ function BookingDetailFrame({ bookingDetail, children }) {
           <DetailField
             className="w-28 sm:w-32"
             label="Cab"
-            value={`${bookingDetail?.fleet?.car_type} (${bookingDetail?.fleet?.fuel_type})`}
+            value={`${bookingDetail?.fleet?.car_type}`}
           />
 
           <DetailField

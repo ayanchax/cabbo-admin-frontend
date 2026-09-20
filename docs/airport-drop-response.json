@@ -98,7 +98,7 @@
     },
     "fleet": {
         "car_type": "Hatchback",
-        "fuel_type": "cng",
+        
         "name": "Hatchback",
         "description": "Compact hatchbacks, ideal for city rides and short trips.",
         "cab_names": [

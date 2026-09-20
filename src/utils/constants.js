@@ -79,13 +79,7 @@ export const CAB_TYPES = {
     SUV_PLUS: "SUV+"
 }
 
-export const CAB_FUEL_TYPES = {
-    PETROL: "petrol",
-    DIESEL: "diesel",
-    CNG: "cng",
-    ELECTRIC: "electric",
-    HYBRID: "hybrid"
-}
+ 
 
 export const DEFAULT_USER_LOCALE = "en-US";
 export const DEFAULT_USER_TIMEZONE = "UTC";

@@ -112,7 +112,6 @@ function DriverAssignmentPanel({ bookingDetail, driverState }) {
       name: debouncedSearchText,
       // Customer preferences to match driver with cab during search.
       cab_type: fleet?.car_type || null,
-      fuel_type: fleet?.fuel_type || null,
       capacity: fleet?.capacity || null,
     }),
     [debouncedSearchText, fleet],
